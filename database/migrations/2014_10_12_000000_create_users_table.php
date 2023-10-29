@@ -16,15 +16,14 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();  #kept as it might be required later for email verification
-            $table->integer('pcoins')->default(1000);
+            $table->integer('pcoins')->default(100);
             $table->string('password');
             $table->string('preferences')->nullable();
             $table->date('dob')->nullable();
             $table->integer('consecutive_online_count')->default(0);
-            $table->string('slug');
+            $table->string('slug')->nullable();
             $table->string('userimg_link')->nullable();
             $table->integer('bid_count')->default(0);
-            $table->date('last_online')->default(DB::raw('NOW()'));
 
             $table->rememberToken();
             $table->timestamps();
