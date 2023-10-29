@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Login from './pages/Auth/Login'; 
-import SignUp from './pages/Auth/SignUp'; 
+import SignUp from './pages/Auth/Register'; 
 import Navbar from './components/Navbar'; 
 import Footer from './components/Footer'; 
 
