@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();  #kept as it might be required later for email verification
             $table->integer('pcoins');
             $table->string('password');
-            $table->string('preferences');
+            // $table->string('preferences');
             $table->date('dob')->nullable();
             $table->integer('consecutive_online_count');
             $table->string('slug');
