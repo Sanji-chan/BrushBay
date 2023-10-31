@@ -23,6 +23,7 @@ class User extends Authenticatable
         'dob',
         'password',
         'preferences',
+        'userimg_link',
     ];
 
     /**
