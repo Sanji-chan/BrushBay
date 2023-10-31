@@ -13,6 +13,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         name: user.name,
         email: user.email,
         dob: user.dob, // Ensure that user.dob is in a proper date format (e.g., 'YYYY-MM-DD').
+        preferences: user.preferences
     });
     
     
@@ -21,7 +22,8 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
 
         console.log(data);
         patch(route('profile.update'), {
-        dob: data.dob, // Send the date in the proper format to the Laravel backend.
+        dob: data.dob,
+        preferences: data.preferences, // Send the date in the proper format to the Laravel backend.
         });
 
     };

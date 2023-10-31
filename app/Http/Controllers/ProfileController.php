@@ -36,16 +36,26 @@ class ProfileController extends Controller
     {           
         $request->user()->fill($request->validated());
 
+        // dd($request->user());
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
         $request->user()->save();
 
-        DB::table('users')
-            ->where('email', $request['email'])  // find your user by their email
-            ->limit(1)  // optional - to ensure only one record is updated.
-            ->update(['dob' => $request['dob']]);  // update the record in the DB. 
+        $formFields = $request->validate([
+            "dob" => "required",
+            "preferences" => "min:0",
+        ]);
+
+        // $time = strtotime($formFields["dob"]);
+        // $formFields["dob"] = date('Y-m-d', $time);
+        
+        $request->user()->update($formFields);
+        // DB::table('users')
+        //     ->where('email', $request['email'])  // find your user by their email
+        //     ->limit(1)  // optional - to ensure only one record is updated.
+        //     ->update(['dob' => $request['dob']]);  // update the record in the DB. 
 
         return Redirect::route('profile.edit');
     }
