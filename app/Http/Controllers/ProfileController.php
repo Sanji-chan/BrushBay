@@ -17,9 +17,11 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class ProfileController extends Controller
-{
+{   
+    //Handle user edit page
+
     /**
-     * Display the user's profile form.
+     * Display the user's profile to edit page
      */
     public function edit(Request $request): Response
     {
@@ -50,6 +52,34 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit');
     }
 
+
+     /**
+     * handle profile information
+     */
+
+     public function showProfile($id){
+        return Inertia::render('Profile/View', [
+            'userid' => $id,
+        ]);
+
+     }
+
+     public function getProfileInfo($id){
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found', 'value'=>$id], 404);
+        }
+        // dd($user);
+        return $user;
+     }
+
+
+
+     /**
+     * handle profile picture
+     */
+    
     public function updateprofilepic(Request $request): RedirectResponse
     {  
         if ($request->has('image')){
