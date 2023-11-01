@@ -20,14 +20,14 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $tags = [
-            ['name' => "tag 1"],
-            ['name' => "tag 2"],
-            ['name' => "tag 3"],
-            ['name' => "tag 4"],
-            ['name' => "tag 5"],
-            ['name' => "tag 6"],
-            ['name' => "tag 7"],
-            ['name' => "tag 8"]
+            ['name' => "Action"],
+            ['name' => "Oil"],
+            ['name' => "Modern"],
+            ['name' => "Abstract"],
+            ['name' => "Portrait"],
+            ['name' => "Surrealism"],
+            // ['name' => "tag 7"],
+            // ['name' => "tag 8"]
         ];
 
         foreach ($tags as $tag) {

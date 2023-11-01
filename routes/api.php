@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('upload-profileimage', [ProfileController::class, 'updateprofilepic'])->name('profile.updateprofilepic');
 Route::get('get-profileimage/{id}', [ProfileController::class, 'showprofilepic'])->name('profile.showprofilepic');
+Route::get('tag/', [TagController::class, 'getAllTags']);
+Route::post('userPrefs/', [ProfileController::class, 'updatePreferences']);
 
 // Route::middleware('auth')->group(function () {
 //     Route::get('upload-profileimage', [ProfileController::class, 'updateprofilepic'])->name('profile.updateprofilepic');

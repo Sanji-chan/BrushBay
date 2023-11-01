@@ -60,6 +60,12 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit');
     }
 
+    public function updatePreferences(Request $request) {
+        DB::table('users')
+            ->where('email', $request->email)
+            ->update(['preferences'=> $request->preferences]);
+    }
+
     public function updateprofilepic(Request $request): RedirectResponse
     {  
         if ($request->has('image')){
