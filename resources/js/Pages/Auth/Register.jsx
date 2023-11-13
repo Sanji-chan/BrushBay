@@ -1,15 +1,16 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-// import { useEffect } from 'react';
-// import Checkbox from '@/Components/Checkbox';
-// import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
-// import InputLabel from '@/Components/InputLabel';
-// import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Link, useForm } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
+
 import Axios from 'axios';
+
+//import Navbar and Footer
+import Navbar from "../../Components/Navbar";
+import Footer from '../../Components/Footer';
+
 
 // Importing the images
 import taglineBg from '../../../images/taglineBg.png';
@@ -72,10 +73,15 @@ export default function Register() {
       });
   };
   
-  const [dateOfBirth, setDateOfBirth] = useState('');
+
   
   return (
-      <div className="flex h-screen">
+
+    <>
+    <Navbar/>
+    
+    <div className="flex h-screen">
+
       {/* Left Side */}
       <div className="flex flex-col justify-center items-center w-full md:w-1/2 bg-white p-10">
       { step === 1 ? (<div>
@@ -123,18 +129,7 @@ export default function Register() {
 
           </div>
         </div>
-        {/* <div className="mb-4 relative">
-          <div className="flex items-center border-b border-pink-300">
-            <span className="pr-2 text-red-500">📅</span>
-            <input 
-              type="date" 
-              className="outline-none py-2 focus:border-b-2 focus:border-pink-300 appearance-none z-10"
-              value={dateOfBirth}
-              onChange={(e) => setDateOfBirth(e.target.value)}
-            />
-            {!dateOfBirth && <span className="absolute left-6 top-2 text-gray-400 z-0">Date of Birth</span>}
-          </div>
-        </div> */}
+      
         <div className="mb-4">
           <div className="flex items-center border-b border-pink-300">
             <span className="pr-2 text-red-500">🔒</span>
@@ -271,6 +266,8 @@ export default function Register() {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }
 

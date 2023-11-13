@@ -20,11 +20,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+//Profile image routes
 Route::post('upload-profileimage', [ProfileController::class, 'updateprofilepic'])->name('profile.updateprofilepic');
 Route::get('get-profileimage/{id}', [ProfileController::class, 'showprofilepic'])->name('profile.showprofilepic');
 Route::get('tag/', [TagController::class, 'getAllTags']);
 Route::post('userPrefs/', [ProfileController::class, 'updatePreferences']);
 
+//Profile information routes
+Route::get('getProfileInfo/{id}', [ProfileController::class, 'getProfileInfo'])->name('profile.getProfileInfo');
+
+
+
 // Route::middleware('auth')->group(function () {
-//     Route::get('upload-profileimage', [ProfileController::class, 'updateprofilepic'])->name('profile.updateprofilepic');
+//     Route::post('upload-profileimage', [ProfileController::class, 'updateprofilepic'])->name('profile.updateprofilepic');
+//     Route::get('get-profileimage/{id}', [ProfileController::class, 'showprofilepic'])->name('profile.showprofilepic');
 // });
