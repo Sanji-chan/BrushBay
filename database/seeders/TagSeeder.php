@@ -6,7 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Tag;
 
-class DatabaseSeeder extends Seeder
+class TagSeeder extends Seeder
 {
     /**
      * Seed the application's database.
