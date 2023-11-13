@@ -1,14 +1,13 @@
 import React from 'react'; 
 import { useEffect } from 'react';
-// import Checkbox from '@/Components/Checkbox';
-// import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
-// import InputLabel from '@/Components/InputLabel';
-// import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Link, useForm } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 
+//import Navbar and Footer
+import Navbar from "../../Components/Navbar";
+import Footer from '../../Components/Footer';
 
 // Importing the images
 import taglineBg from '../../../images/taglineBg.png';
@@ -35,7 +34,8 @@ export default function Login({ status, canResetPassword }) {
   };
 
   return (
-      
+    <>
+    <Navbar/>
     <div className="flex h-screen">
       {/* Left Side */}
       <div className="flex flex-col justify-center items-center w-full md:w-1/2 bg-white p-10"> {/* Updated for full width on small screens */}
@@ -137,6 +137,8 @@ export default function Login({ status, canResetPassword }) {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
  
   );
 }

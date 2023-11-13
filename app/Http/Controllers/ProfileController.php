@@ -15,6 +15,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Illuminate\Support\Facades\Route;
 
 class ProfileController extends Controller
 {   
@@ -59,6 +60,8 @@ class ProfileController extends Controller
 
      public function showProfile($id){
         return Inertia::render('Profile/View', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
             'userid' => $id,
         ]);
 

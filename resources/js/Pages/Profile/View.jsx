@@ -4,10 +4,13 @@ import ImageSection from './Partials/ImageSection';
 import  Axios  from "axios";
 import { useEffect, useState } from 'react';
 
+import Navbar from "../../Components/Navbar";
+import Footer from '../../Components/Footer';
+
 import profilepic from './img/profile-placeholder.jpg';
 import bg from './img/background-placeholder.jpg';
 
-export default function View({ userid }){
+export default function View({ auth, userid }){
 
     // get profile information
     const [record, setRecord] = useState([]);
@@ -39,7 +42,10 @@ export default function View({ userid }){
 
 
   return (
+    <>
+     <Navbar  auth = {auth} />
     <div className="flex justify-center font-sans bg-slate-50">
+      
       <div className="flex flex-col items-center">
       {/* <div>
            <h2>Id: { record.id}</h2> 
@@ -145,7 +151,10 @@ export default function View({ userid }){
           
         </div>
       </div>
+      
     </div>
+     <Footer />
+     </>
   );
 };
 
