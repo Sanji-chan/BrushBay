@@ -64,6 +64,7 @@ class ProfileController extends Controller
         DB::table('users')
             ->where('email', $request->email)
             ->update(['preferences'=> $request->preferences]);
+        return Redirect::to('/dashboard');
     }
 
     public function updateprofilepic(Request $request): RedirectResponse
