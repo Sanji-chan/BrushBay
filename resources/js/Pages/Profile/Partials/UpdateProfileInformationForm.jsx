@@ -2,6 +2,7 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
+import UpdateProfilePic from './UpdateProfilePic';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 
@@ -11,25 +12,47 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         name: user.name,
         email: user.email,
+        dob: user.dob, // Ensure that user.dob is in a proper date format (e.g., 'YYYY-MM-DD').
+        preferences: user.preferences
     });
-
+    
+    
     const submit = (e) => {
         e.preventDefault();
 
-        patch(route('profile.update'));
+        console.log(data);
+        patch(route('profile.update'), {
+        dob: data.dob,
+        preferences: data.preferences, // Send the date in the proper format to the Laravel backend.
+        });
+
     };
 
     return (
-        <section className={className}>
+        <section>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">Profile Information</h2>
+                    <h2 className="text-lg font-medium text-gray-900">Profile Information</h2>
 
-                <p className="mt-1 text-sm text-gray-600">
-                    Update your account's profile information and email address.
-                </p>
-            </header>
+                    <p className="mt-1 text-sm text-gray-600">
+                        Update your account's profile information and email address.
+                    </p>
+                </header>
 
-            <form onSubmit={submit} className="mt-6 space-y-6">
+        
+        <div className="flex  mt-6 space-y-6">
+            <div className="flex flex-col md:w-1/3 bg-white"> {/* Updated for full width on small screens */}
+                
+                <UpdateProfilePic                    
+                        className="max-w-xl justify-center items-center "
+                />
+
+            </div>
+
+        
+        <div className= 'flex flex-col md:w-2/3 '>
+            
+
+            <form onSubmit={submit} className="max-w-xl ">
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
 
@@ -41,6 +64,23 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         required
                         isFocused
                         autoComplete="name"
+                    />
+
+                    <InputError className="mt-2" message={errors.name} />
+                </div>
+
+                <div>
+                    <InputLabel htmlFor="dob" value="Date of Birth" />
+
+                    <TextInput
+                        id="dob"
+                        type="date"
+                        className="mt-1 block w-full"
+                        value={data.dob}
+                        onChange={(e) => setData('dob', e.target.value)}
+                        required
+                        isFocused
+                        autoComplete="dob"
                     />
 
                     <InputError className="mt-2" message={errors.name} />
@@ -84,7 +124,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     </div>
                 )}
 
-                <div className="flex items-center gap-4">
+                <div className="flex mt-2 items-center gap-4">
                     <PrimaryButton disabled={processing}>Save</PrimaryButton>
 
                     <Transition
@@ -98,6 +138,8 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     </Transition>
                 </div>
             </form>
+        </div>
+        </div>
         </section>
     );
 }

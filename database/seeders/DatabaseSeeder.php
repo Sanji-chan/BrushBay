@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Tag;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,5 +19,19 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        $tags = [
+            ['name' => "Action"],
+            ['name' => "Oil"],
+            ['name' => "Modern"],
+            ['name' => "Abstract"],
+            ['name' => "Portrait"],
+            ['name' => "Surrealism"],
+            // ['name' => "tag 7"],
+            // ['name' => "tag 8"]
+        ];
+
+        foreach ($tags as $tag) {
+            Tag::factory()->create($tag);
+        }
     }
 }
