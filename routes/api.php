@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TagController;
-
+use App\Http\Controllers\PaintingController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,7 +26,8 @@ Route::post('upload-profileimage', [ProfileController::class, 'updateprofilepic'
 Route::get('get-profileimage/{id}', [ProfileController::class, 'showprofilepic'])->name('profile.showprofilepic');
 Route::get('tag/', [TagController::class, 'getAllTags']);
 Route::post('userPrefs/', [ProfileController::class, 'updatePreferences']);
-
+Route::post('paintings/', [PaintingController::class, 'addPainting']);
+Route::get('paintings/', [PaintingController::class, 'getPaintings']);
 //Profile information routes
 Route::get('getProfileInfo/{id}', [ProfileController::class, 'getProfileInfo'])->name('profile.getProfileInfo');
 
