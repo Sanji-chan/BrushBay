@@ -1,6 +1,6 @@
 import Card from './Card';
-import card1 from '../../images/card1.jpg';
-import card2 from '../../images/card2.jpg';
+// import card1 from '../../images/card1.jpg';
+// import card2 from '../../images/card2.jpg';
 function CardSection({ cards }) {
     // const cards = [
     //     {

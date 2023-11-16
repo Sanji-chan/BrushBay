@@ -64,7 +64,7 @@ async function getTags() {
   return result;
 }
 
-const PostForm = ({ user }) => {
+const PostForm = ({ user, modelState }) => {
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -79,6 +79,10 @@ const PostForm = ({ user }) => {
       setTags(res);
     });
   }, []);
+
+  function closeModal() {
+    modelState(false);
+  }
 
   // useEffect(() => {
   //   setTags(["Tag1", "Tag2", "Tag3"]);
@@ -100,8 +104,9 @@ const PostForm = ({ user }) => {
     fData.append('paintingimg_link', image);
     fData.append('owner_id', user.id);
     fData.append('author_id', user.id);
-    console.log(selectedTag);
     Axios.post('http://127.0.0.1:8000/api/paintings', fData);
+    closeModal();
+    // console.log(fData);
   };
 
   const handleTagChange = (tag) => {
@@ -190,6 +195,7 @@ const PostForm = ({ user }) => {
               (e.target.style.backgroundColor =
                 styles.submitButton.backgroundColor)
             }
+            // onClick={closeModal}
           >
             Submit Post
           </button>

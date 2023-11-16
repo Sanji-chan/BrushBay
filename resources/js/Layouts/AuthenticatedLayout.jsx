@@ -29,6 +29,9 @@ export default function Authenticated({ user, header, children }) {
                                 {/* Must change */}
                                 <NavLink href={route('paintings.show')}>
                                     My Paintings
+                                </NavLink> 
+                                <NavLink href={route('marketplace.showMarket')}>
+                                    Marketplace
                                 </NavLink>
                                 
                             </div>

@@ -7,7 +7,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Painting;
-
+use Illuminate\Support\Facades\Route;
 
 class PaintingController extends Controller
 {
@@ -38,6 +38,6 @@ class PaintingController extends Controller
         $formfields["paintingimg_link"] = $request->file("paintingimg_link")->store('paintings', 'public');
         $painting = Painting::create($formfields);
 
-        return Redirect::to('/dashboard');
+        return Redirect::route('dashboard');
     }
 }

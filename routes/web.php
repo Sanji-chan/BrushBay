@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PaintingController;
+use App\Http\Controllers\MarketplaceController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -42,6 +43,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/portfolio', function() {
         return Inertia::render('Portfolio');
     });
+
+    Route::get('/marketplace', [MarketplaceController::class, 'showMarket'])->name('marketplace.showMarket');
+
 });
+
+
+
+
 
 require __DIR__.'/auth.php';

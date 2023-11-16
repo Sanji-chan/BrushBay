@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
-import Navbar from '../../components/Navbar';
-import Header from './Header';
-import CardSection from './CardSection';
+// import Navbar from '../../components/Navbar';
+// import Header from './Header';
+import CardSection from '../../Components/CardSection';
 import PostForm from './PostForm'; 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
@@ -56,7 +56,7 @@ export default function Portfolio({ auth, paintings }) {
             }
           }}
         >
-          <PostForm user={auth.user}/>
+          <PostForm user={auth.user} modelState={setModalIsOpen}/>
           <button onClick={closeModal}>Close</button>
         </Modal>
       </div>
