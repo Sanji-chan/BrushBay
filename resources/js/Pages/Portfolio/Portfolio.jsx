@@ -38,7 +38,7 @@ export default function Portfolio({ auth, paintings }) {
             Create Painting
           </button>
         </div>
-        <CardSection cards = { paintings } />
+        <CardSection cards = { paintings } auth={auth} />
 
         <Modal
           isOpen={modalIsOpen}
@@ -56,7 +56,7 @@ export default function Portfolio({ auth, paintings }) {
             }
           }}
         >
-          <PostForm user={auth.user} modelState={setModalIsOpen}/>
+          <PostForm user={auth.user} modelState={setModalIsOpen} update={false}/>
           <button onClick={closeModal}>Close</button>
         </Modal>
       </div>

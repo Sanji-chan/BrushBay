@@ -1,7 +1,19 @@
+import React, { useState } from 'react';
+import { Link } from '@inertiajs/react';
 import Axios from 'axios';
+import Modal from 'react-modal';
+import PostForm from './PostForm'; 
 
+function Card({ id, img, title, description, highestBid, currentBid, price, tags, auth }) {
+      const [modalIsOpen, setModalIsOpen] = useState(false);
 
-function Card({ id, img, title, description, highestBid, currentBid, price  }) {
+      function openModal() {
+          setModalIsOpen(true);
+      }
+
+      function closeModal() {
+          setModalIsOpen(false);
+      }
 
       const submitdata = (e) => {
           e.preventDefault();
@@ -12,10 +24,16 @@ function Card({ id, img, title, description, highestBid, currentBid, price  }) {
               console.log('Response', res.data);
           })
           .catch(e => {
-              console.error('Failue', e.response.data);
+              console.error('Failure', e.response.data);
           });
       };
 
+      const deletePainting = (e) => {
+        e.preventDefault();
+        Axios.delete(`http://127.0.0.1:8000/api/paintings/${id}`);
+      }
+
+      
 
     return (
         <div className="border rounded overflow-hidden shadow-lg max-w-sm mx-auto my-4 mx-2">
@@ -37,6 +55,44 @@ function Card({ id, img, title, description, highestBid, currentBid, price  }) {
             Add to Marketplace
           </button>
         </div>
+        <div className="px-6 pb-2">
+        <button 
+          onClick={openModal}
+          className="bg-blue-500 hover:bg-blue-300 text-white font-bold py-2 px-4 rounded"
+          >
+            Update Painting
+          </button>          
+        </div>
+        <div className="px-6 pb-2">
+        <button 
+          onClick={deletePainting}
+          className="bg-red-500 hover:bg-red-300 text-white font-bold py-2 px-4 rounded"
+          >
+            <Link href={route('dashboard')}>
+              Delete Painting
+            </Link>
+            
+          </button>          
+        </div>
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          contentLabel="Create Post Form"
+          // Custom styles
+          style={{
+            content: {
+              top: '50%',
+              left: '50%',
+              right: 'auto',
+              bottom: 'auto',
+              marginRight: '-50%',
+              transform: 'translate(-50%, -50%)'
+            }
+          }}
+        >
+          <PostForm user={auth.user} modelState={setModalIsOpen} update={true} data={ {'id': id, 'title': title, 'desc': description, 'tags': tags} }/>
+          <button onClick={closeModal}>Close</button>
+        </Modal>
       </div>
     );
   }

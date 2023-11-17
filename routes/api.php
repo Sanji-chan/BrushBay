@@ -34,7 +34,8 @@ Route::get('getProfileInfo/{id}', [ProfileController::class, 'getProfileInfo'])-
 //Painting routes
 Route::post('paintings/', [PaintingController::class, 'addPainting']);
 Route::get('paintings/', [PaintingController::class, 'getPaintings']);
-
+Route::delete('paintings/{id}', [PaintingController::class, 'deletePainting']);
+Route::patch('/paintings/{id}', [PaintingController::class, 'updatePainting']);
 
 //Market
 Route::post('paintings/addPost/{id}', [MarketplaceController::class, 'postPainting'])->name('marketplace.postPainting');

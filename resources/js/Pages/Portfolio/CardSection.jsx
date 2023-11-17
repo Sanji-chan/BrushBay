@@ -1,7 +1,7 @@
 import Card from './Card';
 // import card1 from '../../images/card1.jpg';
 // import card2 from '../../images/card2.jpg';
-function CardSection({ cards }) {
+function CardSection({ cards, auth }) {
     // const cards = [
     //     {
     //       id: 1,
@@ -22,13 +22,19 @@ function CardSection({ cards }) {
     //       price: '$350'
     //     }];
     // console.log(cards);
-  
     return (
-      <div className="grid grid-cols-3 gap-4 mx-4 my-8 max-w-screen-lg mx-auto">
+      cards.length == 0 ? 
+        <div className='px-24 pt-4 pb-20'>
+          You have no paintings of your own
+        </div>
+         :
+        <div className="grid grid-cols-3 gap-4 mx-4 my-8 max-w-screen-lg mx-auto">
         {cards.map(card => (
-          <Card id={card.id} title={card.title} description={card.description} img={card.paintingimg_link} />
+          <Card key={card.id} id={card.id} title={card.title} description={card.description} img={card.paintingimg_link} auth={auth} tags={card.tag} />
         ))}
       </div>
+      
+      
     );
   }
 

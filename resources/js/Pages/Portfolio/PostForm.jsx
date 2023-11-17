@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from 'axios';
+import { router } from "@inertiajs/react";
+
 
 const styles = {
   container: {
@@ -64,7 +66,7 @@ async function getTags() {
   return result;
 }
 
-const PostForm = ({ user, modelState }) => {
+const PostForm = ({ user, modelState, update, data }) => {
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -72,11 +74,15 @@ const PostForm = ({ user, modelState }) => {
   const [selectedTag, setSelectedTag] = useState("");
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
-  
+
   useEffect(() => {
     getTags().then((res) => {
-      // console.log(res);
       setTags(res);
+      if(update) {
+        setTitle(data["title"]);
+        setDescription(data["desc"]);
+        setSelectedTags((prevSelectedTags) => [...data["tags"].split(",")]);
+      }
     });
   }, []);
 
@@ -97,15 +103,31 @@ const PostForm = ({ user, modelState }) => {
     // setSelectedTag(selectedTags.toString())
     // console.log({ image, title, description, price, selectedTag });    
     // setSelectedTag(selectedTags.toString())
-    const fData = new FormData();
-    fData.append('title', title);
-    fData.append('description', description);
-    fData.append('tag', selectedTags.toString());
-    fData.append('paintingimg_link', image);
-    fData.append('owner_id', user.id);
-    fData.append('author_id', user.id);
-    Axios.post('http://127.0.0.1:8000/api/paintings', fData);
-    closeModal();
+
+    if(update == false) {
+      const fData = new FormData();
+      fData.append('title', title);
+      fData.append('description', description);
+      fData.append('tag', selectedTags.toString());
+      fData.append('paintingimg_link', image);
+      fData.append('owner_id', user.id);
+      fData.append('author_id', user.id);
+      Axios.post('http://127.0.0.1:8000/api/paintings', fData).then(res=>{
+        router.visit(route('paintings.show'));
+      });
+    } else {
+      const fData = new FormData();
+      fData.append('title', title);
+      fData.append('description', description);
+      fData.append('tag', selectedTags.toString());
+      if(image != null) {
+        fData.append('paintingimg_link', image);
+      }
+      Axios.post(`http://127.0.0.1:8000/api/paintings/${data["id"]}?_method=patch`, fData).then(res=>{
+        router.visit(route('paintings.show'));
+      });
+    }
+
     // console.log(fData);
   };
 
@@ -115,6 +137,8 @@ const PostForm = ({ user, modelState }) => {
         ? prevSelectedTags.filter(t => t !== tag) 
         : [...prevSelectedTags, tag]
     );
+    
+    console.log(selectedTags);
   };
 
   return (
@@ -177,8 +201,8 @@ const PostForm = ({ user, modelState }) => {
             <input
               type="checkbox"
               id={`${tag.id}`}
-              checked={selectedTags.includes(tag.name)}
-              onChange={() => handleTagChange(tag.name)}
+              checked={selectedTags.includes(tag.name.toLowerCase())}
+              onChange={() => handleTagChange(tag.name.toLowerCase())}
             />
             <label htmlFor={`${tag.id}`}>{tag.name}</label>
           </div>

@@ -40,4 +40,27 @@ class PaintingController extends Controller
 
         return Redirect::route('dashboard');
     }
+
+    public function deletePainting($id) {
+        $result =  Painting::where('id', $id)->delete();
+        // The line below doesn't work
+        return Redirect::route('paintings.show');
+    }
+
+    public function updatePainting(Request $request, $id) {
+        $formfields = $request->validate([
+            "title" => "required",
+            "description" => "required",
+            "tag" => "required",
+            "paintingimg_link" => "image",
+        ]);
+
+        if($request->file('paintingimg_link') != "") {
+            $formfields["paintingimg_link"] = $request->file("paintingimg_link")->store('paintings', 'public');
+        }
+
+        $painting = Painting::find($id);
+        $painting->update($formfields);
+        return $painting;
+    }
 }

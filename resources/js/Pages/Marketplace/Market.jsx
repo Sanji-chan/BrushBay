@@ -20,7 +20,7 @@ export default function Market({ auth, status, posts }) {
 
         <div>
         { status ? "Posts found" : "No paintings found"}
-        { posts.map(post => (
+        { status && posts.map(post => (
           <div>
             {/* <img className="w-full h-full object-cover" src={"http://127.0.0.1:8000/storage/" + post.paintingimg_link } alt={post.title} /> */}
 
