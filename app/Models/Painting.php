@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Painting extends Model
 {
     use HasFactory;
-    protected $fillable = ["title", "description", "author_id", "owner_id", "paintingimg_link", "tag"];
+    protected $fillable = ["id", "title", "description", "author_id", "owner_id", "paintingimg_link", "tag"];
 
     protected $with = ['author', 'owner'];
     public function author() {

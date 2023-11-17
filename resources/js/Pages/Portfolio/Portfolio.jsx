@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 // import Navbar from '../../components/Navbar';
 // import Header from './Header';
-import CardSection from '../../Components/CardSection';
+import CardSection from './CardSection';
 import PostForm from './PostForm'; 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';

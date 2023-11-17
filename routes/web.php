@@ -18,7 +18,7 @@ use Inertia\Inertia;
 |
 */
 
-
+// Home route
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -28,27 +28,30 @@ Route::get('/', function () {
     ]);
 });
 
+// Dashboard route
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-
 Route::middleware('auth')->group(function () {
+    // Profile routes
     Route::get('/profile/{slug}', [ProfileController::class, 'showProfile'])->name('profile.showProfile');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Painting or Portfolio routes
     Route::get('/paintings', [PaintingController::class, 'show'])->name('paintings.show');
     Route::get('/portfolio', function() {
         return Inertia::render('Portfolio');
     });
 
+    // Marketplace routes
     Route::get('/marketplace', [MarketplaceController::class, 'showMarket'])->name('marketplace.showMarket');
 
+
 });
-
-
 
 
 

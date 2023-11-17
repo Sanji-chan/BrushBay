@@ -21,11 +21,12 @@ function CardSection({ cards }) {
     //       currentBid: '$250',
     //       price: '$350'
     //     }];
+    // console.log(cards);
   
     return (
       <div className="grid grid-cols-3 gap-4 mx-4 my-8 max-w-screen-lg mx-auto">
         {cards.map(card => (
-          <Card key={card.id} title={card.title} description={card.description} img={card.paintingimg_link} />
+          <Card id={card.id} title={card.title} description={card.description} img={card.paintingimg_link} />
         ))}
       </div>
     );

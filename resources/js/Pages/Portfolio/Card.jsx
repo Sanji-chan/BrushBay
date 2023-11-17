@@ -1,4 +1,22 @@
-function Card({ img, title, description, highestBid, currentBid, price }) {
+import Axios from 'axios';
+
+
+function Card({ id, img, title, description, highestBid, currentBid, price  }) {
+
+      const submitdata = (e) => {
+          e.preventDefault();
+          const parsedUserId = parseInt(id, 10); // Parse painting_id as an integer
+          Axios.post(`http://127.0.0.1:8000/api/paintings/addPost/${parsedUserId}`)
+
+          .then(res => {
+              console.log('Response', res.data);
+          })
+          .catch(e => {
+              console.error('Failue', e.response.data);
+          });
+      };
+
+
     return (
         <div className="border rounded overflow-hidden shadow-lg max-w-sm mx-auto my-4 mx-2">
         <div className="w-full h-48 bg-gray-200 overflow-hidden">
@@ -12,7 +30,10 @@ function Card({ img, title, description, highestBid, currentBid, price }) {
           <p className="text-gray-700 text-base"><span className="font-bold">Price: </span>{price}</p>
         </div>
         <div className="px-6 pt-4 pb-2">
-          <button className="bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded">
+          <button 
+          onClick={submitdata}
+          className="bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded"
+          >
             Add to Marketplace
           </button>
         </div>
