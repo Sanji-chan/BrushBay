@@ -1,9 +1,7 @@
 import React from 'react';
 // import Modal from 'react-modal';
-// import Navbar from '../../components/Navbar';
-// import Header from './Header';
 
-// import CardSection from '../../Components/CardSection';
+import StoreDisplay from './StoreDisplay';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
@@ -18,23 +16,10 @@ export default function Market({ auth, status, posts }) {
 
         <Head title="Marketplace" />
 
-        <div>
-        { status ? "Posts found" : "No paintings found"}
-        { status && posts.map(post => (
-          <div>
-            {/* <img className="w-full h-full object-cover" src={"http://127.0.0.1:8000/storage/" + post.paintingimg_link } alt={post.title} /> */}
-
-            {post.id}
-            {/* {post.painting_id}
-            {post.title}
-            {post.description}
-            {post.author_id}
-            {post.paintingimg_link }
-            {post.tag} */}
-          </div>
-        )) }
-
-      </div>
+        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        {/* <div> */}
+              { status ?  <StoreDisplay props = {posts} />: "No paintings found"}
+        </div>
 
       </AuthenticatedLayout>
     );

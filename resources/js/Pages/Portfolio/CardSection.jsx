@@ -28,7 +28,7 @@ function CardSection({ cards, auth }) {
           You have no paintings of your own
         </div>
          :
-        <div className="grid grid-cols-3 gap-4 mx-4 my-8 max-w-screen-lg mx-auto">
+        <div className="grid grid-cols-4 gap-4 mx-4 my-8 max-w-screen-lg mx-auto">
         {cards.map(card => (
           <Card key={card.id} id={card.id} title={card.title} description={card.description} img={card.paintingimg_link} auth={auth} tags={card.tag} />
         ))}
