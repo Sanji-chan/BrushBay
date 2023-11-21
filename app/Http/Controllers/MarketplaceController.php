@@ -24,6 +24,28 @@ class MarketPlaceController extends Controller
 
     }
 
+    public function getPaintingsByTags(Request $request): Response 
+    {
+        $tags = $request->user()->preferences;
+        $tags = explode(',', $tags);
+        $results = array();
+
+        foreach ($tags as $tag) {
+            $results = array_merge($results, Post::with('painting')->whereHas('painting', function($query) use($tag) {
+                $query->where('tag', 'like', '%' . $tag . '%');
+            })->get()->toArray());
+        }
+
+        // $results = Post::with('painting')->whereHas('painting', function($query) use($tag) {
+        //     $query->where('tag', 'like', '%' . $tag . '%');
+        // })->get()->toArray();
+
+        return Inertia::render("Dashboard", [
+            "posts" => array_unique($results, SORT_REGULAR),
+            "tags" => $tags
+        ]);
+    }
+
 
     public function postPainting($id){
         
