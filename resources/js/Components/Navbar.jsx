@@ -58,12 +58,12 @@ function Navbar({auth=""}) {
                     ) : (
                         <>
                             <Link
-                                href={route('login')}
+                                href="/"
                                 className="text-gray-600 hover:text-pink-300"                            >
                                 Home
                             </Link>
                             <Link
-                                href={route('login')}
+                                href={route('marketplace.showMarket')}
                                 className="text-gray-600 hover:text-pink-300"                            >
                                 Marketplace
                             </Link>

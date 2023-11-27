@@ -17,7 +17,6 @@ import profilepic from '../img/profile-placeholder.jpg';
 export default function UpdateProfilePic({  className = '' }) {
      //update image
     const user = usePage().props.auth.user;
-
     const [imagedata, setImagedata] = useState('');
 
     const handleChange = file => {
@@ -54,6 +53,7 @@ export default function UpdateProfilePic({  className = '' }) {
         .then((response) => {
             const url = URL.createObjectURL(new Blob([response.data]));
             setImageSrc(url);
+            console.log(url);
         })
         .catch((error) => {
             console.error('Error fetching image:', error);
