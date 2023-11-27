@@ -301,8 +301,10 @@ export default function Dashboard({ auth, posts, tags }) {
                           <div className="px-4" > 
                             <Carousel posts={Object.values(posts)}/> 
                           </div>
-                           :  <div className="p-6 text-gray-900">You have no Recomendations</div>}
-                       
+                           :  
+                              <div className="p-6 text-gray-900">You have no Recomendations</div>
+                    
+                        }
                         
                     </div>
                 </div>

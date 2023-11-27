@@ -32,6 +32,12 @@ export default function Authenticated({ user, header, children }) {
                                 <NavLink href={route('marketplace.showMarket')}>
                                     Marketplace
                                 </NavLink>
+                                <NavLink href={route('bids.showBids')}>
+                                    Bids
+                                </NavLink>
+                                <NavLink href={route('trades.showTrades')}>
+                                    Trade History
+                                </NavLink>
                                 
                             </div>
                         </div>
