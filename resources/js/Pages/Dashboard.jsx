@@ -79,6 +79,7 @@ const Carousel = ({posts}) => {
                   key={story.id}
                   style={styles.story}
                   onClick={() => showFullView(visibleStoriesStart + index)}
+                  class=""
                 >
                   <img src={"http://127.0.0.1:8000/storage/" + story.painting.paintingimg_link} alt="" style={styles.storyImg} />
                   <div style={styles.author}>{story.painting.author.name}</div>
@@ -142,7 +143,7 @@ const Carousel = ({posts}) => {
                 </div>
               </div>
             </div>
-          </div>
+          </div>  
         )}
       </>
     );
@@ -178,7 +179,8 @@ const Carousel = ({posts}) => {
       maxWidth: "1400px",
       margin: "24px auto",
       position: "relative",
-      background: "#e2f1ed",
+      background: "#fff",
+      // background: "red",
       display: "flex",
       justifyContent: "center",
     },
@@ -199,6 +201,11 @@ const Carousel = ({posts}) => {
       right: "10px",
     },
     story: {
+      background: "rgba(40, 40, 40, 0.9)",
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100%',
       width: "calc(100% / 5 - 16px)",
       margin: "0 8px",
       borderRadius: "16px",
@@ -224,7 +231,7 @@ const Carousel = ({posts}) => {
       width: "100%",
       height: "auto",
       objectFit: "cover",
-      borderRadius: "16px",
+      // borderRadius: "16px",
       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.7)",
     },
     storiesFullView: {
@@ -241,6 +248,7 @@ const Carousel = ({posts}) => {
       left: "16px",
     },
     contentFullView: {
+      
       height: "90vh",
       width: "100%",
       maxWidth: "700px",
@@ -248,6 +256,7 @@ const Carousel = ({posts}) => {
     },
   
     storyFullView: {
+      
       height: "100%",
       textAlign: "center",
     },
@@ -272,7 +281,6 @@ const Carousel = ({posts}) => {
   };  
 
 export default function Dashboard({ auth, posts, tags }) {
-    // console.log(Object.values(posts));
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -282,13 +290,25 @@ export default function Dashboard({ auth, posts, tags }) {
 
             <div className="pt-12 pb-64">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div className="p-6 text-gray-900" 
+                                 style={{
+                                  'font-size':'20px',
+                                  'font-weight':'600',
+                                 }}> Your Recomendations</div>
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">You have no posts</div>
+                      
+                       {posts.length > 0 ? 
+                          <div className="px-4" > 
+                            <Carousel posts={Object.values(posts)}/> 
+                          </div>
+                           :  <div className="p-6 text-gray-900">You have no Recomendations</div>}
+                       
+                        
                     </div>
                 </div>
             </div>
 
-            <Carousel posts={Object.values(posts)}/>
+           
         </AuthenticatedLayout>
     );
 }
