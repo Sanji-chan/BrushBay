@@ -29,10 +29,11 @@ class MarketPlaceController extends Controller
         $tags = $request->user()->preferences;
         $tags = explode(',', $tags);
         $results = array();
+        $id = $request->user()->id;
 
         foreach ($tags as $tag) {
-            $results = array_merge($results, Post::with('painting')->whereHas('painting', function($query) use($tag) {
-                $query->where('tag', 'like', '%' . $tag . '%');
+            $results = array_merge($results, Post::with('painting')->whereHas('painting', function($query) use($tag, $id) {
+                $query->where('tag', 'like', '%' . $tag . '%')->where('author_id', '!=', $id);
             })->get()->toArray());
         }
 
@@ -42,7 +43,7 @@ class MarketPlaceController extends Controller
 
         return Inertia::render("Dashboard", [
             "posts" => array_unique($results, SORT_REGULAR),
-            "tags" => $tags
+            "tags" => $id
         ]);
     }
 
