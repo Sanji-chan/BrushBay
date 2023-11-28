@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('bids', function (Blueprint $table) {
             $table->id();
-            $table->integer('post_id');
-            $table->integer('buyer_id');
+            $table->unsignedBigInteger('post_id')->nullable();
+            $table->unsignedBigInteger('buyer_id')->nullable();
             $table->integer('buyer_bid');
-            $table->integer('seller_id');
+            $table->unsignedBigInteger('seller_id')->nullable();
             $table->integer('seller_haggle_bid');  //not sure if we should put this???
             $table->string('bid_status')->default("NULL"); //NULL-> so, when bid is initially placed by buyer and the seller has not  
                                                                 //viewed or responded to it, its at null state.
@@ -25,12 +25,13 @@ return new class extends Migration
                                                            // haggle-> means that the buyer and seller are in state of bargain, it will be initiated by the seller
                                                                 // when he is willing to sell at a lower price then the initial bid.
 
-            $table->timestamps('dateOfCreation');
             $table->datetime('End Date');
+            $table->timestamps();
 
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('set null');
             $table->foreign('buyer_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('seller_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('post_id')->references('id')->on('posts')->onDelete('set null');
+
         });
     }
 
