@@ -28,10 +28,10 @@ export default function Portfolio({ auth, paintings }) {
 
         <Head title="Portfolio" />
 
-        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div className="max-w-8xl mx-auto sm:px-6 lg:px-8 pt-12 pb-32 max-w-screen-lg">
 
 
-        <div className="flex justify-end pt-8">
+        <div className="flex justify-end">
           <button 
             className="bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded"
             onClick={openModal}

@@ -45,11 +45,11 @@ const Modal = ({ isOpen, onClose, store }) => {
           </p>
 
           <p className="text-gray-600 mb-2">
-            Highest Bid:  { store.highest_bid ? "No bid posteed" : store.highest_bid }
+            Highest Bid:  { store.highest_bid===null ? "No bid posted yet" : store.highest_bid }
           </p>
 
           <p className="text-gray-600 mb-2">
-            Highest Bid:  { store.highest_bid ? "No bid posteed" : store.highest_bid }
+            Inital Bid:  { store.inital_bid===null ? "N/A": store.initial_bid }
           </p>
           <p className="text-gray-600 mb-2">
             Date of Creation: {store.created_at}

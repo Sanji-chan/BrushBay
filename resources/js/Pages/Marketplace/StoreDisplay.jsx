@@ -100,7 +100,8 @@ const StoreDisplay = ( props) => {
 
   }, []);
   return (
-    <div className="min-h-screen pt-8">
+    <>
+    <div className="min-h-screen mx-4 my-8 max-w-screen-lg mx-auto">
       <div className="flex justify-between items-center mb-8">
         <div className="flex space-x-4">
           <input
@@ -135,7 +136,7 @@ const StoreDisplay = ( props) => {
         </div>
       </div>
       
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-4 pt-10 gap-4">
         {filteredAndSortedStores.map((store) => (
           <div onClick={() => openModal(store)} key={store.id}>
             <Card store={store} />
@@ -144,6 +145,7 @@ const StoreDisplay = ( props) => {
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal} store={selectedStore} />
     </div>
+    </>
   );
 };
 

@@ -43,11 +43,11 @@ const ViewBids = ({ auth, status, bids }) => {
     >
 
     <Head title="Bids" />
-    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div className="max-w-8xl mx-auto sm:px-6 lg:px-0 pt-12 pb-32 max-w-screen-lg">
       {/* <BidHeader /> */}
-      <div className="flex justify-end gap-2 mb-4 mt-4 mr-4">
+      <div className="flex justify-end gap-2 mb-4 mt-6 mr-4">
         <div className="relative">
-          <button onClick={toggleStatusDropdown} className="bg-pink-600 text-white px-4 py-2 rounded-md focus:outline-none">
+          <button onClick={toggleStatusDropdown} className="bg-pink-500 text-white px-4 py-2 rounded-md focus:outline-none">
             Status
           </button>
           {showStatusDropdown && (
@@ -74,7 +74,7 @@ const ViewBids = ({ auth, status, bids }) => {
           )}
         </div>
         <div className="relative">
-          <button onClick={toggleSortDropdown} className="bg-pink-600 text-white px-4 py-2 rounded-md focus:outline-none">
+          <button onClick={toggleSortDropdown} className="bg-pink-500 text-white px-4 py-2 rounded-md focus:outline-none">
             Sort
           </button>
           {showSortDropdown && (
