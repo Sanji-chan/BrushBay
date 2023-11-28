@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Painting;
 
 class Post extends Model
 {
@@ -14,5 +15,7 @@ class Post extends Model
         'post_status',
     ];
 
-
+    public function painting() {
+        return $this->belongsTo(Painting::class);
+    }
 }

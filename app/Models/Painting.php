@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Post;
 
 class Painting extends Model
 {
@@ -19,5 +20,7 @@ class Painting extends Model
         return $this->belongsTo(User::class, 'owner_id', 'id');
     } 
 
-
+    public function posts() {
+        return $this->hasOne(Post::class);
+    }
 }
