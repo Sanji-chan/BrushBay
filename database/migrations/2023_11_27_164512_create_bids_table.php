@@ -28,9 +28,9 @@ return new class extends Migration
             $table->timestamps('dateOfCreation');
             $table->datetime('End Date');
 
-            $table->foreign('buyer_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('seller_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('post_id')->references('id')->on('posts')->onDelete('set null');
+            $table->foreign('buyer_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('seller_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
         });
     }
 
