@@ -43,7 +43,7 @@ const TradeHistory = ({ auth, status, tradeData=[] }) => {
     >
 
     <Head title="Trade History" />
-    <div>
+    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
       {/* <HistoryHeader /> */}
       <div className="flex justify-between p-4 items-center">
         <div className="ml-auto">

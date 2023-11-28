@@ -1,9 +1,12 @@
 // ViewBids.jsx
 import React, { useState } from 'react';
-import BidHeader from './BidHeader';
+// import BidHeader from './BidHeader';
 import Bid from './Bid';
 
-const ViewBids = ({ bids }) => {
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head } from '@inertiajs/react';
+
+const ViewBids = ({ auth, status, bids }) => {
   const [filterStatus, setFilterStatus] = useState('all'); // 'all', 'active', or 'notActive'
   const [sortDirection, setSortDirection] = useState('asc'); // 'asc' or 'desc'
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
@@ -34,8 +37,14 @@ const ViewBids = ({ bids }) => {
   };
 
   return (
-    <div>
-      <BidHeader />
+    <AuthenticatedLayout
+    user={auth.user}
+    header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Bids</h2>}      
+    >
+
+    <Head title="Bids" />
+    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+      {/* <BidHeader /> */}
       <div className="flex justify-end gap-2 mb-4 mt-4 mr-4">
         <div className="relative">
           <button onClick={toggleStatusDropdown} className="bg-pink-600 text-white px-4 py-2 rounded-md focus:outline-none">
@@ -92,6 +101,7 @@ const ViewBids = ({ bids }) => {
         ))}
       </div>
     </div>
+    </AuthenticatedLayout>
   );
 };
 
