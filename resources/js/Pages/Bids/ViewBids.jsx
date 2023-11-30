@@ -1,9 +1,12 @@
 // ViewBids.jsx
 import React, { useState } from 'react';
-import BidHeader from './BidHeader';
+// import BidHeader from './BidHeader';
 import Bid from './Bid';
 
-const ViewBids = ({ bids }) => {
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head } from '@inertiajs/react';
+
+const ViewBids = ({ auth, status, bids }) => {
   const [filterStatus, setFilterStatus] = useState('all'); // 'all', 'active', or 'notActive'
   const [sortDirection, setSortDirection] = useState('asc'); // 'asc' or 'desc'
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
@@ -34,11 +37,17 @@ const ViewBids = ({ bids }) => {
   };
 
   return (
-    <div>
-      <BidHeader />
-      <div className="flex justify-end gap-2 mb-4 mt-4 mr-4">
+    <AuthenticatedLayout
+    user={auth.user}
+    header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Bids</h2>}      
+    >
+
+    <Head title="Bids" />
+    <div className="max-w-8xl mx-auto sm:px-6 lg:px-0 pt-12 pb-32 max-w-screen-lg">
+      {/* <BidHeader /> */}
+      <div className="flex justify-end gap-2 mb-4 mt-6 mr-4">
         <div className="relative">
-          <button onClick={toggleStatusDropdown} className="bg-pink-600 text-white px-4 py-2 rounded-md focus:outline-none">
+          <button onClick={toggleStatusDropdown} className="bg-pink-500 text-white px-4 py-2 rounded-md focus:outline-none">
             Status
           </button>
           {showStatusDropdown && (
@@ -65,7 +74,7 @@ const ViewBids = ({ bids }) => {
           )}
         </div>
         <div className="relative">
-          <button onClick={toggleSortDropdown} className="bg-pink-600 text-white px-4 py-2 rounded-md focus:outline-none">
+          <button onClick={toggleSortDropdown} className="bg-pink-500 text-white px-4 py-2 rounded-md focus:outline-none">
             Sort
           </button>
           {showSortDropdown && (
@@ -92,6 +101,7 @@ const ViewBids = ({ bids }) => {
         ))}
       </div>
     </div>
+    </AuthenticatedLayout>
   );
 };
 

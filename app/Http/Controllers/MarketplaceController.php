@@ -15,7 +15,9 @@ class MarketPlaceController extends Controller
 
         $posts = Post::join('paintings', 'posts.painting_id', '=', 'paintings.id')
                         ->where("post_status" , "active")
-                        ->get(['posts.*', 'paintings.title', 'paintings.description', 'paintings.author_id', 'paintings.paintingimg_link', 'paintings.tag']);
+                        ->get(['posts.*', 'paintings.title', 'paintings.description', 
+                        'paintings.author_id', 'paintings.paintingimg_link', 'paintings.tag']);
+
         if (sizeof($posts) == 0){
             return Inertia::render('Marketplace/Market', [ 'status' => False]);
         }else{
@@ -37,19 +39,27 @@ class MarketPlaceController extends Controller
             })->get()->toArray());
         }
 
-        // $results = Post::with('painting')->whereHas('painting', function($query) use($tag) {
-        //     $query->where('tag', 'like', '%' . $tag . '%');
-        // })->get()->toArray();
-
         return Inertia::render("Dashboard", [
             "posts" => array_unique($results, SORT_REGULAR),
             "tags" => $id
         ]);
     }
 
+    public function removePost($id){
+        $painting = Painting::where('id', $id)->first();
+        $post = Post::where('painting_id', $id)->get();
 
-    public function postPainting($id){
-        
+        $post = Post::where('painting_id', $id)->first();
+        if ($post->post_status == "active"){
+            $post["post_status"] = "inactive";
+        }
+
+        $post->save();
+        return response()->json(["success" => "Post updated successfully!"]);
+       
+    }
+    public function postPainting(Request $request, $id){
+        // return response()->json($request);
         $painting = Painting::where('id', $id)->first();
         $post = Post::where('painting_id', $id)->get();
 
@@ -57,6 +67,8 @@ class MarketPlaceController extends Controller
             $post_create["painting_id"] = $painting->id;
             $post_create["seller_id"] = $painting->owner_id;
             $post_create["post_status"] = "active";
+            $post_create["initial_bid"] = $request[0];
+            $post_create["updated_at"] = $request[1];
             $post = Post::create($post_create);
             return response()->json(["success" => "Post created successfully!"]);
         }else{  // togglePostStatus
@@ -65,6 +77,8 @@ class MarketPlaceController extends Controller
             if ($post->post_status == "active"){
                 $post["post_status"] = "inactive";
             }else{
+                $post["initial_bid"] = $request[0];
+                // $post["updated_at"] = $request[1];
                 $post["post_status"] = "active";
             }
             $post->save();

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Card from "./Card";
 import Modal from "./Modal";
-import { Axios } from "axios";
 
-const StoreDisplay = ( props) => {
+const StoreDisplay = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [sortBy, setSortBy] = useState("");
@@ -19,45 +18,69 @@ const StoreDisplay = ( props) => {
     setIsModalOpen(false);
     setSelectedStore(null);
   };
+  const [stores, setStores] = useState([
+    {
+      name: "Store 1",
+      category: "grocery",
+      id: "1",
+      imageUrl: "img/test1.jpg",
+    },
+    {
+      name: "Store 2",
+      category: "electronics",
+      id: "2",
+      imageUrl: "img/test2.png",
+    },
+    {
+      name: "Art Gallery",
+      category: "art",
+      id: "3",
+      imageUrl: "img/test4.png",
+    },
+    {
+      name: "Azmain",
+      category: "art",
+      id: "4",
+      imageUrl: "img/nahin-background.jpg",
+    },
+    {
+      name: "Namirul",
+      category: "art",
+      id: "5",
+      imageUrl: "img/nahin-background.jpg",
+    },
+    {
+      name: "Nahin",
+      category: "art",
+      id: "6",
+      imageUrl: "img/nahin-background.jpg",
+    },
+    {
+      name: "Razer",
+      category: "electronics",
+      id: "7",
+      imageUrl: "img/nahin-background.jpg",
+    },
+    {
+      name: "Sapphire",
+      category: "electronics",
+      id: "8",
+      imageUrl: "img/nahin-background.jpg",
+    },
+    {
+      name: "Corsair",
+      category: "electronics",
+      id: "9",
+      imageUrl: "img/nahin-background.jpg",
+    },
+    {
+      name: "Gigabyte",
+      category: "electronics",
+      id: "10",
+      imageUrl: "img/nahin-background.jpg",
+    },
+  ]);
 
-  async function getTags() {
-    let result = await fetch("http://127.0.0.1:8000/api/tag/");
-    result = await result.json();
-    return result;
-  }
-
-  // const [selectedTag, setSelectedTag] = useState("");
-
-  // useEffect(() => {
-  //   getTags().then((res) => {
-  //     setTags(res);
-  //   });
-  // }, []);
-
-
-  const [stores, setStores] = useState([]);
-  // console.log(stores)
-
-
-  // const [flatArray, setFlatArray] = useState([]);
-
-  // useEffect to convert multi-dimensional prop to a flat array
-  useEffect(() => {
-    // Check if multiDimensionalProp is an object
-    if (props && typeof props === 'object') {
-      // Extract values of the object and flatten the resulting array
-      const valuesArray = Object.values(props);
-      const newStore = valuesArray.flat();
-      
-      // Set the state with the flattened array
-      setStores(newStore);
-    }
-  }, [props]);
-
-  console.log(stores);
-
-
-  
   // Function to handle sorting
   const sortStores = (a, b) => {
     switch (sortBy) {
@@ -66,7 +89,7 @@ const StoreDisplay = ( props) => {
       case "Oldest":
         return a.id > b.id ? 1 : -1;
       case "A-Z":
-        return a.title.localeCompare(b.title);
+        return a.name.localeCompare(b.name);
       default:
         return 0;
     }
@@ -75,8 +98,8 @@ const StoreDisplay = ( props) => {
   const filteredAndSortedStores = stores
     .filter(
       (store) =>
-        store.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        (selectedCategory === "" || store.tag.includes(selectedCategory))
+        store.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        (selectedCategory === "" || store.category === selectedCategory)
     )
     .sort(sortStores);
 
@@ -85,23 +108,8 @@ const StoreDisplay = ( props) => {
     console.log("Search button clicked with query:", searchQuery);
   };
 
-   // get tags 
-   async function getTags() {
-    let result = await fetch("http://127.0.0.1:8000/api/tag/");
-    result = await result.json();
-    return result;
-  }
-   const [tags, setTags] = useState([]);
-
-   useEffect(() => {
-    getTags().then((res) => {
-      setTags(res);
-    });
-
-  }, []);
   return (
-    <>
-    <div className="min-h-screen mx-4 my-8 max-w-screen-lg mx-auto">
+    <div className="min-h-screen bg-gray-50 p-8">
       <div className="flex justify-between items-center mb-8">
         <div className="flex space-x-4">
           <input
@@ -119,14 +127,15 @@ const StoreDisplay = ( props) => {
             className="px-4 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
           >
             <option value="">Filter by</option>
-            {tags.map((tag) => (
-                  <option value={`${tag.name}`}> {tag.name} </option>
-             ))}
+            <option value="grocery">Grocery</option>
+            <option value="electronics">Electronics</option>
+            <option value="art">Art</option>
+            <option value="clothing">Clothing</option>
           </select>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-6 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+            className="px-4 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
           >
             <option value="">Sort by</option>
             <option value="Latest">Latest</option>
@@ -135,8 +144,7 @@ const StoreDisplay = ( props) => {
           </select>
         </div>
       </div>
-      
-      <div className="grid grid-cols-4 pt-10 gap-4">
+      <div className="grid grid-cols-5 gap-4">
         {filteredAndSortedStores.map((store) => (
           <div onClick={() => openModal(store)} key={store.id}>
             <Card store={store} />
@@ -145,7 +153,6 @@ const StoreDisplay = ( props) => {
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal} store={selectedStore} />
     </div>
-    </>
   );
 };
 

@@ -17,7 +17,7 @@ const NotificationsPage = ({auth, status,  notifications=[] }) => {
     <Head title="Notifications" />
     <div>
       {/* <NotificationsHeader /> */}
-      <div>
+      <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
         {notifications.map((notification, index) => (
           <Notification
             key={index}
