@@ -13,7 +13,7 @@ const Modal = ({ isOpen, onClose, store }) => {
         {/* Close icon */}
         <button
           onClick={onClose}
-          className="absolute top-2 right-3 text-gray-600 hover:text-red-500 transition duration-300 ease-in-out text-2xl"
+          className="absolute top-2 right-3 text-gray-600 hover:text-red-500 transition duration-300 ease-in-out text-3xl"
           aria-label="Close"
         >
           &times;

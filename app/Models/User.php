@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Painting;
-
+use App\Models\Bid;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -50,5 +50,9 @@ class User extends Authenticatable
 
     public function paintings() {
         return $this->hasMany(Painting::class);
+    }
+
+    public function bids() {
+        return $this->hasMany(Bid::class);
     }
 }

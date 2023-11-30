@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Painting;
+use App\Models\Bid;
 
 class Post extends Model
 {
@@ -17,5 +18,9 @@ class Post extends Model
 
     public function painting() {
         return $this->belongsTo(Painting::class);
+    }
+
+    public function bids() {
+        return $this->hasMany(Bid::class);
     }
 }

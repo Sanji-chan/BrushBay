@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\PaintingController;
 use App\Http\Controllers\MarketplaceController;
+use App\Http\Controllers\BidsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +42,5 @@ Route::patch('/paintings/{id}', [PaintingController::class, 'updatePainting']);
 Route::post('paintings/addPost/{id}', [MarketplaceController::class, 'postPainting'])->name('marketplace.postPainting');
 Route::get('paintings/removePost/{id}', [MarketplaceController::class, 'removePost'])->name('marketplace.removePost');
 
+//Bids
+Route::post('posts/', [BidsController::class, 'createBid']);
