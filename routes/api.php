@@ -39,4 +39,5 @@ Route::patch('/paintings/{id}', [PaintingController::class, 'updatePainting']);
 
 //Market
 Route::post('paintings/addPost/{id}', [MarketplaceController::class, 'postPainting'])->name('marketplace.postPainting');
+Route::get('paintings/removePost/{id}', [MarketplaceController::class, 'removePost'])->name('marketplace.removePost');
 

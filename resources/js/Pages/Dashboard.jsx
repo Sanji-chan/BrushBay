@@ -289,7 +289,7 @@ export default function Dashboard({ auth, posts, tags }) {
             <Head title="Dashboard" />
 
             <div className="pt-12 pb-64">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
                 <div className="p-6 text-gray-900" 
                                  style={{
                                   'font-size':'20px',
