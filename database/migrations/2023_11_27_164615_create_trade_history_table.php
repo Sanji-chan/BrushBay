@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('trade_history', function (Blueprint $table) {
             $table->id();
-            $table->integer('painting_id');
-            $table->integer('buyer_id');
-            $table->integer('seller_id');
+            $table->unsignedBigInteger('painting_id');
+            $table->unsignedBigInteger('buyer_id');
+            $table->unsignedBigInteger('seller_id');
             $table->integer('trade_amount');
             $table->timestamps();
 
-            $table->foreign('buyer_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('seller_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('painting_id')->references('id')->on('paintings')->onDelete('set null');
+            $table->foreign('buyer_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('seller_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('painting_id')->references('id')->on('paintings')->onDelete('cascade');
         });
     }
 

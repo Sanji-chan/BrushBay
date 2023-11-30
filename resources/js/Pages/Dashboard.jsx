@@ -281,6 +281,7 @@ const Carousel = ({posts}) => {
   };  
 
 export default function Dashboard({ auth, posts, tags }) {
+    console.log(posts);
     return (
         <AuthenticatedLayout
             user={auth.user}

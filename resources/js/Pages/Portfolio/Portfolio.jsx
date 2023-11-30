@@ -11,7 +11,7 @@ import { Head } from '@inertiajs/react';
 
 export default function Portfolio({ auth, paintings }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
+    console.log(paintings);
     function openModal() {
         setModalIsOpen(true);
     }
