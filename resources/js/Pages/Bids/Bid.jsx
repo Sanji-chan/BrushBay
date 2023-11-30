@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Bid = ({ name, bidAmount }) => {
+const Bid = ({ name, bidAmount, bidStatus }) => {
   const [isHaggling, setIsHaggling] = useState(false);
   const [hagglePrice, setHagglePrice] = useState('');
 
@@ -24,6 +24,9 @@ const Bid = ({ name, bidAmount }) => {
       </div>
       <div className="w-1/4 min-w-0">
         <p className="font-semibold">Bid: {bidAmount}</p>
+      </div>
+      <div className="w-1/4 min-w-0">
+        <p className="font-semibold">Status: {bidStatus}</p>
       </div>
       <div className="flex space-x-2  ml-auto">
         <button className="bg-green-700 hover:bg-green-500 text-white px-4 py-2 rounded-md">Accept</button>

@@ -16,8 +16,7 @@ export default function Market({ auth, status, posts }) {
 
         <Head title="Marketplace" />
 
-        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        {/* <div> */}
+        <div className="max-w-8xl mx-auto sm:px-6 lg:px-8 pt-12 pb-32">
               { status ?  <StoreDisplay props = {posts} />: "No paintings found"}
         </div>
 

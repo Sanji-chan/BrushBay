@@ -43,16 +43,16 @@ const TradeHistory = ({ auth, status, tradeData=[] }) => {
     >
 
     <Head title="Trade History" />
-    <div>
+    <div className="max-w-8xl mx-auto sm:px-6 lg:px-0 pt-12 pb-32 max-w-screen-lg">
       {/* <HistoryHeader /> */}
-      <div className="flex justify-between p-4 items-center">
+      <div className="flex justify-between p-6 items-center">
         <div className="ml-auto">
           <select
             value={filter}
             onChange={handleFilterChange}
-            className="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-400 cursor-pointer appearance-none"
+            className="bg-pink-500 text-white px-4 py-2 rounded-md focus:outline-none"
           >
-            <option value="">Select period</option>
+            <option value="" >Select period</option>
             <option value="week">Past week</option>
             <option value="month">Past Month</option>
             <option value="year">Past Year</option>

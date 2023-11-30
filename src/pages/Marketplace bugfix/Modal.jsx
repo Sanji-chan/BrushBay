@@ -1,11 +1,5 @@
-import React from "react";
-
 const Modal = ({ isOpen, onClose, store }) => {
   if (!isOpen || !store) return null;
-
-  const descriptionStyle = {
-    wordWrap: "break-word",
-  };
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4 transition duration-300 ease-in-out">
@@ -19,42 +13,33 @@ const Modal = ({ isOpen, onClose, store }) => {
           &times;
         </button>
 
+        {/* Image container with fixed aspect ratio */}
         <div
-          className="flex-grow-0 flex-shrink-0 w-full"
-          style={{ flexBasis: "20%" }}
+          className="w-full overflow-hidden"
+          style={{ aspectRatio: "16 / 9" }}
         >
-           <img className="w-full h-full object-cover" 
-            src={"http://127.0.0.1:8000/storage/" + store.paintingimg_link } 
-            alt={store.title} />
+          <img
+            src={store.imageUrl}
+            alt={store.name}
+            className="w-full h-full object-cover"
+          />
         </div>
-        <div
-          className="flex-grow flex-shrink w-full p-6"
-          style={{ flexBasis: "80%" }}
-        >
-          <h2 className="text-3xl font-semibold text-gray-800 mb-4">
-            {store.title}
+
+        {/* Text content */}
+        <div className="flex-grow flex-shrink w-full p-6">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            {store.name}
           </h2>
-          <p className="text-gray-600 mb-2" style={descriptionStyle}>
-            Description: {store.description}
+          <p className="text-gray-600 mb-2">
+            Description: {/* Description here */}
           </p>
           <p className="text-gray-600 mb-2">
-             Author: { store.author_id }
+            Highest Bid: {/* Bid value here */}
           </p>
           <p className="text-gray-600 mb-2">
-            Owner:  { store.seller_id}
+            Date of Creation: {/* Date here */}
           </p>
-
-          <p className="text-gray-600 mb-2">
-            Highest Bid:  { store.highest_bid===null ? "No bid posted yet" : store.highest_bid }
-          </p>
-
-          <p className="text-gray-600 mb-2">
-            Inital Bid:  { store.inital_bid===null ? "N/A": store.initial_bid }
-          </p>
-          <p className="text-gray-600 mb-2">
-            Date of Creation: {store.created_at}
-          </p>
-          <p className="text-gray-600 mb-4">Date of Post: {store.updated_at}</p>
+          <p className="text-gray-600 mb-4">Date of Post: {/* Date here */}</p>
           {/* Bid Now Section */}
           <div className="mb-4">
             <input
