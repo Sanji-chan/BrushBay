@@ -19,8 +19,8 @@ const Modal = ({ isOpen, onClose, store }) => {
           style={{ aspectRatio: "16 / 9" }}
         >
           <img
-            src={store.imageUrl}
-            alt={store.name}
+           src={"http://127.0.0.1:8000/storage/" + store.paintingimg_link } 
+           alt={store.title}
             className="w-full h-full object-cover"
           />
         </div>
@@ -28,18 +28,30 @@ const Modal = ({ isOpen, onClose, store }) => {
         {/* Text content */}
         <div className="flex-grow flex-shrink w-full p-6">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-            {store.name}
+          {store.title}
           </h2>
           <p className="text-gray-600 mb-2">
-            Description: {/* Description here */}
+            Description: {store.description} {/* Description here */}
           </p>
           <p className="text-gray-600 mb-2">
-            Highest Bid: {/* Bid value here */}
+             Author: { store.author_id }
           </p>
           <p className="text-gray-600 mb-2">
-            Date of Creation: {/* Date here */}
+            Owner:  { store.seller_id}
           </p>
-          <p className="text-gray-600 mb-4">Date of Post: {/* Date here */}</p>
+          <p className="text-gray-600 mb-2">
+          Highest Bid:  { store.highest_bid===null ? "No bid posted yet" : store.highest_bid }
+ {/* Bid value here */}
+          </p>
+          <p className="text-gray-600 mb-2">
+            Inital Bid:  { store.inital_bid===null ? "N/A": store.initial_bid }
+          </p>
+          <p className="text-gray-600 mb-2">
+          Date of Creation: {store.created_at} {/* Date here */}
+          </p>
+          <p className="text-gray-600 mb-4">
+          Date of Post: {store.updated_at}
+{/* Date here */}</p>
           {/* Bid Now Section */}
           <div className="mb-4">
             <input

@@ -1,10 +1,26 @@
-import React from "react";
 
+// export default Modal;
 const Modal = ({ isOpen, onClose, store }) => {
   if (!isOpen || !store) return null;
+  const datetimeFromDatabase1 = store.created_at; // Replace this with your actual datetime value
+  const datetimeFromDatabase2 = store.updated_at; // Replace this with your actual datetime value
 
-  const descriptionStyle = {
-    wordWrap: "break-word",
+
+  // Convert the string to a Date object
+  const dateObject1 = new Date(datetimeFromDatabase1);
+  const dateObject2 = new Date(datetimeFromDatabase2);
+
+  // Extract the date component
+  const extractedDate1 = dateObject1.toISOString().split('T')[0];
+  const extractedDate2 = dateObject2.toISOString().split('T')[0];
+
+  const tableStyle = {
+    borderCollapse: 'collapse',
+    width: '100%',
+  };
+
+  const rowStyle = {
+    height: '50%',
   };
 
   return (
@@ -19,42 +35,78 @@ const Modal = ({ isOpen, onClose, store }) => {
           &times;
         </button>
 
+        {/* Image container with fixed aspect ratio */}
         <div
-          className="flex-grow-0 flex-shrink-0 w-full"
-          style={{ flexBasis: "20%" }}
+          className="w-full overflow-hidden"
+          style={{ aspectRatio: "16/9" }}
         >
-           <img className="w-full h-full object-cover" 
-            src={"http://127.0.0.1:8000/storage/" + store.paintingimg_link } 
-            alt={store.title} />
+          <img
+           src={"http://127.0.0.1:8000/storage/" + store.paintingimg_link } 
+           alt={store.title}
+            className="w-full h-full object-cover"
+          />
         </div>
-        <div
-          className="flex-grow flex-shrink w-full p-6"
-          style={{ flexBasis: "80%" }}
-        >
-          <h2 className="text-3xl font-semibold text-gray-800 mb-4">
-            {store.title}
+
+        {/* Text content */}
+        <div className="flex-grow flex-shrink w-full px-4 py-2">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          {store.title}
           </h2>
-          <p className="text-gray-600 mb-2" style={descriptionStyle}>
-            Description: {store.description}
-          </p>
-          <p className="text-gray-600 mb-2">
-             Author: { store.author_id }
-          </p>
-          <p className="text-gray-600 mb-2">
-            Owner:  { store.seller_id}
-          </p>
 
-          <p className="text-gray-600 mb-2">
-            Highest Bid:  { store.highest_bid===null ? "No bid posted yet" : store.highest_bid }
-          </p>
+       <table border="1" style={tableStyle}>
+          <thead>
+            <tr className="w-full overflow-hidden text-left">
+              <th colSpan="2">
+              <p className="text-gray-600 mb-2">
+                Description: {store.description} 
+              </p>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* Second Row */}
+            <tr style={{ rowStyle }}>
+              <td  colSpan="1">
+              <p className="text-gray-600 mb-2">
+                Author: { store.author_id }
+              </p>
+              </td>
+              <td colSpan="1">
+              <p className="text-gray-600 mb-2">
+                Owner:  { store.seller_id}
+              </p>
+              </td>
+            </tr>
+            {/* Third Row */}
+            <tr style={{ rowStyle }}>
+              <td>
+              <p className="text-gray-600 mb-2">
+              Highest Bid:  { store.highest_bid===null ? "No bid posted yet" : store.highest_bid }
+              </p>
+              </td>
+              <td >
+              <p className="text-gray-600 mb-2">
+                Inital Bid:  { store.inital_bid===null ? "N/A": store.initial_bid }
+              </p>
+              </td>
+            </tr >
+            {/* Fourth Row */}
+            <tr style={{ rowStyle }}>
+              <td >
+              <p className="text-gray-600 mb-2">
+              Date of Creation: {extractedDate1} {/* Date here */}
+              </p>
+              </td>
+              <td >
+              <p className="text-gray-600 mb-4">
+              Date of Post: {extractedDate2}
+              </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-          <p className="text-gray-600 mb-2">
-            Inital Bid:  { store.inital_bid===null ? "N/A": store.initial_bid }
-          </p>
-          <p className="text-gray-600 mb-2">
-            Date of Creation: {store.created_at}
-          </p>
-          <p className="text-gray-600 mb-4">Date of Post: {store.updated_at}</p>
+
           {/* Bid Now Section */}
           <div className="mb-4">
             <input
