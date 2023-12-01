@@ -8,6 +8,8 @@ import { Head } from '@inertiajs/react';
 
 
 const NotificationsPage = ({auth, status,  notifications=[] }) => {
+  console.log(notifications);
+
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -23,7 +25,7 @@ const NotificationsPage = ({auth, status,  notifications=[] }) => {
             key={index}
             PaintingTitle={notification.PaintingTitle} 
             userName={notification.userName}
-            notificationText={notification.notificationText}
+            notificationText={notification.message}
           />
         ))}
       </div>

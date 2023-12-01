@@ -7,6 +7,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\PaintingController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\BidsController;
+use App\Http\Controllers\NotificationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,3 +45,4 @@ Route::get('paintings/removePost/{id}', [MarketplaceController::class, 'removePo
 
 //Bids
 Route::post('posts/', [BidsController::class, 'createBid']);
+Route::post('notify/', [NotificationsController::class, 'addNotifications']);

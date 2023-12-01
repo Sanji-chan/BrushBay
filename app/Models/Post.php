@@ -16,6 +16,8 @@ class Post extends Model
         'post_status',
     ];
 
+    protected $with = ["painting"];
+
     public function painting() {
         return $this->belongsTo(Painting::class);
     }
