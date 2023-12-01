@@ -26,15 +26,6 @@ const StoreDisplay = ( props) => {
     return result;
   }
 
-  // const [selectedTag, setSelectedTag] = useState("");
-
-  // useEffect(() => {
-  //   getTags().then((res) => {
-  //     setTags(res);
-  //   });
-  // }, []);
-
-
   const [stores, setStores] = useState([]);
   // console.log(stores)
 

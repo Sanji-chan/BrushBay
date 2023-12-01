@@ -7,14 +7,16 @@ use Illuminate\Http\Request;
 
 use App\Models\Post;
 use App\Models\Painting;
+use App\Models\Bid;
 use Illuminate\Support\Facades\Redirect;
 
 class MarketPlaceController extends Controller
 {   
-    public function showMarket(){
+    public function showMarket(Request $request){
 
         $posts = Post::join('paintings', 'posts.painting_id', '=', 'paintings.id')
                         ->where("post_status" , "active")
+                        ->where("seller_id", "!=", $request->user()->id)
                         ->get(['posts.*', 'paintings.title', 'paintings.description', 
                         'paintings.author_id', 'paintings.paintingimg_link', 'paintings.tag']);
 
@@ -53,6 +55,8 @@ class MarketPlaceController extends Controller
         if ($post->post_status == "active"){
             $post["post_status"] = "inactive";
         }
+
+        $post["highest_bid"] = null;
 
         $post->save();
         return response()->json(["success" => "Post updated successfully!"]);

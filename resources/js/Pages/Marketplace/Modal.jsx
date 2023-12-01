@@ -1,11 +1,14 @@
+import Axios from 'axios';
+import { useState } from "react";
+import { usePage, router } from '@inertiajs/react';
 
 // export default Modal;
 const Modal = ({ isOpen, onClose, store }) => {
   if (!isOpen || !store) return null;
   const datetimeFromDatabase1 = store.created_at; // Replace this with your actual datetime value
   const datetimeFromDatabase2 = store.updated_at; // Replace this with your actual datetime value
-
-
+  const [bid, setBid] = store.highest_bid == null ? useState(0) : useState(store.highest_bid+1);
+  const [error, setError] = useState("");
   // Convert the string to a Date object
   const dateObject1 = new Date(datetimeFromDatabase1);
   const dateObject2 = new Date(datetimeFromDatabase2);
@@ -22,6 +25,26 @@ const Modal = ({ isOpen, onClose, store }) => {
   const rowStyle = {
     height: '50%',
   };
+  const user = usePage().props.auth.user;
+  // console.log(store.id, user.id, store.seller_id);
+  // console.log(bid);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const fData = new FormData();
+    fData.append("post_id", store.id);
+    fData.append("buyer_id", user.id);
+    fData.append("seller_id", store.seller_id);
+    fData.append("buyer_bid", bid);
+
+    Axios.post("http://127.0.0.1:8000/api/posts/", fData).then(res=>{
+      console.log(res["data"]);
+      if(res["data"]["results"] == null) {
+        router.visit(route('marketplace.showMarket'));
+      } else {
+        setError(res["data"]["results"]);
+      }
+    });
+  }  
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4 transition duration-300 ease-in-out">
@@ -110,13 +133,16 @@ const Modal = ({ isOpen, onClose, store }) => {
           {/* Bid Now Section */}
           <div className="mb-4">
             <input
-              type="text"
+              type="number"
               placeholder="Your Bid"
               className="border-2 border-gray-300 rounded p-2 mr-2 w-full md:w-auto"
+              min={ store.highest_bid===null ? 0 : store.highest_bid+1 }
+              onChange={(e) => setBid(e.target.value)}
             />
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               type="submit"
+              onClick={handleSubmit }
             >
               Enter
             </button>
