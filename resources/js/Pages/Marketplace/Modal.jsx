@@ -142,7 +142,7 @@ const Modal = ({ isOpen, onClose, store }) => {
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               type="submit"
-              onClick={handleSubmit}
+              onClick={handleSubmit }
             >
               Enter
             </button>
