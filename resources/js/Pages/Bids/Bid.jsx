@@ -6,6 +6,7 @@ const Bid = ({ name, initialbid, bidAmount, bidStatus, id }) => {
   const [hagglePrice, setHagglePrice] = useState(initialbid);
 
   const [isbidStatus, setbidStatus] = useState(bidStatus);
+  const isBidClosed = bidStatus === 'accepted' || bidStatus === 'rejected';
 
   const openHaggleModal = () => {
     setIsHaggling(true);
@@ -66,13 +67,17 @@ const Bid = ({ name, initialbid, bidAmount, bidStatus, id }) => {
         <p className="font-semibold">Status: {isbidStatus}</p>
       </div>
       <div className="flex space-x-2  ml-auto">
-        <button className="bg-green-700 hover:bg-green-500 
-                            text-white px-4 py-2 rounded-md" 
-                onClick={handleAccept}>Accept</button>
-        <button className="bg-red-700 hover:bg-red-500 
-                            text-white px-4 py-2 rounded-md"
-                onClick={handleReject}>Reject</button>
-        <button className="bg-pink-700 hover:bg-pink-500 text-white px-4 py-2 rounded-md" onClick={openHaggleModal}>Haggle</button>
+        {isBidClosed ?  
+        <div> <button className="bg-green-700 hover:bg-green-500 text-white px-4 py-2 rounded-md" 
+                      onClick={handleAccept}>Accept</button>
+              <button className="bg-red-700 hover:bg-red-500 text-white px-4 py-2 rounded-md"
+                      onClick={handleReject}>Reject</button>
+              <button className="bg-pink-700 hover:bg-pink-500 text-white px-4 py-2 rounded-md" 
+                      onClick={openHaggleModal}>Haggle</button></div> 
+        :"Bid for this painting closed. Thank you for your participation."
+        }
+       
+       
       </div>
       {isHaggling && (
         <div className="absolute inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">

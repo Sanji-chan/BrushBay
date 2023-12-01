@@ -51,3 +51,4 @@ Route::post('bids/haggle/{id}', [BidsController::class, 'haggleBid']);
 
 //Notifications
 Route::post('notify/', [NotificationsController::class, 'addNotifications']);
+Route::get('/notifications/{id}', [NotificationsController::class, 'index']);

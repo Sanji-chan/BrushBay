@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
@@ -9,6 +10,22 @@ import Footer from '../Components/Footer';
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+
+    // const [notifications, setNotifications] = useState([]);
+
+    // useEffect(() => {
+    //     // Fetch notifications when the component mounts
+    //     fetchNotifications();
+    // }, []);
+
+    // const fetchNotifications = async () => {
+    //     try {
+    //         const response = await axios.get(`http://127.0.0.1:8000/notifications/${user.id}`);
+    //         setNotifications(response.data);
+    //     } catch (error) {
+    //         console.error('Error fetching notifications:', error.data);
+    //     }
+    // };
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -43,6 +60,28 @@ export default function Authenticated({ user, header, children }) {
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
+                            <div className="ml-3 relative">
+                            <Dropdown>
+                                    <Dropdown.Trigger>
+                                        <span className="inline-flex rounded-md">
+                                            <button
+                                                type="button"
+                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                            >
+                                                Notif
+                                            </button>
+                                        </span>
+                                    </Dropdown.Trigger>
+
+                                    <Dropdown.Content>
+                                        {/* {notifications.map((notification) => (
+                                                    <Dropdown.Link key={notification.id}>{notification.message}</Dropdown.Link>
+                                        ))} */}
+                                        <Dropdown.Link href={'http://127.0.0.1:8000/notifications'}>View All</Dropdown.Link>
+                                    
+                                    </Dropdown.Content>
+                                </Dropdown>
+                            </div>
                             <div className="ml-3 relative">
                                 <Dropdown>
                                     <Dropdown.Trigger>

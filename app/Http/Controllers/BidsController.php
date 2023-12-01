@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Painting;
+use App\Models\TradeHistory;
 use App\Models\Bid;
 use Validator;
 
@@ -211,12 +212,12 @@ class BidsController extends Controller
             
             // Change painting owner_id to buyer_id 
             $painting['owner_id'] = $buyer->id;
-            if ($bid->seller_haggle_bid == 0){ 
-                // Subtract the accepted bid from buyer's pcoin
-                $buyer['pcoins'] = $buyer['pcoins']- $bid->buyer_bid;
-                // Add the accepted bid to seller's pcoin
-                $seller['pcoins'] = $seller['pcoins']+ $bid->buyer_bid;
-            }
+         
+            // Subtract the accepted bid from buyer's pcoin
+            $buyer['pcoins'] = $buyer['pcoins'] - $bid->buyer_bid;
+            // Add the accepted bid to seller's pcoin
+            $seller['pcoins'] = $seller['pcoins'] + $bid->buyer_bid;
+                
 
             // Add transaction details to the transaction table
             $trade_create['painting_id'] = $painting->id;

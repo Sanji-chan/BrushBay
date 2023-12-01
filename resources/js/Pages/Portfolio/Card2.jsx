@@ -90,6 +90,12 @@ const Card2 = ({ id, img, title, description, highestBid, currentBid, price, tag
     }
   };
 
+
+  
+  const buttonStyle = {
+    marginRight: '10px', // Add margin to create space between buttons
+  };
+
   return (
     <>
       <style>{`
@@ -239,11 +245,14 @@ const Card2 = ({ id, img, title, description, highestBid, currentBid, price, tag
           {/* <p className="text-gray-700 text-base"><span className="font-bold">Price: </span>{price}</p> */}
         </div>
         <div className="px-2 pb-2">
-          <button className="bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded" onClick={handleMarketAction}>
-            {isAddedToMarket? "Remove from Market" : "Add to Marketplace"}
+          <button style={buttonStyle} 
+                  className="bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded" 
+                  onClick={handleMarketAction}>
+            {isAddedToMarket? "-" : "+"}
           </button>
 
           <button 
+              style={buttonStyle}
               onClick={openModal}
               className="bg-blue-500 hover:bg-blue-300 text-white font-bold py-2 px-4 rounded"
               >
@@ -251,6 +260,7 @@ const Card2 = ({ id, img, title, description, highestBid, currentBid, price, tag
           </button>          
 
           <button 
+          style={buttonStyle}
             onClick={deletePainting}
             className="bg-red-500 hover:bg-red-300 text-white font-bold py-2 px-4 rounded"
             >
