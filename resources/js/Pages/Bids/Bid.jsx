@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import Axios from 'axios';
 
-const Bid = ({ name, bidAmount, bidStatus }) => {
+const Bid = ({ name, initialbid, bidAmount, bidStatus, id }) => {
   const [isHaggling, setIsHaggling] = useState(false);
-  const [hagglePrice, setHagglePrice] = useState('');
+  const [hagglePrice, setHagglePrice] = useState(initialbid);
+
+  const [isbidStatus, setbidStatus] = useState(bidStatus);
 
   const openHaggleModal = () => {
     setIsHaggling(true);
@@ -11,12 +14,46 @@ const Bid = ({ name, bidAmount, bidStatus }) => {
   const closeHaggleModal = () => {
     setIsHaggling(false);
   };
+  const handleAccept = (e) => {
+    e.preventDefault();
+    const parsedUserId = parseInt(id, 10); // Parse painting_id as an integer
+    Axios.post(`http://127.0.0.1:8000/api/bids/accept/${parsedUserId}`)
+
+    .catch(e => {
+      console.error('Failure', e.response.data);
+    });
+
+    setbidStatus('Accepted');  
+  };
+  const handleReject = (e) => {
+    e.preventDefault();
+    const parsedUserId = parseInt(id, 10); // Parse painting_id as an integer
+    Axios.post(`http://127.0.0.1:8000/api/bids/reject/${parsedUserId}`)
+
+    .catch(e => {
+      console.error('Failure', e.response.data);
+    });
+
+    setbidStatus('Rejected');
+  
+  };
 
   const handleHaggleSubmit = (e) => {
     e.preventDefault();
-    // Handle the haggle submit action here
+    const parsedUserId = parseInt(id, 10); // Parse painting_id as an integer
+    const fData =new FormData();
+    fData.append('seller_haggle_bid', hagglePrice);
+
+    Axios.post(`http://127.0.0.1:8000/api/bids/haggle/${parsedUserId}`, fData)
+
+    .catch(e => {
+      console.error('Failure', e.response.data);
+    });
+    console.log([`http://127.0.0.1:8000/api/bids/haggle/${parsedUserId}`, hagglePrice]);
+
     closeHaggleModal();
   };
+
   return (
     <div className="flex items-center p-4 border-b shadow-sm">
       <div className="w-1/4 min-w-0">
@@ -26,11 +63,15 @@ const Bid = ({ name, bidAmount, bidStatus }) => {
         <p className="font-semibold">Bid: {bidAmount}</p>
       </div>
       <div className="w-1/4 min-w-0">
-        <p className="font-semibold">Status: {bidStatus}</p>
+        <p className="font-semibold">Status: {isbidStatus}</p>
       </div>
       <div className="flex space-x-2  ml-auto">
-        <button className="bg-green-700 hover:bg-green-500 text-white px-4 py-2 rounded-md">Accept</button>
-        <button className="bg-red-700 hover:bg-red-500 text-white px-4 py-2 rounded-md">Reject</button>
+        <button className="bg-green-700 hover:bg-green-500 
+                            text-white px-4 py-2 rounded-md" 
+                onClick={handleAccept}>Accept</button>
+        <button className="bg-red-700 hover:bg-red-500 
+                            text-white px-4 py-2 rounded-md"
+                onClick={handleReject}>Reject</button>
         <button className="bg-pink-700 hover:bg-pink-500 text-white px-4 py-2 rounded-md" onClick={openHaggleModal}>Haggle</button>
       </div>
       {isHaggling && (

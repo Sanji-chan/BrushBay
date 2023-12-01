@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TradeHistory extends Model
 {
     use HasFactory;
+    protected $table = 'trade_history';
 
     protected $fillable = [
         'painting_id',

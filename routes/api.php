@@ -44,3 +44,6 @@ Route::get('paintings/removePost/{id}', [MarketplaceController::class, 'removePo
 
 //Bids
 Route::post('posts/', [BidsController::class, 'createBid']);
+Route::post('bids/reject/{id}', [BidsController::class, 'rejectBid']);
+Route::post('bids/accept/{id}', [BidsController::class, 'acceptBid']);
+Route::post('bids/haggle/{id}', [BidsController::class, 'haggleBid']);

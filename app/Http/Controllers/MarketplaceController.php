@@ -94,16 +94,5 @@ class MarketPlaceController extends Controller
 
     }
 
-    public function searchMarket(){
-        return -1;
-    }
-
-    public function sortMarket(){
-        return -1;
-    }
-
-    public function filterMarket(){
-        return -1;
-    }
 
 }

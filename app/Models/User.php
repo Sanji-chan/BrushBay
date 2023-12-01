@@ -25,6 +25,7 @@ class User extends Authenticatable
         'password',
         'preferences',
         'userimg_link',
+        'pcoins',
     ];
 
     /**

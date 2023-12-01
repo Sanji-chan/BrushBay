@@ -136,7 +136,7 @@ const StoreDisplay = ( props) => {
         </div>
       </div>
       
-      <div className="grid grid-cols-4 pt-10 gap-4">
+      <div className="grid grid-cols-3 pt-10 gap-4">
         {filteredAndSortedStores.map((store) => (
           <div onClick={() => openModal(store)} key={store.id}>
             <Card store={store} />

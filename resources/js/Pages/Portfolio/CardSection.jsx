@@ -9,17 +9,18 @@ function CardSection({ cards, auth }) {
           You have no paintings of your own
         </div>
          :
-        <div className="grid grid-cols-4 gap-4 mx-4 my-8 max-w-screen-lg mx-auto">
-        {cards.map(card => (
-          <Card2 key={card.id} id={card.id} title={card.title} description={card.description}
-                 img={card.paintingimg_link} auth={auth}
-                 highestBid={card.highest_bid}
-                 currentBid={card.initial_bid}
-                 tags={card.tag} market_state={card.post_status}/>
-        ))}
-      </div>
-      
-      
+         <div className='container mx-auto'>
+            <div className=" max-w-screen-lg grid grid-cols-1 md:grid-cols-3 gap-4">
+              {cards.map(card => (
+                <Card2 key={card.id} id={card.id} title={card.title} description={card.description}
+                      img={card.paintingimg_link} auth={auth}
+                      highestBid={card.highest_bid}
+                      currentBid={card.initial_bid}
+                      tags={card.tag} market_state={card.post_status}/>
+              ))}
+            </div>
+         </div>
+       
     );
   }
 

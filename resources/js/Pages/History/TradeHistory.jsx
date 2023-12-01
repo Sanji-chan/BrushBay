@@ -45,7 +45,7 @@ const TradeHistory = ({ auth, status, tradeData=[] }) => {
     <Head title="Trade History" />
     <div className="max-w-8xl mx-auto sm:px-6 lg:px-0 pt-12 pb-32 max-w-screen-lg">
       {/* <HistoryHeader /> */}
-      <div className="flex justify-between p-6 items-center">
+      <div className="flex justify-between py-6 items-center">
         <div className="ml-auto">
           <select
             value={filter}
@@ -60,9 +60,9 @@ const TradeHistory = ({ auth, status, tradeData=[] }) => {
         </div>
       </div>
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 pt-4 md:grid-cols-3 gap-4">
           {filteredData.map((trade, index) => (
-            <HistoryCard key={index} {...trade} />
+            <HistoryCard image={trade.paintingimg_link} title={trade.title} buyer={trade.buyer_id} seller={trade.seller_id} tradeDate={trade.created_at} price={trade.trade_amount} key={index} {...trade} />
           ))}
         </div>
       </div>
