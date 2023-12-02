@@ -36,6 +36,7 @@ const TradeHistory = ({ auth, status, tradeData=[] }) => {
     setFilter(e.target.value);
   };
 
+
   return (
     <AuthenticatedLayout
     user={auth.user}
@@ -43,7 +44,7 @@ const TradeHistory = ({ auth, status, tradeData=[] }) => {
     >
 
     <Head title="Trade History" />
-    <div className="max-w-8xl mx-auto sm:px-6 lg:px-0 pt-12 pb-32 max-w-screen-lg">
+    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 pt-12 pb-32">
       {/* <HistoryHeader /> */}
       <div className="flex justify-between py-6 items-center">
         <div className="ml-auto">
@@ -60,11 +61,32 @@ const TradeHistory = ({ auth, status, tradeData=[] }) => {
         </div>
       </div>
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 pt-4 md:grid-cols-3 gap-4">
-          {filteredData.map((trade, index) => (
-            <HistoryCard image={trade.paintingimg_link} title={trade.title} buyer={trade.buyer_id} seller={trade.seller_id} tradeDate={trade.created_at} price={trade.trade_amount} key={index} {...trade} />
-          ))}
-        </div>
+
+              <div className="pt-2 pb-6 px-6 text-gray-900" 
+                  style={{
+                     'font-size':'20px',
+                      'font-weight':'600',
+                   }}>Your Trade History:
+                </div>
+        { filteredData.length > 0 ?  
+              <div>
+  
+          <div className="grid grid-cols-1 pt-4 md:grid-cols-3 gap-4">
+              {filteredData.map((trade, index) => (
+                <HistoryCard image={trade.paintingimg_link} title={trade.title} buyer={trade.buyer_id} seller={trade.seller_id} tradeDate={trade.created_at} price={trade.trade_amount} key={index} {...trade} />
+              ))}
+          </div> 
+              </div>
+              : 
+          
+                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                  <div className="p-6 text-gray-900">Oh no! It looks like haven't had any transaction.</div>
+                </div>
+     }
+
+
+          
+       
       </div>
     </div>
     </AuthenticatedLayout>

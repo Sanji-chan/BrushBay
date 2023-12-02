@@ -63,7 +63,7 @@ const Bid = ({ initialbid, bidAmount, bidStatus, id , title, buyerName}) => {
   };
 
   return (
-    <div className=""> 
+    <div className="px-8"> 
     <p className="font-semibold pt-4 text-pink-700"> Bid placed on "{title}"</p>
     <div className="flex items-center p-4 border-b shadow-sm">
           <div className="w-1/4 min-w-0">
@@ -102,9 +102,10 @@ const Bid = ({ initialbid, bidAmount, bidStatus, id , title, buyerName}) => {
          <p className="mb-4"><span className='font-bold'>Original Bid: </span>{bidAmount}</p>
          <form onSubmit={handleHaggleSubmit}>
            <input
-             type="text"
+             type="number"
              value={hagglePrice}
              onChange={(e) => setHagglePrice(e.target.value)}
+             min= { bidAmount===null ? 0 : bidAmount+1 }
              className="border-2 border-gray-300 rounded py-2 px-4 mb-4 w-full"
              placeholder="Enter your bid"
            />

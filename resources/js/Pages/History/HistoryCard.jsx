@@ -20,7 +20,7 @@ const HistoryCard = ({ image, title, buyer, seller, tradeDate, price }) => {
             src={"http://127.0.0.1:8000/storage/" + image } 
             alt="Trade Item" />
       <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">{title}</div>
+        <div className="font-bold text-xl text-pink-700  mb-2">{title}</div>
         <p>Buyer: {buyer}</p>
         <p>Seller: {seller}</p>
         <p>Trade Date: {extractedDate1}</p>

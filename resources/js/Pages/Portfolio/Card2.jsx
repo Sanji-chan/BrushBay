@@ -91,6 +91,16 @@ const Card2 = ({ id, img, title, description, highestBid, currentBid, price, tag
   };
 
 
+  // Split the description into an array of words
+  const words = description.split(/\s+/);
+
+  // Extract the first 10 words
+  const firstTenWords = words.slice(0, 10);
+
+  // Join the first ten words back into a string
+  const truncatedDescription = firstTenWords.join(' ');
+
+
   
   const buttonStyle = {
     marginRight: '10px', // Add margin to create space between buttons
@@ -238,8 +248,8 @@ const Card2 = ({ id, img, title, description, highestBid, currentBid, price, tag
         <div className="card border rounded overflow-hidden shadow-lg max-w-sm mx-auto my-4 mx-2">
         <img className="w-full h-full object-cover" src={"http://127.0.0.1:8000/storage/" + img} alt={title} />
         <div className="px-4">
-          <div className="font-bold text-xl mb-2">{title}</div>
-          <p className="text-gray-700 text-base">{description}</p>
+          <div className="font-bold text-pink-700 text-xl my-2">{title}</div>
+          <p className="text-gray-700 text-base">{words.length <= 10 ? description : truncatedDescription}....</p>
           <p className="text-gray-700 text-base"><span className="font-bold">Highest Bid: </span>{ highestBid===null ? "N/A" : highestBid }</p>
           <p className="text-gray-700 text-base"><span className="font-bold">Your start Bid: </span>{ initialBid===null ? "N/A" : initialBid }</p>
           {/* <p className="text-gray-700 text-base"><span className="font-bold">Price: </span>{price}</p> */}

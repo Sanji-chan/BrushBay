@@ -37,9 +37,6 @@ const ViewBids = ({ auth, status, bids }) => {
     });
   };
 
-  const largerFontSize = {
-    fontSize: '20px',
-  };
 
   return (
     <AuthenticatedLayout
@@ -48,7 +45,7 @@ const ViewBids = ({ auth, status, bids }) => {
     >
 
     <Head title="Bids" />
-    <div className="max-w-8xl mx-auto sm:px-6 lg:px-0 pt-12 pb-32 max-w-screen-lg">
+    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 pt-12 pb-32">
       {/* <BidHeader /> */}
       <div className="flex justify-end gap-2 mb-4 mt-6 mr-4">
         <div className="relative">
@@ -101,8 +98,16 @@ const ViewBids = ({ auth, status, bids }) => {
         </div>
       </div>
       <div>
-        <p className="font-semibold py-4"
-            style={largerFontSize}>Here's a list of your bids:</p>
+      <div className="pt-4 pb-6 px-6 text-gray-900" 
+                  style={{
+                     'font-size':'20px',
+                      'font-weight':'600',
+                   }}>Here's a list of your bids:
+                </div>
+  
+      { getSortedAndFilteredBids().length > 0 ?  
+              <div>
+                
         {/* <p>Click 'Accept' to complete transfer of painting if the current highest bid is acceptable.</p>
         <p>Click 'Reject' to remove the bid placed on this painting.</p>
         <p>Click 'Haggle' to post a higher or lower bid to increase your profit or sale.</p> */}
@@ -110,6 +115,14 @@ const ViewBids = ({ auth, status, bids }) => {
         {getSortedAndFilteredBids().map((bidInfo, index) => (
           <Bid key={index} buyerName={bidInfo.buyer_name} title={bidInfo.title} initialbid={bidInfo.initial_bid} name={bidInfo.buyer_id} bidAmount={bidInfo.buyer_bid} bidStatus={bidInfo.bid_status} id={bidInfo.id} />
         ))}
+              </div>
+              : 
+          
+                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                  <div className="p-6 text-gray-900">Oh no! It looks like you don't have any bids on you posts at the moment.</div>
+                </div>
+     }
+       
       </div>
     </div>
     </AuthenticatedLayout>

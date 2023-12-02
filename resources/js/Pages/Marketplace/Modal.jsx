@@ -74,7 +74,7 @@ const Modal = ({ isOpen, onClose, store }) => {
 
         {/* Text content */}
         <div className="flex-grow flex-shrink w-full px-4 py-2">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          <h2 className="text-2xl font-semibold text-pink-700 mt-1 mb-2">
           {store.title}
           </h2>
 
@@ -82,7 +82,7 @@ const Modal = ({ isOpen, onClose, store }) => {
           <thead>
             <tr className="w-full overflow-hidden text-left">
               <th colSpan="2">
-              <p className="text-gray-600 mb-2">
+              <p className="text-gray-600 mb-1">
                 Description: {store.description} 
               </p>
               </th>
@@ -92,12 +92,12 @@ const Modal = ({ isOpen, onClose, store }) => {
             {/* Second Row */}
             <tr style={{ rowStyle }}>
               <td  colSpan="1">
-              <p className="text-gray-600 mb-2">
+              <p className="text-gray-600 mb-1">
                 Author: { store.author_name }
               </p>
               </td>
               <td colSpan="1">
-              <p className="text-gray-600 mb-2">
+              <p className="text-gray-600 mb-1">
                 Owner:  { store.seller_name}
               </p>
               </td>
@@ -105,12 +105,12 @@ const Modal = ({ isOpen, onClose, store }) => {
             {/* Third Row */}
             <tr style={{ rowStyle }}>
               <td>
-              <p className="text-gray-600 mb-2">
+              <p className="text-gray-600 mb-1">
               Highest Bid:  { store.highest_bid===null ? "No bid posted yet" : store.highest_bid }
               </p>
               </td>
               <td >
-              <p className="text-gray-600 mb-2">
+              <p className="text-gray-600 mb-1">
                 Inital Bid:  { store.inital_bid===null ? "N/A": store.initial_bid }
               </p>
               </td>
@@ -123,7 +123,7 @@ const Modal = ({ isOpen, onClose, store }) => {
               </p>
               </td>
               <td >
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-600 mb-2">
               Date of Post: {extractedDate2}
               </p>
               </td>
@@ -142,7 +142,7 @@ const Modal = ({ isOpen, onClose, store }) => {
               onChange={(e) => setBid(e.target.value)}
             />
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded"
               type="submit"
               onClick={handleSubmit }
             >
