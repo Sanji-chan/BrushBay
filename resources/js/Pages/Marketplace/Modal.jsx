@@ -91,12 +91,12 @@ const Modal = ({ isOpen, onClose, store }) => {
             <tr style={{ rowStyle }}>
               <td  colSpan="1">
               <p className="text-gray-600 mb-2">
-                Author: { store.author_id }
+                Author: { store.author_name }
               </p>
               </td>
               <td colSpan="1">
               <p className="text-gray-600 mb-2">
-                Owner:  { store.seller_id}
+                Owner:  { store.seller_name}
               </p>
               </td>
             </tr>
