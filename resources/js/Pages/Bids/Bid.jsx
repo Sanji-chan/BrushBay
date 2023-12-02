@@ -6,8 +6,9 @@ const Bid = ({ name, initialbid, bidAmount, bidStatus, id }) => {
   const [hagglePrice, setHagglePrice] = useState(initialbid);
 
   const [isbidStatus, setbidStatus] = useState(bidStatus);
-  const isBidClosed = bidStatus === 'accepted' || bidStatus === 'rejected';
+  const isBidClosed = (bidStatus === 'Accepted' || bidStatus === 'Rejected');
 
+  // console.log(isBidClosed);
   const openHaggleModal = () => {
     setIsHaggling(true);
   };
@@ -45,12 +46,13 @@ const Bid = ({ name, initialbid, bidAmount, bidStatus, id }) => {
     const fData =new FormData();
     fData.append('seller_haggle_bid', hagglePrice);
 
-    Axios.post(`http://127.0.0.1:8000/api/bids/haggle/${parsedUserId}`, fData)
-
+    Axios.post(`http://127.0.0.1:8000/api/bids/haggle/${parsedUserId}`, fData).then(res => {
+      console.log(res);
+    })
     .catch(e => {
       console.error('Failure', e.response.data);
     });
-    console.log([`http://127.0.0.1:8000/api/bids/haggle/${parsedUserId}`, hagglePrice]);
+    // console.log([`http://127.0.0.1:8000/api/bids/haggle/${parsedUserId}`, hagglePrice]);
 
     closeHaggleModal();
   };
@@ -66,19 +68,23 @@ const Bid = ({ name, initialbid, bidAmount, bidStatus, id }) => {
       <div className="w-1/4 min-w-0">
         <p className="font-semibold">Status: {isbidStatus}</p>
       </div>
-      <div className="flex space-x-2  ml-auto">
-        {isBidClosed ?  
-        <div> <button className="bg-green-700 hover:bg-green-500 text-white px-4 py-2 rounded-md" 
+      <div >
+        {isBidClosed==true ?  "Bid for this painting closed. Thank you for your participation."
+        :
+        <div className="flex space-x-2  ml-auto">
+           <button className="bg-green-700 hover:bg-green-500 text-white px-4 py-2 rounded-md" 
                       onClick={handleAccept}>Accept</button>
-              <button className="bg-red-700 hover:bg-red-500 text-white px-4 py-2 rounded-md"
+            <button className="bg-red-700 hover:bg-red-500 text-white px-4 py-2 rounded-md"
                       onClick={handleReject}>Reject</button>
-              <button className="bg-pink-700 hover:bg-pink-500 text-white px-4 py-2 rounded-md" 
-                      onClick={openHaggleModal}>Haggle</button></div> 
-        :"Bid for this painting closed. Thank you for your participation."
+            <button className="bg-pink-700 hover:bg-pink-500 text-white px-4 py-2 rounded-md" 
+                      onClick={openHaggleModal}>Haggle</button>
+        </div> 
+       
         }
-       
-       
+            
       </div>
+        
+        
       {isHaggling && (
         <div className="absolute inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-4 rounded relative">
