@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
+import { router } from '@inertiajs/react';
 
 const Bid = ({ name, initialbid, bidAmount, bidStatus, id }) => {
   const [isHaggling, setIsHaggling] = useState(false);
@@ -20,7 +21,7 @@ const Bid = ({ name, initialbid, bidAmount, bidStatus, id }) => {
     e.preventDefault();
     const parsedUserId = parseInt(id, 10); // Parse painting_id as an integer
     Axios.post(`http://127.0.0.1:8000/api/bids/accept/${parsedUserId}`)
-
+    
     .catch(e => {
       console.error('Failure', e.response.data);
     });
@@ -46,9 +47,8 @@ const Bid = ({ name, initialbid, bidAmount, bidStatus, id }) => {
     const fData =new FormData();
     fData.append('seller_haggle_bid', hagglePrice);
 
-    Axios.post(`http://127.0.0.1:8000/api/bids/haggle/${parsedUserId}`, fData).then(res => {
-      console.log(res);
-    })
+    Axios.post(`http://127.0.0.1:8000/api/bids/haggle/${parsedUserId}`, fData)
+
     .catch(e => {
       console.error('Failure', e.response.data);
     });
