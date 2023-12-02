@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
+import { router } from '@inertiajs/react';
 
 const Bid = ({ initialbid, bidAmount, bidStatus, id , title, buyerName}) => {
   const [isHaggling, setIsHaggling] = useState(false);
   const [hagglePrice, setHagglePrice] = useState(initialbid);
 
   const [isbidStatus, setbidStatus] = useState(bidStatus);
+
   const [isBidClosed, setBidClosed] = useState(bidStatus === 'Accepted' || bidStatus === 'Rejected');
 
-  console.log(isBidClosed);
+  //console.log(isBidClosed);
   const openHaggleModal = () => {
     setIsHaggling(true);
   };
@@ -20,7 +22,7 @@ const Bid = ({ initialbid, bidAmount, bidStatus, id , title, buyerName}) => {
     e.preventDefault();
     const parsedUserId = parseInt(id, 10); // Parse painting_id as an integer
     Axios.post(`http://127.0.0.1:8000/api/bids/accept/${parsedUserId}`)
-
+    
     .catch(e => {
       console.error('Failure', e.response.data);
     });
@@ -55,7 +57,7 @@ const Bid = ({ initialbid, bidAmount, bidStatus, id , title, buyerName}) => {
     .catch(e => {
       console.error('Failure', e.response.data);
     });
-    console.log([`http://127.0.0.1:8000/api/bids/haggle/${parsedUserId}`, hagglePrice]);
+    // console.log([`http://127.0.0.1:8000/api/bids/haggle/${parsedUserId}`, hagglePrice]);
 
     closeHaggleModal();
   };
@@ -64,7 +66,6 @@ const Bid = ({ initialbid, bidAmount, bidStatus, id , title, buyerName}) => {
     <div className=""> 
     <p className="font-semibold pt-4 text-pink-700"> Bid placed on "{title}"</p>
     <div className="flex items-center p-4 border-b shadow-sm">
-   
           <div className="w-1/4 min-w-0">
             <p className="font-semibold truncate">User: {buyerName}</p>
           </div>

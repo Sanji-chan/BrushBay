@@ -16,7 +16,7 @@ class PaintingController extends Controller
     //
     public function show(Request $request): Response 
     {    $paintings = Painting::leftJoin('posts', 'paintings.id', '=', 'posts.painting_id')
-           ->where("author_id" , $request->user()->id)
+           ->where("owner_id" , $request->user()->id)
            ->get(['paintings.*', 'posts.post_status', 'posts.highest_bid', 'posts.initial_bid']);
 
         return Inertia::render("Portfolio/Portfolio", [

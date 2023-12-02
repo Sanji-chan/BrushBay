@@ -43,6 +43,8 @@ const Modal = ({ isOpen, onClose, store }) => {
       } else {
         setError(res["data"]["results"]);
       }
+    }).catch((err) => {
+      console.log(err);
     });
   }  
 

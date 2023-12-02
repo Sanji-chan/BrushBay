@@ -13,6 +13,7 @@ use App\Models\Post;
 use App\Models\Painting;
 use App\Models\TradeHistory;
 use App\Models\Bid;
+use App\Models\Notification;
 use Validator;
 
 class BidsController extends Controller
@@ -40,7 +41,6 @@ class BidsController extends Controller
             'buyer_id' => 'required',
             'buyer_bid' => 'required|numeric',
             'post_id' =>'required',
-            'seller_haggle_bid' => 'numeric',
         ]);
 
 
@@ -49,81 +49,58 @@ class BidsController extends Controller
 
         if($buyer->pcoins >= $formfields["buyer_bid"]) {
             $buyer->pcoins = $buyer->pcoins - $formfields["buyer_bid"];
-            $buyer->save(); 
-            if(Bid::where('post_id', '=', $formfields["post_id"])->exists()) {
-                
-                if(Bid::where('post_id', '=', $formfields["post_id"])->where('buyer_id', '=', $formfields["buyer_id"])->exists() ) {
-                    $bids = Bid::where('post_id', '=', $formfields["post_id"])->orderBy('buyer_bid', "DESC")->get();
-                    
-                    if($formfields["buyer_bid"] >= $bids[0]["seller_haggle_bid"]) {
-                        $painting = Painting::find($post["painting_id"]);
-                        $seller = User::find($formfields["seller_id"]);
-                        $refundedBuyer = User::find($bids[0]["buyer_id"]);
-                        $refundedBuyer->pcoins = $refundedBuyer->pcoins + $bids[0]["buyer_bid"];    
-                        $refundedBuyer->save();
-                        $amount = $seller['pcoins'] + $formfields['buyer_bid'];
-                        // $seller->update(array('pcoins'=> $amount));                        
-                        $seller->pcoins = $amount;
-                        $seller->save();
-                        $painting->update(array('owner_id'=>$formfields['buyer_id']));
-                        $post->delete();
-                        Notification::create(array('user_id'=>$formfields["seller_id"], 'message'=>"Your painting ". $post->painting->title ." has been sold."));
-                        Notification::create(array('user_id'=>$formfields['buyer_id'], 'message'=>"You have won ". $post->painting->title));
-                        return ["results" => "You win"];
+            $buyer->save();
+            
+            if(Bid::where('post_id', '=', $formfields["post_id"])->where('bid_status', '<>', 'Accepted')->exists()) {
+                $bids = Bid::where('post_id', '=', $formfields["post_id"])->where('bid_status', '<>', 'Accepted')->get();
+                if($formfields["buyer_bid"] >= $bids[0]["seller_haggle_bid"]) {
+                    $painting = Painting::find($post["painting_id"]);
+                    $seller = User::find($formfields["seller_id"]);
+                    $refundedBuyer = User::find($bids[0]["buyer_id"]);
+                    $refundedBuyer->pcoins = $refundedBuyer->pcoins + $bids[0]["buyer_bid"];    
+                    $refundedBuyer->save();
+                    $amount = $seller['pcoins'] + $formfields['buyer_bid'];
+                    // $seller->update(array('pcoins'=> $amount));                        
+                    $seller->pcoins = $amount;
+                    $seller->save();
+                    $painting->update(array('owner_id'=>$formfields['buyer_id']));
+                    $formfields["bid_status"] = "Accepted";
+                    $formfields["seller_haggle_bid"] = $bids[0]["seller_haggle_bid"];
+                    Bid::find($bids[0]['id'])->delete();
+                    Bid::create($formfields);
+                    $post['seller_id'] = $buyer->id;
+                    $post['post_status'] = 'inactive';
+                    $post['initial_bid'] = null;
+                    $post['highest_bid'] = null;
+                    $post->save();
+                    Notification::create(array('user_id'=>$formfields["seller_id"], 'message'=>"Your painting ". $post->painting->title ." has been sold."));
+                    Notification::create(array('user_id'=>$formfields['buyer_id'], 'message'=>"You have won ". $post->painting->title));
+                    $trade_create['painting_id'] = $painting->id;
+                    $trade_create['buyer_id'] = $buyer->id;
+                    $trade_create['seller_id'] =  $seller->id;
+                    $trade_create['trade_amount'] = $formfields["buyer_bid"];
+                    $trade = TradeHistory::create($trade_create);
+                    return ["success" => "You win"];
 
-                    } else if($formfields["buyer_bid"] <= $bids[0]["buyer_bid"]) {
-                        
-                        return ["results" => "Your bid is too low"];
-
-                    } else {
-                        $bid = Bid::where('post_id', '=', $formfields["post_id"])->where('buyer_id', '=', $formfields["buyer_id"])->get();
-                        $bid[0]->update($formfields);
-                        $refundedBuyer = User::find($bids[0]["buyer_id"]);
-                        $refundedBuyer->pcoins = $refundedBuyer->pcoins + $bids[0]["buyer_bid"];  
-                        $refundedBuyer->save();
-                        $post->update(array('highest_bid' => $formfields['buyer_bid']));
-                        Notification::create(array('user_id'=>$formfields["seller_id"], 'message'=>"You have received a new bid of ". $formfields["buyer_bid"] ." pcoins on ". $post->painting->title));
-                        if($bids[0]['buyer_id'] != $formfields["buyer_id"] ) {
-                            Notification::create(array('user_id'=>$bids[0]['buyer_id'], 'message'=>"You have been outbid on ". $post->painting->title));
-                        }
-                        return $bid;
-                    }
+                } else if($formfields["buyer_bid"] <= $bids[0]["buyer_bid"]) {
+                    $buyer->pcoins = $buyer->pcoins + $formfields["buyer_bid"];
+                    $buyer->save();
+                    return ["results" => "Your bid is too low"];
                 } else {
-                    $bids = Bid::where('post_id', '=', $formfields["post_id"])->orderBy('buyer_bid', "DESC")->get();
-                    if($formfields["buyer_bid"] >= $bids[0]["seller_haggle_bid"]) {
-                        $painting = Painting::find($post["painting_id"]);
-                        $seller = User::find($formfields["seller_id"]);
-                        $refundedBuyer = User::find($bids[0]["buyer_id"]);
-                        $refundedBuyer->pcoins = $refundedBuyer->pcoins + $bids[0]["buyer_bid"];    
-                        $refundedBuyer->save();
-                        $amount = $seller['pcoins'] + $formfields['buyer_bid'];
-                        // $seller->update(array('pcoins'=> $amount));                        
-                        $seller->pcoins = $amount;
-                        $seller->save();
-                        $painting->update(array('owner_id'=>$formfields['buyer_id']));
-                        $post->delete();
-                        Notification::create(array('user_id'=>$formfields["seller_id"], 'message'=>"Your painting ". $post->painting->title ." has been sold."));
-                        Notification::create(array('user_id'=>$formfields['buyer_id'], 'message'=>"You have won ". $post->painting->title));
-                        return ["results" => "You win"];
-
-                    } else if($formfields["buyer_bid"] <= $bids[0]["buyer_bid"]) {
-                        return ["results" => "Your bid is too low"];
-                    } else {
-                        if(!$request->has('seller_haggle_bid')) {
-                            $formfields['seller_haggle_bid'] = $bids[0]["seller_haggle_bid"];
-                        }
-                        $refundedBuyer = User::find($bids[0]["buyer_id"]);
-                        $refundedBuyer->pcoins = $refundedBuyer->pcoins + $bids[0]["buyer_bid"];
-                        $refundedBuyer->save();
-                        $post->update(array('highest_bid' => $formfields['buyer_bid']));
-                        $bid = Bid::create($formfields);
-                        Notification::create(array('user_id'=>$formfields["seller_id"], 'message'=>"You have received a new bid of ". $formfields["buyer_bid"] ." pcoins on ". $post->painting->title));
-                        Notification::create(array('user_id'=>$bids[0]['buyer_id'], 'message'=>"You have been outbid on ". $post->painting->title));
-                        return $bid;
-                    }
+                    Bid::find($bids[0]['id'])->delete();
+                    $refundedBuyer = User::find($bids[0]["buyer_id"]);
+                    $refundedBuyer->pcoins = $refundedBuyer->pcoins + $bids[0]["buyer_bid"];
+                    $refundedBuyer->save();
+                    $post->update(array('highest_bid' => $formfields['buyer_bid']));
+                    $formfields["seller_haggle_bid"] = $bids[0]["seller_haggle_bid"];
+                    $bid = Bid::create($formfields);
+                    Notification::create(array('user_id'=>$formfields["seller_id"], 'message'=>"You have received a new bid of ". $formfields["buyer_bid"] ." pcoins on ". $post->painting->title));
+                    Notification::create(array('user_id'=>$bids[0]['buyer_id'], 'message'=>"You have been outbid on ". $post->painting->title));
+                    return $bid;
                 }
             } else {
                 if($formfields["buyer_bid"] >= $post["initial_bid"]) {
+
                     $painting = Painting::find($post["painting_id"]);
                     $seller = User::find($formfields["seller_id"]);
                     $amount = $seller['pcoins'] + $formfields['buyer_bid'];
@@ -131,10 +108,24 @@ class BidsController extends Controller
                     $seller->pcoins = $amount;
                     $seller->save();
                     $painting->update(array('owner_id'=>$formfields['buyer_id']));
-                    $post->delete();
+                    
+                    $formfields["bid_status"] = "Accepted";
+                    
+                    Bid::create($formfields);
+                    $post['seller_id'] = $buyer->id;
+                    $post['post_status'] = 'inactive';
+                    $post['initial_bid'] = null;
+                    $post['highest_bid'] = null;
+                    $post->save();
+                    
                     Notification::create(array('user_id'=>$formfields["seller_id"], 'message'=>"Your painting ". $post->painting->title ." has been sold."));
                     Notification::create(array('user_id'=>$formfields['buyer_id'], 'message'=>"You have won ". $post->painting->title));
-                    return ["results" => "You win"];
+                    $trade_create['painting_id'] = $painting->id;
+                    $trade_create['buyer_id'] = $buyer->id;
+                    $trade_create['seller_id'] =  $seller->id;
+                    $trade_create['trade_amount'] = $formfields["buyer_bid"];
+                    $trade = TradeHistory::create($trade_create);
+                    return ["success" => "You win"];
                 }
                 $formfields["seller_haggle_bid"] = $post['initial_bid'];
                 $bid = Bid::create($formfields);
@@ -143,10 +134,130 @@ class BidsController extends Controller
                 Notification::create(array('user_id'=>$formfields["seller_id"], 'message'=>"You have received a new bid of ". $formfields["buyer_bid"] ." pcoins on ". $post->painting->title));
                 return $bid;
             }
-    
+
         } else {
             return ["results" => "You do not have sufficient pcoins"];
         }
+
+
+        // if($buyer->pcoins >= $formfields["buyer_bid"]) {
+        //     $buyer->pcoins = $buyer->pcoins - $formfields["buyer_bid"];
+        //     $buyer->save(); 
+        //     if(Bid::where('post_id', '=', $formfields["post_id"])->exists()) {
+                
+        //         if(Bid::where('post_id', '=', $formfields["post_id"])->where('buyer_id', '=', $formfields["buyer_id"])->exists() ) {
+        //             $bids = Bid::where('post_id', '=', $formfields["post_id"])->orderBy('buyer_bid', "DESC")->get();
+                    
+        //             if($formfields["buyer_bid"] >= $bids[0]["seller_haggle_bid"]) {
+        //                 $painting = Painting::find($post["painting_id"]);
+        //                 $seller = User::find($formfields["seller_id"]);
+        //                 $refundedBuyer = User::find($bids[0]["buyer_id"]);
+        //                 $refundedBuyer->pcoins = $refundedBuyer->pcoins + $bids[0]["buyer_bid"];    
+        //                 $refundedBuyer->save();
+        //                 $amount = $seller['pcoins'] + $formfields['buyer_bid'];
+        //                 // $seller->update(array('pcoins'=> $amount));                        
+        //                 $seller->pcoins = $amount;
+        //                 $seller->save();
+        //                 $painting->update(array('owner_id'=>$formfields['buyer_id']));
+        //                 $post->delete();
+        //                 Notification::create(array('user_id'=>$formfields["seller_id"], 'message'=>"Your painting ". $post->painting->title ." has been sold."));
+        //                 Notification::create(array('user_id'=>$formfields['buyer_id'], 'message'=>"You have won ". $post->painting->title));
+        //                 $trade_create['painting_id'] = $painting->id;
+        //                 $trade_create['buyer_id'] = $buyer->id;
+        //                 $trade_create['seller_id'] =  $seller->id;
+        //                 $trade_create['trade_amount'] = $formfields["buyer_bid"];
+        //                 $trade = TradeHistory::create($trade_create);
+        //                 return ["success" => "You win"];
+
+        //             } else if($formfields["buyer_bid"] <= $bids[0]["buyer_bid"]) {
+        //                 $buyer->pcoins = $buyer->pcoins + $formfields["buyer_bid"];
+        //                 $buyer->save(); 
+        //                 return ["results" => "Your bid is too low"];
+
+        //             } else {
+        //                 $bid = Bid::where('post_id', '=', $formfields["post_id"])->where('buyer_id', '=', $formfields["buyer_id"])->get();
+        //                 $bid[0]->update($formfields);
+        //                 $refundedBuyer = User::find($bids[0]["buyer_id"]);
+        //                 $refundedBuyer->pcoins = $refundedBuyer->pcoins + $bids[0]["buyer_bid"];  
+        //                 $refundedBuyer->save();
+        //                 $post->update(array('highest_bid' => $formfields['buyer_bid']));
+        //                 Notification::create(array('user_id'=>$formfields["seller_id"], 'message'=>"You have received a new bid of ". $formfields["buyer_bid"] ." pcoins on ". $post->painting->title));
+        //                 if($bids[0]['buyer_id'] != $formfields["buyer_id"] ) {
+        //                     Notification::create(array('user_id'=>$bids[0]['buyer_id'], 'message'=>"You have been outbid on ". $post->painting->title));
+        //                 }
+        //                 return $bid;
+        //             }
+        //         } else {
+        //             $bids = Bid::where('post_id', '=', $formfields["post_id"])->orderBy('buyer_bid', "DESC")->get();
+        //             if($formfields["buyer_bid"] >= $bids[0]["seller_haggle_bid"]) {
+        //                 $painting = Painting::find($post["painting_id"]);
+        //                 $seller = User::find($formfields["seller_id"]);
+        //                 $refundedBuyer = User::find($bids[0]["buyer_id"]);
+        //                 $refundedBuyer->pcoins = $refundedBuyer->pcoins + $bids[0]["buyer_bid"];    
+        //                 $refundedBuyer->save();
+        //                 $amount = $seller['pcoins'] + $formfields['buyer_bid'];
+        //                 // $seller->update(array('pcoins'=> $amount));                        
+        //                 $seller->pcoins = $amount;
+        //                 $seller->save();
+        //                 $painting->update(array('owner_id'=>$formfields['buyer_id']));
+        //                 $post->delete();
+        //                 Notification::create(array('user_id'=>$formfields["seller_id"], 'message'=>"Your painting ". $post->painting->title ." has been sold."));
+        //                 Notification::create(array('user_id'=>$formfields['buyer_id'], 'message'=>"You have won ". $post->painting->title));
+        //                 $trade_create['painting_id'] = $painting->id;
+        //                 $trade_create['buyer_id'] = $buyer->id;
+        //                 $trade_create['seller_id'] =  $seller->id;
+        //                 $trade_create['trade_amount'] = $formfields["buyer_bid"];
+        //                 $trade = TradeHistory::create($trade_create);
+        //                 return ["success" => "You win"];
+
+        //             } else if($formfields["buyer_bid"] <= $bids[0]["buyer_bid"]) {
+        //                 $buyer->pcoins = $buyer->pcoins + $formfields["buyer_bid"];
+        //                 $buyer->save();
+        //                 return ["results" => "Your bid is too low"];
+        //             } else {
+        //                 if(!$request->has('seller_haggle_bid')) {
+        //                     $formfields['seller_haggle_bid'] = $bids[0]["seller_haggle_bid"];
+        //                 }
+        //                 $refundedBuyer = User::find($bids[0]["buyer_id"]);
+        //                 $refundedBuyer->pcoins = $refundedBuyer->pcoins + $bids[0]["buyer_bid"];
+        //                 $refundedBuyer->save();
+        //                 $post->update(array('highest_bid' => $formfields['buyer_bid']));
+        //                 $bid = Bid::create($formfields);
+        //                 Notification::create(array('user_id'=>$formfields["seller_id"], 'message'=>"You have received a new bid of ". $formfields["buyer_bid"] ." pcoins on ". $post->painting->title));
+        //                 Notification::create(array('user_id'=>$bids[0]['buyer_id'], 'message'=>"You have been outbid on ". $post->painting->title));
+        //                 return $bid;
+        //             }
+        //         }
+        //     } else {
+        //         if($formfields["buyer_bid"] >= $post["initial_bid"]) {
+        //             $painting = Painting::find($post["painting_id"]);
+        //             $seller = User::find($formfields["seller_id"]);
+        //             $amount = $seller['pcoins'] + $formfields['buyer_bid'];
+        //             // $seller->update(array('pcoins'=> $amount));                        
+        //             $seller->pcoins = $amount;
+        //             $seller->save();
+        //             $painting->update(array('owner_id'=>$formfields['buyer_id']));
+        //             $post->delete();
+        //             Notification::create(array('user_id'=>$formfields["seller_id"], 'message'=>"Your painting ". $post->painting->title ." has been sold."));
+        //             Notification::create(array('user_id'=>$formfields['buyer_id'], 'message'=>"You have won ". $post->painting->title));
+        //             $trade_create['painting_id'] = $painting->id;
+        //             $trade_create['buyer_id'] = $buyer->id;
+        //             $trade_create['seller_id'] =  $seller->id;
+        //             $trade_create['trade_amount'] = $formfields["buyer_bid"];
+        //             $trade = TradeHistory::create($trade_create);
+        //             return ["success" => "You win"];
+        //         }
+        //         $formfields["seller_haggle_bid"] = $post['initial_bid'];
+        //         $bid = Bid::create($formfields);
+        //         $post->update(array('highest_bid' => $formfields['buyer_bid']));
+        //         // Remove this line if you do not want notifications here 
+        //         Notification::create(array('user_id'=>$formfields["seller_id"], 'message'=>"You have received a new bid of ". $formfields["buyer_bid"] ." pcoins on ". $post->painting->title));
+        //         return $bid;
+        //     }
+    
+        // } else {
+        //     return ["results" => "You do not have sufficient pcoins"];
+        // }
         
         // Create a new bid
 
@@ -165,7 +276,7 @@ class BidsController extends Controller
     }
 
     public function rejectBid($id){
-        $bid = Bid::where('id', $id)->first();
+        $bid = Bid::where('id', $id)->where('bid_status', '<>', 'Accepted')->first();
         // Check if the bid exists
         if (!$bid) {
             return response()->json(['error' => 'Bid not found'], 404);
@@ -183,14 +294,18 @@ class BidsController extends Controller
                 'seller_haggle_bid' => 'required|numeric',
             ]);
             
-        $bid = Bid::where('id', $id)->first();
+        $bid = Bid::where('id', $id)->where('bid_status', '<>', 'Accepted')->first();
+        // Extra line added below: get post to update initial bid
+        $post = Post::where('id', $bid['post_id'])->first();
         // return response()->json([ $request]);
-
         // Check if the bid exists
         if (!$bid) {
             return response()->json(['error' => 'Seller haggle Bid not found'], 404);
         }else{
-            $bid['seller_haggle_bid'] = $formfields['seller_haggle_bid'];  //updatate haggle bid
+            $bid['seller_haggle_bid'] = $formfields['seller_haggle_bid'];  //update haggle bid
+            // extra line added below: update post's initial bid with seller_haggle_bid
+            $post['initial_bid'] = $formfields['seller_haggle_bid']; 
+            $post->save();
         }
       
         $bid->save();
@@ -199,7 +314,7 @@ class BidsController extends Controller
 
     public function acceptBid($id){
         // Get the accepted bid      
-        $bid = Bid::where('id', $id)->first();
+        $bid = Bid::where('id', $id)->where('bid_status', '<>', 'Accepted')->first();
         // Get the buyer
         $buyer = User::where('id', $bid->buyer_id)->first();
         // Get the seller based on the painting relationship
@@ -222,9 +337,9 @@ class BidsController extends Controller
             
             // Change painting owner_id to buyer_id 
             $painting['owner_id'] = $buyer->id;
-         
+            $post['seller_id'] = $buyer->id;
             // Subtract the accepted bid from buyer's pcoin
-            $buyer['pcoins'] = $buyer['pcoins'] - $bid->buyer_bid;
+            // $buyer['pcoins'] = $buyer['pcoins'] - $bid->buyer_bid;
             // Add the accepted bid to seller's pcoin
             $seller['pcoins'] = $seller['pcoins'] + $bid->buyer_bid;
                 
@@ -235,12 +350,18 @@ class BidsController extends Controller
             $trade_create['seller_id'] =  $seller->id;
             $trade_create['trade_amount'] = $bid->buyer_bid;
             $trade = TradeHistory::create($trade_create);
-                
+            
+            //send sold notification
+            Notification::create(array('user_id'=>$seller->id, 'message'=>"Your painting ". $post->painting->title ." has been sold."));
+            Notification::create(array('user_id'=>$buyer->id, 'message'=>"You have won ". $post->painting->title));
+            
             $bid->save();
             $buyer->save();
             $seller->save();
             $painting->save();
             $post['post_status'] = 'inactive';      // Inactivate the current post
+            $post['initial_bid'] = null;
+            $post['highest_bid'] = null;
             $post->save();
 
             DB::commit();
@@ -254,16 +375,6 @@ class BidsController extends Controller
             return response()->json(['error' => 'Error accepting bid. Please try again.']);
         }
     }
-
-
-
-
-
-
-
-
-
-
 
 }
 
