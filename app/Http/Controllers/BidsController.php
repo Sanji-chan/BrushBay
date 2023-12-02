@@ -20,7 +20,17 @@ class BidsController extends Controller
 {
     public function showBids()
     {   $user = Auth::user();
-        $bids = Bid::where('seller_id', '=', $user->id)->get();
+        // $bids = Bid::where('seller_id', '=', $user->id)->get();
+        $bids = Bid::select('bids.*', 'paintings.title as title', 'buyers.name as buyer_name')
+                    ->join('posts', 'bids.post_id', '=', 'posts.id')
+                    ->join('paintings', 'paintings.id', '=', 'posts.painting_id')
+                    ->join('users as buyers', 'bids.buyer_id', '=', 'buyers.id')
+                    ->where('bids.seller_id', '=', $user->id)
+                    ->get();
+
+        // $posts = $bids->post;
+        // return response()->json(["Bids found:" => $bids]);
+ 
         return Inertia::render('Bids/ViewBids', ['bids'=>$bids]);
     }
 

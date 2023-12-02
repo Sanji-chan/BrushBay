@@ -201,8 +201,8 @@ const PostForm = ({ user, modelState, update, data }) => {
             <input
               type="checkbox"
               id={`${tag.id}`}
-              checked={selectedTags.includes(tag.name.toLowerCase())}
-              onChange={() => handleTagChange(tag.name.toLowerCase())}
+              checked={selectedTags.includes(tag.name)}
+              onChange={() => handleTagChange(tag.name)}
             />
             <label htmlFor={`${tag.id}`}>{tag.name}</label>
           </div>

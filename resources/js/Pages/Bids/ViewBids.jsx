@@ -1,6 +1,5 @@
 // ViewBids.jsx
 import React, { useState } from 'react';
-// import BidHeader from './BidHeader';
 import Bid from './Bid';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -36,6 +35,10 @@ const ViewBids = ({ auth, status, bids }) => {
         return bidB - bidA;
       }
     });
+  };
+
+  const largerFontSize = {
+    fontSize: '20px',
   };
 
   return (
@@ -98,8 +101,14 @@ const ViewBids = ({ auth, status, bids }) => {
         </div>
       </div>
       <div>
+        <p className="font-semibold py-4"
+            style={largerFontSize}>Here's a list of your bids:</p>
+        {/* <p>Click 'Accept' to complete transfer of painting if the current highest bid is acceptable.</p>
+        <p>Click 'Reject' to remove the bid placed on this painting.</p>
+        <p>Click 'Haggle' to post a higher or lower bid to increase your profit or sale.</p> */}
+
         {getSortedAndFilteredBids().map((bidInfo, index) => (
-          <Bid key={index} initialbid={bidInfo.initial_bid} name={bidInfo.buyer_id} bidAmount={bidInfo.buyer_bid} bidStatus={bidInfo.bid_status} id={bidInfo.id} />
+          <Bid key={index} buyerName={bidInfo.buyer_name} title={bidInfo.title} initialbid={bidInfo.initial_bid} name={bidInfo.buyer_id} bidAmount={bidInfo.buyer_bid} bidStatus={bidInfo.bid_status} id={bidInfo.id} />
         ))}
       </div>
     </div>
