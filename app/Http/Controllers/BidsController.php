@@ -110,7 +110,7 @@ class BidsController extends Controller
                     $painting->update(array('owner_id'=>$formfields['buyer_id']));
                     
                     $formfields["bid_status"] = "Accepted";
-                    
+                    $formfields["seller_haggle_bid"] = $post['initial_bid'];
                     Bid::create($formfields);
                     $post['seller_id'] = $buyer->id;
                     $post['post_status'] = 'inactive';
