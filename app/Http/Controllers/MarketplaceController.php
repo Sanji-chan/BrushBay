@@ -7,16 +7,20 @@ use Illuminate\Http\Request;
 
 use App\Models\Post;
 use App\Models\Painting;
+use App\Models\Bid;
 use Illuminate\Support\Facades\Redirect;
 
 class MarketPlaceController extends Controller
 {   
-    public function showMarket(){
+    public function showMarket(Request $request){
 
         $posts = Post::join('paintings', 'posts.painting_id', '=', 'paintings.id')
+                        ->join('users as sellers', 'posts.seller_id', '=', 'sellers.id')
+                        ->join('users as authors', 'paintings.author_id', '=', 'authors.id')
                         ->where("post_status" , "active")
+                        ->where("seller_id", "!=", $request->user()->id)
                         ->get(['posts.*', 'paintings.title', 'paintings.description', 
-                        'paintings.author_id', 'paintings.paintingimg_link', 'paintings.tag']);
+                        'paintings.author_id', 'paintings.paintingimg_link', 'paintings.tag', 'sellers.name as seller_name',  'authors.name as author_name']);
 
         if (sizeof($posts) == 0){
             return Inertia::render('Marketplace/Market', [ 'status' => False]);
@@ -53,6 +57,8 @@ class MarketPlaceController extends Controller
         if ($post->post_status == "active"){
             $post["post_status"] = "inactive";
         }
+
+        $post["highest_bid"] = null;
 
         $post->save();
         return response()->json(["success" => "Post updated successfully!"]);
@@ -94,16 +100,5 @@ class MarketPlaceController extends Controller
 
     }
 
-    public function searchMarket(){
-        return -1;
-    }
-
-    public function sortMarket(){
-        return -1;
-    }
-
-    public function filterMarket(){
-        return -1;
-    }
 
 }

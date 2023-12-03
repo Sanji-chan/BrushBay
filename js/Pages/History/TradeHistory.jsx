@@ -36,17 +36,47 @@ const TradeHistory = ({ tradeData }) => {
     <div>
       <HistoryHeader />
       <div className="flex justify-between p-4 items-center">
-        <div className="ml-auto">
+        {/* <div className="ml-auto">
           <select
             value={filter}
             onChange={handleFilterChange}
-            className="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-400 cursor-pointer appearance-none"
+            className="bg-pink-500 text-white px-4 py-2 rounded-md focus:outline-none"
+            style={{ border: none}}
+            
           >
             <option value="">Select period</option>
             <option value="week">Past week</option>
             <option value="month">Past Month</option>
             <option value="year">Past Year</option>
           </select>
+        </div> */}
+
+<div className="relative">
+          <button onClick={toggleStatusDropdown} className="bg-pink-500 text-white px-4 py-2 rounded-md focus:outline-none">
+            Status
+          </button>
+          {showStatusDropdown && (
+            <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-10">
+              <a
+                href="#"
+                onClick={() => setFilterStatus('Accepted')}
+                className={`block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-pink-600 hover:text-white ${filterStatus === 'Accepted' ? 'bg-pink-600 text-white' : ''}`}>
+                Accepted
+              </a>
+              <a
+                href="#"
+                onClick={() => setFilterStatus('Rejected')}
+                className={`block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-pink-600 hover:text-white ${filterStatus === 'Rejected' ? 'bg-pink-600 text-white' : ''}`}>
+                Rejected
+              </a>
+              <a
+                href="#"
+                onClick={() => setFilterStatus('All')}
+                className={`block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-pink-600 hover:text-white ${filterStatus === 'All' ? 'bg-pink-600 text-white' : ''}`}>
+                All
+              </a>
+            </div>
+          )}
         </div>
       </div>
       <div className="container mx-auto">

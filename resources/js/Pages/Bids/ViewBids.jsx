@@ -1,16 +1,17 @@
 // ViewBids.jsx
 import React, { useState } from 'react';
-// import BidHeader from './BidHeader';
 import Bid from './Bid';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
 const ViewBids = ({ auth, status, bids }) => {
-  const [filterStatus, setFilterStatus] = useState('all'); // 'all', 'active', or 'notActive'
+  const [filterStatus, setFilterStatus] = useState('All'); // 'all', 'accepted', or 'rejected'
   const [sortDirection, setSortDirection] = useState('asc'); // 'asc' or 'desc'
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
   const [showSortDropdown, setShowSortDropdown] = useState(false);
+
+  console.log(bids);
 
   // Toggle dropdowns
   const toggleStatusDropdown = () => setShowStatusDropdown(!showStatusDropdown);
@@ -18,8 +19,8 @@ const ViewBids = ({ auth, status, bids }) => {
 
   const getFilteredBids = () => {
     return bids.filter(bid => {
-      if (filterStatus === 'all') return true;
-      return filterStatus === 'active' ? bid.bidStatus === "Active" : bid.bidStatus === "Not Active";
+      if (filterStatus === 'All') return true;
+      return filterStatus === 'Accepted' ? bid.bid_status === "Accepted" : bid.bid_status === "Rejected";
     });
   };
 
@@ -36,6 +37,7 @@ const ViewBids = ({ auth, status, bids }) => {
     });
   };
 
+
   return (
     <AuthenticatedLayout
     user={auth.user}
@@ -43,7 +45,7 @@ const ViewBids = ({ auth, status, bids }) => {
     >
 
     <Head title="Bids" />
-    <div className="max-w-8xl mx-auto sm:px-6 lg:px-0 pt-12 pb-32 max-w-screen-lg">
+    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 pt-12 pb-32">
       {/* <BidHeader /> */}
       <div className="flex justify-end gap-2 mb-4 mt-6 mr-4">
         <div className="relative">
@@ -54,20 +56,20 @@ const ViewBids = ({ auth, status, bids }) => {
             <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-10">
               <a
                 href="#"
-                onClick={() => setFilterStatus('active')}
-                className={`block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-pink-600 hover:text-white ${filterStatus === 'active' ? 'bg-pink-600 text-white' : ''}`}>
-                Active
+                onClick={() => setFilterStatus('Accepted')}
+                className={`block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-pink-600 hover:text-white ${filterStatus === 'Accepted' ? 'bg-pink-600 text-white' : ''}`}>
+                Accepted
               </a>
               <a
                 href="#"
-                onClick={() => setFilterStatus('notActive')}
-                className={`block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-pink-600 hover:text-white ${filterStatus === 'notActive' ? 'bg-pink-600 text-white' : ''}`}>
-                Not Active
+                onClick={() => setFilterStatus('Rejected')}
+                className={`block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-pink-600 hover:text-white ${filterStatus === 'Rejected' ? 'bg-pink-600 text-white' : ''}`}>
+                Rejected
               </a>
               <a
                 href="#"
-                onClick={() => setFilterStatus('all')}
-                className={`block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-pink-600 hover:text-white ${filterStatus === 'all' ? 'bg-pink-600 text-white' : ''}`}>
+                onClick={() => setFilterStatus('All')}
+                className={`block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-pink-600 hover:text-white ${filterStatus === 'All' ? 'bg-pink-600 text-white' : ''}`}>
                 All
               </a>
             </div>
@@ -96,9 +98,31 @@ const ViewBids = ({ auth, status, bids }) => {
         </div>
       </div>
       <div>
+      <div className="pt-4 pb-6 px-6 text-gray-900" 
+                  style={{
+                     'font-size':'20px',
+                      'font-weight':'600',
+                   }}>Here's a list of your bids:
+                </div>
+  
+      { getSortedAndFilteredBids().length > 0 ?  
+              <div>
+                
+        {/* <p>Click 'Accept' to complete transfer of painting if the current highest bid is acceptable.</p>
+        <p>Click 'Reject' to remove the bid placed on this painting.</p>
+        <p>Click 'Haggle' to post a higher or lower bid to increase your profit or sale.</p> */}
+
         {getSortedAndFilteredBids().map((bidInfo, index) => (
-          <Bid key={index} name={bidInfo.name} bidAmount={bidInfo.bidAmount} bidStatus={bidInfo.bidStatus} />
+          <Bid key={index} buyerName={bidInfo.buyer_name} title={bidInfo.title} initialbid={bidInfo.initial_bid} name={bidInfo.buyer_id} bidAmount={bidInfo.buyer_bid} bidStatus={bidInfo.bid_status} id={bidInfo.id} />
         ))}
+              </div>
+              : 
+          
+                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                  <div className="p-6 text-gray-900">Oh no! It looks like you don't have any bids on you posts at the moment.</div>
+                </div>
+     }
+       
       </div>
     </div>
     </AuthenticatedLayout>

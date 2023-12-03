@@ -8,14 +8,14 @@ const Carousel = ({posts}) => {
     const [visibleStoriesStart, setVisibleStoriesStart] = useState(0);
     const [rightArrowClicked, setRightArrowClicked] = useState(false);
   
-    let stories = [
-      { id: 1, imageUrl: "img/1.jpg", author: "Author 1" },
-      { id: 2, imageUrl: "img/2.jpg", author: "Author 2" },
-      { id: 3, imageUrl: "img/4.jpg", author: "Author 3" },
-      { id: 4, imageUrl: "img/5.jpg", author: "Author 4" },
-      { id: 5, imageUrl: "img/6.jpg", author: "Author 5" },
-      { id: 6, imageUrl: "img/7.jpg", author: "Author 6" },
-    ];
+    // let stories = [
+    //   { id: 1, imageUrl: "img/1.jpg", author: "Author 1" },
+    //   { id: 2, imageUrl: "img/2.jpg", author: "Author 2" },
+    //   { id: 3, imageUrl: "img/4.jpg", author: "Author 3" },
+    //   { id: 4, imageUrl: "img/5.jpg", author: "Author 4" },
+    //   { id: 5, imageUrl: "img/6.jpg", author: "Author 5" },
+    //   { id: 6, imageUrl: "img/7.jpg", author: "Author 6" },
+    // ];
   
     const isRightArrowDisabled = () => {
       return visibleStoriesStart + 5 >= posts.length;
@@ -82,7 +82,10 @@ const Carousel = ({posts}) => {
                   class=""
                 >
                   <img src={"http://127.0.0.1:8000/storage/" + story.painting.paintingimg_link} alt="" style={styles.storyImg} />
-                  <div style={styles.author}>{story.painting.author.name}</div>
+                  <div style={styles.author}>
+                  {story.painting.title}
+                  <br/>
+                  {story.painting.author.name}</div>
                 </div>
               ))}
   
@@ -132,7 +135,7 @@ const Carousel = ({posts}) => {
             </div>
   
             <div style={styles.contentFullView}>
-              <div style={styles.storyFullView}>
+              <div style={styles.storyFullView} className='mx-auto'>
                 <img
                   src={"http://127.0.0.1:8000/storage/" + posts[currentActive].painting.paintingimg_link}
                   alt=""
@@ -179,7 +182,6 @@ const Carousel = ({posts}) => {
       maxWidth: "1400px",
       margin: "24px auto",
       position: "relative",
-      background: "#fff",
       // background: "red",
       display: "flex",
       justifyContent: "center",
@@ -201,7 +203,7 @@ const Carousel = ({posts}) => {
       right: "10px",
     },
     story: {
-      background: "rgba(40, 40, 40, 0.9)",
+      background: "rgba(0, 0, 0)",
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -256,12 +258,15 @@ const Carousel = ({posts}) => {
     },
   
     storyFullView: {
-      
       height: "100%",
       textAlign: "center",
+      display: 'flex', 
+      alignItems: 'center',
+       justifyContent: 'center'
     },
     storyImgFull: {
       height: "100%",
+      width: "auto",
       aspectRatio: "10/16",
       objectFit: "cover",
       borderRadius: "16px",
@@ -273,7 +278,8 @@ const Carousel = ({posts}) => {
       transform: "translateX(-100%)",
       fontFamily: '"Roboto", sans-serif',
       fontSize: "18px",
-      background: "rgba(0, 0, 0, 0.4)",
+      // background: "rgba(0, 0, 0, 0.4)",
+      // background:"#F3F4F6"
       color: "#fff",
       padding: "4px 32px",
       borderRadius: "8px",
@@ -281,6 +287,7 @@ const Carousel = ({posts}) => {
   };  
 
 export default function Dashboard({ auth, posts, tags }) {
+    console.log(posts);
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -288,25 +295,27 @@ export default function Dashboard({ auth, posts, tags }) {
         >
             <Head title="Dashboard" />
 
-            <div className="pt-12 pb-64">
-                <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
+            <div className="pt-12 pb-32">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div className="p-6 text-gray-900" 
                                  style={{
                                   'font-size':'20px',
                                   'font-weight':'600',
                                  }}> Your Recomendations</div>
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                       
                        {posts.length > 0 ? 
                           <div className="px-4" > 
                             <Carousel posts={Object.values(posts)}/> 
                           </div>
                            :  
+                           <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
                               <div className="p-6 text-gray-900">You have no Recomendations</div>
+                              </div>
                     
                         }
                         
-                    </div>
+                   
                 </div>
             </div>
 

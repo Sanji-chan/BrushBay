@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import Modal from "./Modal";
-import { Axios } from "axios";
 
 const StoreDisplay = ( props) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,20 +25,7 @@ const StoreDisplay = ( props) => {
     return result;
   }
 
-  // const [selectedTag, setSelectedTag] = useState("");
-
-  // useEffect(() => {
-  //   getTags().then((res) => {
-  //     setTags(res);
-  //   });
-  // }, []);
-
-
   const [stores, setStores] = useState([]);
-  // console.log(stores)
-
-
-  // const [flatArray, setFlatArray] = useState([]);
 
   // useEffect to convert multi-dimensional prop to a flat array
   useEffect(() => {
@@ -53,9 +39,6 @@ const StoreDisplay = ( props) => {
       setStores(newStore);
     }
   }, [props]);
-
-  console.log(stores);
-
 
   
   // Function to handle sorting
@@ -136,10 +119,10 @@ const StoreDisplay = ( props) => {
         </div>
       </div>
       
-      <div className="grid grid-cols-4 pt-10 gap-4">
+      <div className="grid grid-cols-3 pt-10 gap-4">
         {filteredAndSortedStores.map((store) => (
           <div onClick={() => openModal(store)} key={store.id}>
-            <Card store={store} />
+            <Card key={store.id} store={store} />
           </div>
         ))}
       </div>
