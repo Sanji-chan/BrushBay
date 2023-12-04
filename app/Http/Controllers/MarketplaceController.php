@@ -39,8 +39,8 @@ class MarketPlaceController extends Controller
 
         foreach ($tags as $tag) {
             $results = array_merge($results, Post::with('painting')->whereHas('painting', function($query) use($tag, $id) {
-                $query->where('tag', 'like', '%' . $tag . '%')->where('author_id', '!=', $id);
-            })->get()->toArray());
+                $query->where('tag', 'like', '%' . $tag . '%')->where('owner_id', '!=', $id);
+            })->where("post_status" , "active")->get()->toArray());
         }
 
         return Inertia::render("Dashboard", [
