@@ -92,14 +92,14 @@ const Modal = ({ isOpen, onClose, store }) => {
             {/* Second Row */}
             <tr style={{ rowStyle }}>
               <td  colSpan="1">
-              <p className="text-gray-600 mb-1">
+              <a className="text-pink-600 mb-1" href={'http://127.0.0.1:8000/profile/'+store.author_id}>
                 Author: { store.author_name }
-              </p>
+              </a>
               </td>
               <td colSpan="1">
-              <p className="text-gray-600 mb-1">
-                Owner:  { store.seller_name}
-              </p>
+              <a className="text-pink-600 mb-1" href={'http://127.0.0.1:8000/profile/'+store.owner_id}>
+                Owner:  { store.seller_name}  
+              </a>
               </td>
             </tr>
             {/* Third Row */}

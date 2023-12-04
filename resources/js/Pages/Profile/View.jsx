@@ -1,23 +1,26 @@
 import React from "react";
-import ColumnSection from './Partials/ColumnSection';
-import ImageSection from './Partials/ImageSection';
+import ColumnSection from './ProfileView/ColumnSection';
+import ImageContainer from './ProfileView/ImageContainer';
+
 import  Axios  from "axios";
 import { useEffect, useState } from 'react';
 
-import Navbar from "../../Components/Navbar";
-import Footer from '../../Components/Footer';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 import profilepic from './img/profile-placeholder.jpg';
 import bg from './img/background-placeholder.jpg';
 
-export default function View({ auth, userid }){
 
+
+const View = ({auth, userid, owned, created} ) => {
+  
+  
     // get profile information
     const [record, setRecord] = useState([]);
     useEffect(()=>{
         Axios.get(`http://127.0.0.1:8000/api/getProfileInfo/${userid}`)
             .then(res=>{setRecord(res.data)})
-            .catch(error=>console.log(error))
+            .catch(error=>console.log(error.data))
     }, [] );
 
     //show image
@@ -25,6 +28,7 @@ export default function View({ auth, userid }){
     useEffect(() => { 
         const parsedUserId = parseInt(userid, 10); // Parse userId as an integer
         if (isNaN(parsedUserId)) {
+          
         console.error('Invalid user ID');
         return;
         }
@@ -40,30 +44,39 @@ export default function View({ auth, userid }){
     }, [userid]);
 
 
+    //get painting owned
+
+
+    //get painting created
+
+
+
+
+    console.log("page data  is", record, created, owned);
+
+  
+  const POSTS = [
+    { title: "Dummy Title", subtitle: "Dummy Text" },
+    { title: "Dummy Title", subtitle: "Dummy Text" },
+    { title: "Dummy Title", subtitle: "Dummy Text" },
+    { title: "Dummy Title", subtitle: "Dummy Text" },
+    { title: "Dummy Title", subtitle: "Dummy Text" },
+    { title: "Dummy Title", subtitle: "Dummy Text" },
+  ];
 
   return (
-    <>
-     <Navbar  auth = {auth} />
-    <div className="flex justify-center font-sans bg-slate-50">
-      
+    <AuthenticatedLayout
+    user={auth.user}   
+    header={record.name+"'s Profile"}   
+  >
+         <div className="flex justify-center font-sans bg-slate-50">
       <div className="flex flex-col items-center">
-      {/* <div>
-           <h2>Id: { record.id}</h2> 
-           <h2>Name: { record.name}</h2> 
-           <h2>email: { record.email}</h2> 
-           <h2>pCoins: { record.pcoins}</h2> 
-           <h2>preferences: { record.preferences}</h2> 
-           <h2>Daily bid count: { record.bid_count}</h2> 
-
-        </div>            */}
-
         {/* PROFILE SECTION */}
-        <div className="relative w-[120%] h-64 rounded-b-lg bg-cover bg-center bg-[url(../public/img/nahin-background.jpg')]"
-              style={{ 
-                backgroundImage: `url(${bg})`, 
-              }}>
+        <div className="relative w-[80%] h-64 rounded-b-lg bg-cover bg-center bg-[url('../public/img/nahin-background.jpg')]"
+        style={{ 
+          backgroundImage: `url(${bg})`, 
+        }}>
           <div className="absolute -bottom-10 left-10 flex">
-              
             {/* Profile picture */}
             { (imageSrc && (
                   <img
@@ -92,9 +105,9 @@ export default function View({ auth, userid }){
             <div className="flex h-14 mt-4 ml-8">
               <div>
                 <div className="text-xl font-bold">{ record.name}</div>
-                <div className="text-sm font-medium text-gray-600">{ record.email}</div>
-                
-                {/* <div className="text-sm font-medium text-gray-600">{ record.email}</div> */}
+                <div className="text-sm font-medium text-gray-600">
+                { record.email}
+                </div>
               </div>
             </div>
           </div>
@@ -118,11 +131,11 @@ export default function View({ auth, userid }){
           </div>
         </div>
 
-        <div className="flex flex-row w-full m-16">
+        <div className="flex flex-row w-[80%] mt-16">
           {/* LEFT COLUMN */}
-          <div className="flex flex-col w-1/4 mr-5">
+          <div className="flex flex-col w-1/4 mr-4">
             <ColumnSection
-              title="Dummy Title"
+              title="User preferences"
               options={["Dummy Text", "Dummy Text", "Dummy Text"]}
             />
             <ColumnSection
@@ -130,33 +143,32 @@ export default function View({ auth, userid }){
               options={["Dummy Text", "Dummy Text", "Dummy Text", "Dummy Text"]}
             />
           </div>
+          {/* RIGHT COLUMN (Images Section) */}
+          <div className="w-3/4 flex flex-col gap-y-5">
+            {/* Heading for the Owned Paintings */}
+            <h2 className="text-2xl font-bold mb-0">Owned Paintings</h2>
+            {owned.length > 0 ? 
+              <ImageContainer posts={owned} />
+              :
+              <div  className="w-full flex flex-wrap rounded-lg p-4 border bg-white"> This user does not own paintings yet.</div>
+            }
 
-          {/* IMAGES CONTAINER */}
-          <div className="w-3/4 flex  flex-wrap rounded-lg border bg-white">
-
-           {/* <div className="flex flex-row w-full">
-            <p className="ml-2 font-bold">Your paintings</p>
-           </div> */}
-
-           {/* <p className="ml-2 font-bold">{title}</p> */}
-            <ImageSection title="Dummy Title" subtitle="Dummy Text" />
-            <ImageSection title="Dummy Title" subtitle="Dummy Text" />
-            <ImageSection title="Dummy Title" subtitle="Dummy Text" />
-            <ImageSection title="Dummy Title" subtitle="Dummy Text" />
-            <ImageSection title="Dummy Title" subtitle="Dummy Text" />
-            <ImageSection title="Dummy Title" subtitle="Dummy Text" />
+            {/* Heading for the Created Paintings */}
+            <h2 className="text-2xl font-bold mb-0">Created Paintings</h2>
+            {created.length > 0 ? 
+              <ImageContainer posts={created} />
+              :
+              <div  className="w-full flex flex-wrap rounded-lg p-4 mb-16 border bg-white">This user has not created any paintings yet.</div>
+            }
             
           </div>
-         
-          
         </div>
       </div>
-      
     </div>
-     <Footer />
-     </>
+
+    </AuthenticatedLayout>
+ 
   );
 };
 
-
-
+export default View;

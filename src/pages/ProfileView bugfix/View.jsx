@@ -1,51 +1,9 @@
 import React from "react";
 
-// YOU MAY WANT TO MOVE THIS TO ANOTHER FILE
-const ColumnSection = ({ title, options }) => {
-  return (
-    <div className="mb-5 py-3 px-5 rounded-lg border bg-white">
-      <p className="font-bold mb-5">{title}</p>
-      {options.map((option, id) => {
-        return (
-          <p
-            key={id}
-            className="text-sm font-medium text-gray-600 mb-2 cursor-pointer hover:text-black"
-          >
-            {option}
-          </p>
-        );
-      })}
-    </div>
-  );
-};
-
-// YOU MAY WANT TO MOVE THIS TO ANOTHER FILE
-const ImageSection = ({ title, subtitle }) => {
-  return (
-    <div className="w-1/3 p-2">
-      <img
-        className="mb-2 object-cover rounded-md"
-        src="/img/nahin-background.jpg"
-        alt=""
-      />
-      <p className="ml-2 font-bold">{title}</p>
-      <p className="ml-2 font-medium text-sm text-gray-600">{subtitle}</p>
-    </div>
-  );
-};
-
-// YOU MAY WANT TO MOVE THIS TO ANOTHER FILE
-const ImageContainer = ({ posts }) => {
-  return (
-    <div className="w-full flex flex-wrap rounded-lg border bg-white">
-      {posts.map((post, index) => (
-        <ImageSection key={index} title={post.title} subtitle={post.subtitle} />
-      ))}
-    </div>
-  );
-};
 
 const View = () => {
+
+  
   const POSTS = [
     { title: "Dummy Title", subtitle: "Dummy Text" },
     { title: "Dummy Title", subtitle: "Dummy Text" },

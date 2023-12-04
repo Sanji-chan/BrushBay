@@ -31,6 +31,9 @@ Route::get('tag/', [TagController::class, 'getAllTags']);
 Route::post('userPrefs/', [ProfileController::class, 'updatePreferences']);
 //Profile information routes
 Route::get('getProfileInfo/{id}', [ProfileController::class, 'getProfileInfo'])->name('profile.getProfileInfo');
+// Route::get('getOwned/{id}', [ProfileController::class, 'getOwned'])->name('profile.getOwned');
+// Route::get('getCreated/{id}', [ProfileController::class, 'getCreated'])->name('profile.getCreated');
+
 
 
 //Painting routes
