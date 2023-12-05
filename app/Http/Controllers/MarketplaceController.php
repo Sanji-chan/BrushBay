@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Painting;
 use App\Models\Bid;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Redirect;
 
 class MarketPlaceController extends Controller
@@ -58,6 +59,16 @@ class MarketPlaceController extends Controller
             $post["post_status"] = "inactive";
         }
 
+        $bid = Bid::where('post_id', $post->id)->where('bid_status', '<>', 'Accepted')->where('bid_status', '<>', 'Rejected')->first();
+    
+        if (!$bid) {
+            return response()->json(['Message' => $$post->id], 404);
+        }else{
+            $bid['bid_status'] = 'Rejected';
+            $bid->save();
+            Notification::create(array('user_id'=>$bid->buyer_id, 'message'=>"Your bid on ".  $post->painting->title ." has been rejected."));
+        }    
+           
         $post["highest_bid"] = null;
 
         $post->save();

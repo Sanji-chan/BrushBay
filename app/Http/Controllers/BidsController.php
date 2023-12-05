@@ -282,6 +282,7 @@ class BidsController extends Controller
             return response()->json(['error' => 'Bid not found'], 404);
         }else{
             $bid['bid_status'] = 'Rejected';
+            Notification::create(array('user_id'=>$bid->buyer_id, 'message'=>"Your bid on ".  $post->painting->title ." has been rejected."));
         }
       
         $bid->save();

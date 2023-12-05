@@ -254,7 +254,7 @@ const Card2 = ({ id, img, title, description, highestBid, currentBid, price, tag
           <p className="text-gray-700 text-base mb-2"><span className="font-bold">Your start Bid: </span>{ initialBid===null ? "N/A" : initialBid }</p>
           {/* <p className="text-gray-700 text-base"><span className="font-bold">Price: </span>{price}</p> */}
         </div>
-        <div className="px-2 pb-2 mb-2">
+        <div className="px-2 pb-2 mb-2 m-auto">
           <button style={buttonStyle} 
                   className="bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded" 
                   onClick={handleMarketAction}>
@@ -266,7 +266,7 @@ const Card2 = ({ id, img, title, description, highestBid, currentBid, price, tag
               onClick={openModal}
               className="bg-blue-500 hover:bg-blue-300 text-white font-bold py-2 px-4 rounded mb-2"
               >
-            Update Painting
+            Update
           </button>          
 
           <button 
@@ -275,7 +275,7 @@ const Card2 = ({ id, img, title, description, highestBid, currentBid, price, tag
             className="bg-red-500 hover:bg-red-300 text-white font-bold py-2 px-4 rounded mb-2"
             >
               <Link href={route('dashboard')}>
-                Delete Painting
+                Delete
               </Link>  
           </button> 
             <Modal
