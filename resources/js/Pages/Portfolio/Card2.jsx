@@ -251,10 +251,10 @@ const Card2 = ({ id, img, title, description, highestBid, currentBid, price, tag
           <div className="font-bold text-pink-700 text-xl my-2">{title}</div>
           <p className="text-gray-700 text-base">{words.length <= 10 ? description : truncatedDescription}....</p>
           <p className="text-gray-700 text-base"><span className="font-bold">Highest Bid: </span>{ highestBid===null ? "N/A" : highestBid }</p>
-          <p className="text-gray-700 text-base"><span className="font-bold">Your start Bid: </span>{ initialBid===null ? "N/A" : initialBid }</p>
+          <p className="text-gray-700 text-base mb-2"><span className="font-bold">Your start Bid: </span>{ initialBid===null ? "N/A" : initialBid }</p>
           {/* <p className="text-gray-700 text-base"><span className="font-bold">Price: </span>{price}</p> */}
         </div>
-        <div className="px-2 pb-2">
+        <div className="px-2 pb-2 mb-2">
           <button style={buttonStyle} 
                   className="bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded" 
                   onClick={handleMarketAction}>
@@ -264,7 +264,7 @@ const Card2 = ({ id, img, title, description, highestBid, currentBid, price, tag
           <button 
               style={buttonStyle}
               onClick={openModal}
-              className="bg-blue-500 hover:bg-blue-300 text-white font-bold py-2 px-4 rounded"
+              className="bg-blue-500 hover:bg-blue-300 text-white font-bold py-2 px-4 rounded mb-2"
               >
             Update Painting
           </button>          
@@ -272,7 +272,7 @@ const Card2 = ({ id, img, title, description, highestBid, currentBid, price, tag
           <button 
           style={buttonStyle}
             onClick={deletePainting}
-            className="bg-red-500 hover:bg-red-300 text-white font-bold py-2 px-4 rounded"
+            className="bg-red-500 hover:bg-red-300 text-white font-bold py-2 px-4 rounded mb-2"
             >
               <Link href={route('dashboard')}>
                 Delete Painting
