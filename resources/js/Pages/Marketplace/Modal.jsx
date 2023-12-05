@@ -28,6 +28,8 @@ const Modal = ({ isOpen, onClose, store }) => {
   const user = usePage().props.auth.user;
   // console.log(store.id, user.id, store.seller_id);
   // console.log(bid);
+  console.log(error);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const fData = new FormData();
@@ -35,6 +37,26 @@ const Modal = ({ isOpen, onClose, store }) => {
     fData.append("buyer_id", user.id);
     fData.append("seller_id", store.seller_id);
     fData.append("buyer_bid", bid);
+
+    Axios.post("http://127.0.0.1:8000/api/posts/", fData).then(res=>{
+      console.log(res["data"]);
+      if(res["data"]["results"] == null) {
+        router.visit(route('marketplace.showMarket'));
+      } else {
+        setError(res["data"]["results"]);
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+  }  
+
+  const purchaseNow = (e) => {
+    e.preventDefault();
+    const fData = new FormData();
+    fData.append("post_id", store.id);
+    fData.append("buyer_id", user.id);
+    fData.append("seller_id", store.seller_id);
+    fData.append("buyer_bid", store.initial_bid);
 
     Axios.post("http://127.0.0.1:8000/api/posts/", fData).then(res=>{
       console.log(res["data"]);
@@ -142,12 +164,20 @@ const Modal = ({ isOpen, onClose, store }) => {
               onChange={(e) => setBid(e.target.value)}
             />
             <button
-              className="bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded"
+              className="bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded mr-2"
               type="submit"
               onClick={handleSubmit }
             >
               Enter
             </button>
+            <button
+              className="bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded mr-2"
+              type="submit"
+              onClick={purchaseNow }
+            >
+              Buy now
+            </button>
+            { error.length > 0 && <p>{error}</p> }
           </div>
         </div>
       </div>
