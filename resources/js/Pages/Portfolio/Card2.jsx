@@ -250,21 +250,22 @@ const Card2 = ({ id, img, title, description, highestBid, currentBid, price, tag
         <div className="px-4">
           <div className="font-bold text-pink-700 text-xl my-2">{title}</div>
           <p className="text-gray-700 text-base">{words.length <= 10 ? description : truncatedDescription}....</p>
-          <p className="text-gray-700 text-base"><span className="font-bold">Highest Bid: </span>{ highestBid===null ? "N/A" : highestBid }</p>
-          <p className="text-gray-700 text-base mb-2"><span className="font-bold">Your start Bid: </span>{ initialBid===null ? "N/A" : initialBid }</p>
+          <p className="text-gray-700 text-base"><span className="font-bold">Highest Bid: </span>{ highestBid===null ? "0" : highestBid } 🪙</p>
+          <p className="text-gray-700 text-base mb-2"><span className="font-bold">Your start Bid: </span>{ initialBid===null ? "0" : initialBid } 🪙</p>
           {/* <p className="text-gray-700 text-base"><span className="font-bold">Price: </span>{price}</p> */}
         </div>
         <div className="px-2 pb-2 mb-2 m-auto">
           <button style={buttonStyle} 
                   className="bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded" 
                   onClick={handleMarketAction}>
-            {isAddedToMarket? "-" : "+"}
+            {isAddedToMarket? "Remove" : "Add"}
           </button>
 
           <button 
               style={buttonStyle}
               onClick={openModal}
-              className="bg-blue-500 hover:bg-blue-300 text-white font-bold py-2 px-4 rounded mb-2"
+              className="bg-black hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mb-2"
+             
               >
             Update
           </button>          

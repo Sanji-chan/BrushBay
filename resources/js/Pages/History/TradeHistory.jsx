@@ -40,7 +40,7 @@ const TradeHistory = ({ auth, status, tradeData=[] }) => {
   return (
     <AuthenticatedLayout
     user={auth.user}
-    header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Trade History</h2>}      
+    header={<h2 className="font-semi bold text-xl text-gray-800 leading-tight">Trade History</h2>}      
     >
 
     <Head title="Trade History" />
@@ -51,7 +51,9 @@ const TradeHistory = ({ auth, status, tradeData=[] }) => {
           <select
             value={filter}
             onChange={handleFilterChange}
-            className="bg-pink-500 text-white px-4 py-2 rounded-md focus:outline-none"
+            className="px-6 py-2 font-semibold border border-gray-300 text-gray-900 rounded-md 
+            focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+            style= {{"background-image": "None"}}
           >
             <option value="" >Select period</option>
             <option value="week">Past week</option>

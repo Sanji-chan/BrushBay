@@ -49,7 +49,7 @@ const ViewBids = ({ auth, status, bids }) => {
       {/* <BidHeader /> */}
       <div className="flex justify-end gap-2 mb-4 mt-6 mr-4">
         <div className="relative">
-          <button onClick={toggleStatusDropdown} className="bg-pink-500 text-white px-4 py-2 rounded-md focus:outline-none">
+          <button onClick={toggleStatusDropdown} className="bg-pink-500  font-bold text-white px-4 py-2 rounded-md focus:outline-none">
             Status
           </button>
           {showStatusDropdown && (
@@ -76,7 +76,7 @@ const ViewBids = ({ auth, status, bids }) => {
           )}
         </div>
         <div className="relative">
-          <button onClick={toggleSortDropdown} className="bg-pink-500 text-white px-4 py-2 rounded-md focus:outline-none">
+          <button onClick={toggleSortDropdown} className="bg-pink-500 text-white font-bold px-4 py-2 rounded-md focus:outline-none">
             Sort
           </button>
           {showSortDropdown && (

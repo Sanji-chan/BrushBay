@@ -38,6 +38,7 @@ class MarketPlaceController extends Controller
         $tags = explode(',', $tags);
         $results = array();
         $id = $request->user()->id;
+        $userpcoin =  $request->user()->pcoins;
 
         foreach ($tags as $tag) {
             $results = array_merge($results, Post::with('painting')->whereHas('painting', function($query) use($tag, $id) {
@@ -47,7 +48,8 @@ class MarketPlaceController extends Controller
 
         return Inertia::render("Dashboard", [
             "posts" => array_unique($results, SORT_REGULAR),
-            "tags" => $id
+            "tags" => $id,
+            'userpcoin' => $userpcoin
         ]);
     }
 

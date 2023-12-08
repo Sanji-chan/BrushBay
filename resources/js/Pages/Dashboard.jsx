@@ -8,15 +8,6 @@ const Carousel = ({posts}) => {
     const [visibleStoriesStart, setVisibleStoriesStart] = useState(0);
     const [rightArrowClicked, setRightArrowClicked] = useState(false);
   
-    // let stories = [
-    //   { id: 1, imageUrl: "img/1.jpg", author: "Author 1" },
-    //   { id: 2, imageUrl: "img/2.jpg", author: "Author 2" },
-    //   { id: 3, imageUrl: "img/4.jpg", author: "Author 3" },
-    //   { id: 4, imageUrl: "img/5.jpg", author: "Author 4" },
-    //   { id: 5, imageUrl: "img/6.jpg", author: "Author 5" },
-    //   { id: 6, imageUrl: "img/7.jpg", author: "Author 6" },
-    // ];
-  
     const isRightArrowDisabled = () => {
       return visibleStoriesStart + 5 >= posts.length;
     };
@@ -286,7 +277,7 @@ const Carousel = ({posts}) => {
     },
   };  
 
-export default function Dashboard({ auth, posts, tags }) {
+export default function Dashboard({ auth, posts, tags, userpcoin }) {
     console.log(posts);
     return (
         <AuthenticatedLayout
@@ -297,11 +288,31 @@ export default function Dashboard({ auth, posts, tags }) {
 
             <div className="pt-12 pb-32">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div className="p-6 text-gray-900" 
+                  <div className="bg-white mt-6 p-6 overflow-hidden shadow-sm sm:rounded-lg">
+        
+                        <div className="text-gray-900 " >
+                                  <p  style={{ 'float': 'left', 
+                                             'width': '50%'}} >
+                                              Hello user,  <br/>
+                                              Welcome back.
+                                             </p>
+                                  <p className='text-right p-3'
+                                   style={{ 'float': 'right', 
+                                             'width': '50%',  
+                                             'height': '100%',
+                                             'font-size':'20px',
+                                             'font-weight':'600',  }}>Your balance: {userpcoin} 🪙</p>
+                                  </div>
+                  </div>
+
+                <div className="p-6 mt-6 text-gray-900" 
                                  style={{
                                   'font-size':'20px',
                                   'font-weight':'600',
-                                 }}> Your Recomendations</div>
+                                 }}> 
+                                 
+                                 Your Recomendations</div>
+                
                       
                        {posts.length > 0 ? 
                           <div className="px-4" > 

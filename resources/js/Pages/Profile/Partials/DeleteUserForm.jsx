@@ -86,11 +86,11 @@ export default function DeleteUserForm({ className = '' }) {
                     </div>
 
                     <div className="mt-6 flex justify-end">
-                        <SecondaryButton onClick={closeModal}>Cancel</SecondaryButton>
+                        <button onClick={closeModal} className="bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded">Cancel</button>
 
-                        <DangerButton className="ml-3" disabled={processing}>
+                        <button className="bg-red-500 ml-3 hover:bg-red-300 text-white font-bold py-2 px-4 rounded" disabled={processing}>
                             Delete Account
-                        </DangerButton>
+                        </button>
                     </div>
                 </form>
             </Modal>

@@ -128,12 +128,12 @@ const Modal = ({ isOpen, onClose, store }) => {
             <tr style={{ rowStyle }}>
               <td>
               <p className="text-gray-600 mb-1">
-              Highest Bid:  { store.highest_bid===null ? "No bid posted yet" : store.highest_bid }
+              Highest Bid:  { store.highest_bid===null ? "No bid posted yet" : store.highest_bid } 🪙
               </p>
               </td>
               <td >
               <p className="text-gray-600 mb-1">
-                Inital Bid:  { store.inital_bid===null ? "N/A": store.initial_bid }
+                Inital Bid:  { store.inital_bid===null ? "N/A": store.initial_bid  } 🪙
               </p>
               </td>
             </tr >
@@ -159,21 +159,25 @@ const Modal = ({ isOpen, onClose, store }) => {
             <input
               type="number"
               placeholder="Your Bid"
-              className="border-2 border-gray-300 rounded p-2 mr-2 w-full md:w-auto"
+              className="border-2 border-gray-300 rounded p-2 mr-2 w-full md:w-auto focus:outline-none  focus:ring-pink-500 focus:border-pink-500"
               min={ store.highest_bid===null ? 0 : store.highest_bid+1 }
               onChange={(e) => setBid(e.target.value)}
             />
             <button
-              className="bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded mr-2"
+              className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded mr-2"
               type="submit"
+              style={{ 'border':'2px solid #EC4899',
+                        'transition' :'.5s'    }}
               onClick={handleSubmit }
             >
               Enter
             </button>
             <button
-              className="bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded mr-2"
+              className="border-pink-500 hover:bg-pink-500 hover:text-white text-pink-500 font-bold py-2 px-4 rounded mr-2"
               type="submit"
               onClick={purchaseNow }
+              style={{ 'border':'2px solid #EC4899',
+                         'transition' :'.5s'  }}
             >
               Buy now
             </button>

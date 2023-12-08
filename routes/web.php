@@ -31,10 +31,6 @@ Route::get('/', function () {
     ]);
 });
 
-// Dashboard route
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/dashboard', [MarketplaceController::class, 'getPaintingsByTags'])->middleware(['auth', 'verified'])->name('dashboard');
 

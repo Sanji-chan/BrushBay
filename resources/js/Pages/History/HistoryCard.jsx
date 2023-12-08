@@ -24,7 +24,7 @@ const HistoryCard = ({ image, title, buyer, seller, tradeDate, price }) => {
         <p>Buyer: {buyer}</p>
         <p>Seller: {seller}</p>
         <p>Trade Date: {extractedDate1}</p>
-        <p>Price: {price}</p>
+        <p>Price: {price} 🪙</p>
       </div>
     </div>
   );

@@ -99,7 +99,9 @@ const StoreDisplay = ( props) => {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-4 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+            className="px-6 py-2 text-center font-semibold border border-gray-300 text-gray-900 rounded-md 
+              focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+              style= {{"background-image": "None"}}          
           >
             <option value="">Filter by</option>
             {tags.map((tag) => (
@@ -109,7 +111,9 @@ const StoreDisplay = ( props) => {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-6 py-2 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+            className="px-6 py-2 text-center font-semibold border border-gray-300 text-gray-900 rounded-md 
+              focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+              style= {{"background-image": "None"}}
           >
             <option value="">Sort by</option>
             <option value="Latest">Latest</option>

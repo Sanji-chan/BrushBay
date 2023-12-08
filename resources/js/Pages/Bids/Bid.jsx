@@ -70,7 +70,7 @@ const Bid = ({ initialbid, bidAmount, bidStatus, id , title, buyerName}) => {
             <p className="font-semibold truncate">User: {buyerName}</p>
           </div>
           <div className="w-1/4 min-w-0">
-            <p className="font-semibold">Bid: {bidAmount}</p>
+            <p className="font-semibold">Bid: {bidAmount} 🪙</p>
           </div>
           <div className="w-1/4 min-w-0">
             <p className="font-semibold">Status: {isbidStatus}</p>
@@ -99,7 +99,7 @@ const Bid = ({ initialbid, bidAmount, bidStatus, id , title, buyerName}) => {
            &times; 
          </button>
          <h2 className="text-xl font-bold mb-2 text-center text-pink-500">Haggle</h2>
-         <p className="mb-4"><span className='font-bold'>Original Bid: </span>{bidAmount}</p>
+         <p className="mb-4"><span className='font-bold'>Original Bid: </span>{bidAmount} 🪙</p>
          <form onSubmit={handleHaggleSubmit}>
            <input
              type="number"

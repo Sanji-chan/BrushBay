@@ -11,22 +11,6 @@ import Footer from '../Components/Footer';
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
-    // const [notifications, setNotifications] = useState([]);
-
-    // useEffect(() => {
-    //     // Fetch notifications when the component mounts
-    //     fetchNotifications();
-    // }, []);
-
-    // const fetchNotifications = async () => {
-    //     try {
-    //         const response = await axios.get(`http://127.0.0.1:8000/notifications/${user.id}`);
-    //         setNotifications(response.data);
-    //     } catch (error) {
-    //         console.error('Error fetching notifications:', error.data);
-    //     }
-    // };
-
     return (
         <div className="min-h-screen bg-gray-100">
             <nav className="bg-white border-b border-gray-100">
@@ -153,13 +137,34 @@ export default function Authenticated({ user, header, children }) {
                         </ResponsiveNavLink>
                     </div>
 
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('marketplace.showMarket')} active={route().current('marketplace')}>
+                            Marketplace
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('paintings.show')} active={route().current('paintings')}>
+                            Paintings
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('bids.showBids')} active={route().current('bids')}>
+                            Bids
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('trades.showTrades')} active={route().current('history')}>
+                            Trades
+                        </ResponsiveNavLink>
+                    </div>
+
                     <div className="pt-4 pb-1 border-t border-gray-200">
-                        <div className="px-4">
+                        {/* <div className="px-4">
                             <div className="font-medium text-base text-gray-800">{user.name}</div>
                             <div className="font-medium text-sm text-gray-500">{user.email}</div>
-                        </div>
+                        </div> */}
 
-                        <div className="mt-3 space-y-1">
+                        <div className="space-y-1">
                             <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
                             <ResponsiveNavLink method="post" href={route('logout')} as="button">
                                 Log Out
