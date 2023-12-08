@@ -50,13 +50,13 @@ export default function Login({ status, canResetPassword }) {
         <div className="mb-4">
           <div className="flex items-center border-b border-pink-300">
             <span className="pr-2 text-red-500 border-pink-300">👤</span>
-            <TextInput  
+            <input  
               id="email"
               type="email"
               name="email"
               value={data.email} 
               placeholder="Email" 
-              className="outline-none py-2 focus:border-b-2 focus:border-pink-300"
+              className="border-none outline-none py-2 focus:border-b-2 focus:border-pink-300"
               autoComplete="username"
               isFocused={true}
               onChange={(e) => setData('email', e.target.value)}
@@ -68,13 +68,13 @@ export default function Login({ status, canResetPassword }) {
         <div className="mb-4">
           <div className="flex items-center border-b border-pink-300">
             <span className="pr-2 text-red-500 border-pink-300">🔒</span>
-            <TextInput 
+            <input 
               id="password"
               type="password"
               name="password"
               value={data.password}
               placeholder="••••••••" 
-              className="outline-none py-2 focus:border-b-2 focus:border-pink-300" 
+              className="border-none outline-none py-2 focus:border-b-2 focus:border-pink-300 " 
               autoComplete="current-password"
               onChange={(e) => setData('password', e.target.value)}
             />
@@ -83,7 +83,7 @@ export default function Login({ status, canResetPassword }) {
           </div>
         </div>
 
-        <div className="mb-4">
+        <div className="mb-4 justify-center text-center">
         {canResetPassword && (
           <Link
             href={route('password.request')}
@@ -95,7 +95,7 @@ export default function Login({ status, canResetPassword }) {
         
         
         {/* submit button  */}
-        <div>
+        <div className="justify-center text-center">
           <button
           disabled={processing} 
           className="bg-pink-500 hover:bg-pink-400 text-white py-2 px-4 rounded-full"

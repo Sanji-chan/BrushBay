@@ -13,7 +13,13 @@ const TradeHistory = ({ auth, status, tradeData=[] }) => {
   useEffect(() => {
     const now = new Date();
     const filtered = tradeData.filter((trade) => {
-      const tradeDate = new Date(trade.tradeDate);
+
+      const datetimeFromDatabase = trade.created_at; 
+      // Convert the string to a Date object
+      const dateObject = new Date(datetimeFromDatabase);
+      // Extract the date component
+      const tradeDate = dateObject.toISOString().split('T')[0];
+
       switch (filter) {
         case 'week':
           const oneWeekAgo = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7);

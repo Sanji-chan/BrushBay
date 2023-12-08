@@ -83,8 +83,8 @@ export default function Register() {
     <div className="flex h-screen">
 
       {/* Left Side */}
-      <div className="flex flex-col justify-center items-center w-full md:w-1/2 bg-white p-10">
-      { step === 1 ? (<div>
+      <div className="flex flex-col justify-center  text-center items-center w-full md:w-1/2 bg-white p-10">
+      { step === 1 ? (<div className="flex flex-col justify-center items-center w-full md:w-1/2 bg-white p-10">
         <div className="mb-4">
             <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
         </div>
@@ -95,11 +95,11 @@ export default function Register() {
         <div className="mb-4">
           <div className="flex items-center border-b border-pink-300">
             <span className="pr-2 text-red-500">👤</span>
-            <TextInput 
+            <input 
                id="name"
                name="name"
                value={data.name}
-               className="outline-none py-2 focus:border-b-2 focus:border-pink-300" 
+               className="border-none outline-none py-2 focus:border-b-2 focus:border-pink-300" 
                autoComplete="name"
                isFocused={true}
                onChange={(e) => setData('name', e.target.value)}
@@ -114,12 +114,12 @@ export default function Register() {
         <div className="mb-4">
           <div className="flex items-center border-b border-pink-300">
             <span className="pr-2 text-red-500">@</span>
-            <TextInput 
+            <input 
              id="email"
              type="email"
              name="email"
              value={data.email}
-             className="outline-none py-2 focus:border-b-2 focus:border-pink-300" 
+             className="border-none outline-none py-2 focus:border-b-2 focus:border-pink-300" 
              autoComplete="username"
              onChange={(e) => setData('email', e.target.value)}
              placeholder="Email" 
@@ -133,13 +133,13 @@ export default function Register() {
         <div className="mb-4">
           <div className="flex items-center border-b border-pink-300">
             <span className="pr-2 text-red-500">🔒</span>
-            <TextInput 
+            <input 
              id="password"
              type="password"
              name="password"
              value={data.password}
              placeholder="Password" 
-             className="outline-none py-2 focus:border-b-2 focus:border-pink-300" 
+             className="border-none outline-none py-2 focus:border-b-2 focus:border-pink-300" 
              autoComplete="new-password"
              onChange={(e) => setData('password', e.target.value)}
              required
@@ -152,13 +152,13 @@ export default function Register() {
           <div className="flex items-center border-b border-pink-300">
             <span className="pr-2 text-red-500">🔒</span>
 
-            <TextInput 
+            <input 
              id="password_confirmation"
              type="password"
              name="password_confirmation"
              value={data.password_confirmation}
              placeholder="Confirm Password" 
-             className="outline-none py-2 focus:border-b-2 focus:border-pink-300" 
+             className="border-none outline-none py-2 focus:border-b-2 focus:border-pink-300" 
              autoComplete="new-password"
              onChange={(e) => setData('password_confirmation', e.target.value)}
              required
@@ -170,10 +170,10 @@ export default function Register() {
         </div>
 
         {/* link to redirect to login page */}
-        <div className="mb-4">
+        <div className="justify-center text-center">
         <Link
           href={route('login')}
-          className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className=" underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           > Already registered?
         </Link>
         </div>
@@ -199,7 +199,7 @@ export default function Register() {
         </form>
       </div>) : (
               <div>
-                <div className="flex justify-between items-start mb-4"> {/* New div to space out back arrow and title */}
+                <div className="flex  justify-between items-start mb-4"> {/* New div to space out back arrow and title */}
                 <button 
                   onClick={() => setStep(1)} 
                   className="bg-pink-500 hover:bg-pink-300 rounded-full px-3 py-2 mr-2 text-white"

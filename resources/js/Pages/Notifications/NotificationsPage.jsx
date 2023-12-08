@@ -23,15 +23,25 @@ const NotificationsPage = ({auth, status,  userName, notifications=[] }) => {
 
       {/* <NotificationsHeader /> */}
       <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        {notifications.map((notification, index) => (
-          <Notification
-            key={index}
-            PaintingTitle={notification.PaintingTitle} 
-            userName={userName}
-            notificationText={notification.message}
-            datetime = {notification.created_at}
-          />
-        ))}
+      { notifications.length > 0 ?  
+            <div>
+                  {notifications.map((notification, index) => (
+                  <Notification
+                    key={index}
+                    PaintingTitle={notification.PaintingTitle} 
+                    userName={userName}
+                    notificationText={notification.message}
+                    datetime = {notification.created_at}
+                  />
+                ))}
+            </div>
+              :   
+            <div className="bg-white mt-12 overflow-hidden shadow-sm sm:rounded-lg">
+                <div className="p-6 text-gray-900">Oh no! It looks like you don't have any notifications.</div>
+            </div>
+     }
+
+       
       </div>
     </div>
   </AuthenticatedLayout>

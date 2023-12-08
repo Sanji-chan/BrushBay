@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Post;
-use App\Models\Painting;
+use App\Models\Painting;    
 use App\Models\TradeHistory;
 use App\Models\Bid;
 use App\Models\Notification;
@@ -26,6 +26,7 @@ class BidsController extends Controller
                     ->join('paintings', 'paintings.id', '=', 'posts.painting_id')
                     ->join('users as buyers', 'bids.buyer_id', '=', 'buyers.id')
                     ->where('bids.seller_id', '=', $user->id)
+                    ->latest()
                     ->get();
 
         // $posts = $bids->post;
@@ -143,12 +144,14 @@ class BidsController extends Controller
 
     public function rejectBid($id){
         $bid = Bid::where('id', $id)->where('bid_status', '<>', 'Accepted')->first();
-        // Check if the bid exists
+        $post = Post::where('id', $bid->post_id)->first();
+        $painting = Painting::where('id', $post->painting_id)->first();
+                // Check if the bid exists
         if (!$bid) {
             return response()->json(['error' => 'Bid not found'], 404);
         }else{
             $bid['bid_status'] = 'Rejected';
-            Notification::create(array('user_id'=>$bid->buyer_id, 'message'=>"Your bid on ".  $post->painting->title ." has been rejected."));
+            Notification::create(array('user_id'=>$bid->buyer_id, 'message'=>"Your bid on ".  $painting->title ." has been rejected."));
         }
       
         $bid->save();
