@@ -82,7 +82,11 @@ const StoreDisplay = ( props) => {
     });
 
   }, []);
+
+  
   return (
+
+    
     <>
     <div className="min-h-screen mx-4 my-8 max-w-screen-lg mx-auto">
       <div className="flex justify-between items-center mb-8">

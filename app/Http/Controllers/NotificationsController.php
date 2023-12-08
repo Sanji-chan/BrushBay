@@ -23,7 +23,7 @@ class NotificationsController extends Controller
     public function showNotifications(Request $request)
     {   $user_name = Auth::user()->name;
         return Inertia::render('Notifications/NotificationsPage', [
-            "notifications" => Notification::where('user_id', $request->user()->id)->get(),
+            "notifications" => Notification::where('user_id', $request->user()->id)->latest()->get(),
             'userName' =>$user_name
         ]);
     }
