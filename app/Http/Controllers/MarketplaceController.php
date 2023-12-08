@@ -9,6 +9,7 @@ use App\Models\Post;
 use App\Models\Painting;
 use App\Models\Bid;
 use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
 
 class MarketPlaceController extends Controller
@@ -53,7 +54,7 @@ class MarketPlaceController extends Controller
     public function removePost($id){
         $painting = Painting::where('id', $id)->first();
         $post = Post::where('painting_id', $id)->get();
-
+        
         $post = Post::where('painting_id', $id)->first();
         if ($post->post_status == "active"){
             $post["post_status"] = "inactive";
@@ -62,11 +63,15 @@ class MarketPlaceController extends Controller
         $bid = Bid::where('post_id', $post->id)->where('bid_status', '<>', 'Accepted')->where('bid_status', '<>', 'Rejected')->first();
     
         if (!$bid) {
-            return response()->json(['Message' => $$post->id], 404);
+            $post->save();
+            return response()->json(['Message' => $post->id], 404);
         }else{
             $bid['bid_status'] = 'Rejected';
             $bid->save();
             Notification::create(array('user_id'=>$bid->buyer_id, 'message'=>"Your bid on ".  $post->painting->title ." has been rejected."));
+            $refundedBuyer = User::find($bid["buyer_id"]);
+            $refundedBuyer->pcoins = $refundedBuyer->pcoins + $bid["buyer_bid"];    
+            $refundedBuyer->save();
         }    
            
         $post["highest_bid"] = null;
