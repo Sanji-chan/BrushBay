@@ -7,15 +7,21 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Painting;
+use App\Models\Post;
+
 use Illuminate\Support\Facades\Route;
 
 class PaintingController extends Controller
 {
     //
     public function show(Request $request): Response 
-    {
+    {    $paintings = Painting::leftJoin('posts', 'paintings.id', '=', 'posts.painting_id')
+           ->where("owner_id" , $request->user()->id)
+           ->get(['paintings.*', 'posts.post_status', 'posts.highest_bid', 'posts.initial_bid']);
+
         return Inertia::render("Portfolio/Portfolio", [
-            "paintings" => Painting::with('author')->where('author_id', $request->user()->id)->get()
+            // "paintings" => Painting::with('author')->where('author_id', $request->user()->id)->get()
+            "paintings" => $paintings
         ]);
     }
 

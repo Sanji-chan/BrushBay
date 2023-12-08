@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
@@ -26,17 +27,46 @@ export default function Authenticated({ user, header, children }) {
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Dashboard
                                 </NavLink>
-                                <NavLink href={route('paintings.show')}>
-                                    My Paintings
-                                </NavLink> 
                                 <NavLink href={route('marketplace.showMarket')}>
                                     Marketplace
+                                </NavLink>
+                                <NavLink href={route('paintings.show')}>
+                                    Paintings
+                                </NavLink> 
+                                <NavLink href={route('bids.showBids')}>
+                                    Bids
+                                </NavLink>
+                                <NavLink href={route('trades.showTrades')}>
+                                    Trade History
                                 </NavLink>
                                 
                             </div>
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
+                            <div className="ml-3 relative">
+                            <Dropdown>
+                                    <Dropdown.Trigger>
+                                        <span className="inline-flex rounded-md">
+                                            <button
+                                                type="button"
+                                                className="inline-flex items-center px-3 py-2 border border-transparent 
+                                                text-lg leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                            >
+                                                🔔
+                                            </button>
+                                        </span>
+                                    </Dropdown.Trigger>
+
+                                    <Dropdown.Content>
+                                        {/* {notifications.map((notification) => (
+                                                    <Dropdown.Link key={notification.id}>{notification.message}</Dropdown.Link>
+                                        ))} */}
+                                        <Dropdown.Link href={'http://127.0.0.1:8000/notifications'}>View All</Dropdown.Link>
+                                    
+                                    </Dropdown.Content>
+                                </Dropdown>
+                            </div>
                             <div className="ml-3 relative">
                                 <Dropdown>
                                     <Dropdown.Trigger>
@@ -107,13 +137,34 @@ export default function Authenticated({ user, header, children }) {
                         </ResponsiveNavLink>
                     </div>
 
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('marketplace.showMarket')} active={route().current('marketplace')}>
+                            Marketplace
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('paintings.show')} active={route().current('paintings')}>
+                            Paintings
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('bids.showBids')} active={route().current('bids')}>
+                            Bids
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('trades.showTrades')} active={route().current('history')}>
+                            Trades
+                        </ResponsiveNavLink>
+                    </div>
+
                     <div className="pt-4 pb-1 border-t border-gray-200">
-                        <div className="px-4">
+                        {/* <div className="px-4">
                             <div className="font-medium text-base text-gray-800">{user.name}</div>
                             <div className="font-medium text-sm text-gray-500">{user.email}</div>
-                        </div>
+                        </div> */}
 
-                        <div className="mt-3 space-y-1">
+                        <div className="space-y-1">
                             <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
                             <ResponsiveNavLink method="post" href={route('logout')} as="button">
                                 Log Out

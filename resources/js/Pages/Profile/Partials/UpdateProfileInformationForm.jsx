@@ -1,13 +1,15 @@
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import UpdateProfilePic from './UpdateProfilePic';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
+import React from 'react';
 
 export default function UpdateProfileInformation({ mustVerifyEmail, status, className = '' }) {
     const user = usePage().props.auth.user;
+    const today = new Date().toISOString().split("T")[0];
+
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         name: user.name,
@@ -53,7 +55,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
             
 
             <form onSubmit={submit} className="max-w-xl ">
-                <div>
+                <div className='my-4'>
                     <InputLabel htmlFor="name" value="Name" />
 
                     <TextInput
@@ -69,7 +71,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     <InputError className="mt-2" message={errors.name} />
                 </div>
 
-                <div>
+                <div className='my-4'>
                     <InputLabel htmlFor="dob" value="Date of Birth" />
 
                     <TextInput
@@ -78,6 +80,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         className="mt-1 block w-full"
                         value={data.dob}
                         onChange={(e) => setData('dob', e.target.value)}
+                        max={today}
                         required
                         isFocused
                         autoComplete="dob"
@@ -86,7 +89,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     <InputError className="mt-2" message={errors.name} />
                 </div>
 
-                <div>
+                <div className='my-4'>
                     <InputLabel htmlFor="email" value="Email" />
 
                     <TextInput
@@ -125,7 +128,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 )}
 
                 <div className="flex mt-2 items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <button disabled={processing} className='bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded'>Save</button>
 
                     <Transition
                         show={recentlySuccessful}

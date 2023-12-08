@@ -12,6 +12,8 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\Painting;
+
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -77,16 +79,36 @@ class ProfileController extends Controller
      */
 
      public function showProfile($id){
+        // return response()->json([$id]);
+    //     $trades = Painting::join('trade_history', 'paintings.id', '=', 'trade_history.painting_id')
+    //     ->join('users as buyers', 'trade_history.buyer_id', '=', 'buyers.id')
+    //     ->join('users as sellers', 'trade_history.seller_id', '=', 'sellers.id')
+    //   ->where(function ($query) use ($user) {
+    //       $query->where('seller_id', $user->id)
+    //           ->orWhere('buyer_id', $user->id);})
+    //   ->get(['paintings.*', 'trade_history.*', 'buyers.name as buyer_name', 'sellers.name as seller_name']);
+
+        $owned = Painting::where('paintings.owner_id', '=',$id)->get();
+        $created = Painting::where('paintings.author_id', '=', $id)->get();
+
+        // return response()->json(['message' => $id, $owned, $created], 404);
+
+
         return Inertia::render('Profile/View', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'userid' => $id,
+            'owned' => $owned,
+            'created' => $created,
         ]);
 
      }
 
      public function getProfileInfo($id){
         $user = User::find($id);
+
+        $owned = Painting::where('paintings.owner_id', '=',$id)->get();
+        $created = Painting::where('paintings.author_id', '=',$id)->get();
 
         if (!$user) {
             return response()->json(['message' => 'User not found', 'value'=>$id], 404);
@@ -95,6 +117,24 @@ class ProfileController extends Controller
         return $user;
      }
 
+    //  public function getCreated($id){
+    //     $user = User::find($id);
+    //     $created = Painting::where('paintings.author_id', '=', $id)->get();
+    //     if (!$user) {
+    //         return response()->json(['message' => 'Created paintings not found', 'value'=>$id], 404);
+    //     }
+    //     return $created;
+    //  }
+
+    //  public function getOwned($id){
+    //     $user = User::find($id);
+    //     $owned = Painting::where('paintings.owner_id', '=',$id)->get();
+    //     if (!$user) {
+    //         return response()->json(['message' => 'Owned paintings not found', 'value'=>$id], 404);
+    //     }
+    //     dd($owned);
+    //     return $owned;
+    //  }
 
 
      /**

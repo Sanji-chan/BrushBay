@@ -6,6 +6,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\PaintingController;
 use App\Http\Controllers\MarketplaceController;
+use App\Http\Controllers\BidsController;
+use App\Http\Controllers\NotificationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,4 +41,14 @@ Route::patch('/paintings/{id}', [PaintingController::class, 'updatePainting']);
 
 //Market
 Route::post('paintings/addPost/{id}', [MarketplaceController::class, 'postPainting'])->name('marketplace.postPainting');
+Route::get('paintings/removePost/{id}', [MarketplaceController::class, 'removePost'])->name('marketplace.removePost');
 
+//Bids
+Route::post('posts/', [BidsController::class, 'createBid']);
+Route::post('bids/reject/{id}', [BidsController::class, 'rejectBid']);
+Route::post('bids/accept/{id}', [BidsController::class, 'acceptBid']);
+Route::post('bids/haggle/{id}', [BidsController::class, 'haggleBid']);
+
+//Notifications
+Route::post('notify/', [NotificationsController::class, 'addNotifications']);
+Route::get('/notifications/{id}', [NotificationsController::class, 'index']);

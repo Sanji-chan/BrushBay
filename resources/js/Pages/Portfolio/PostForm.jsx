@@ -8,8 +8,8 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    minHeight: "80vh",
-    padding: "5vh 0",
+    // minHeight: "80vh",
+    // padding: "5vh 0",
     backgroundColor: "#f7f7f7",
   },
   formContainer: {
@@ -194,17 +194,17 @@ const PostForm = ({ user, modelState, update, data }) => {
               onChange={(e) => setPrice(e.target.value)}
             />
           </div> */}
-          <div className="mb-10">
+          <div className="mb-4">
         <label style={styles.label}>Tags</label>
         {tags.map((tag) => (
           <div key={tag.id}>
             <input
               type="checkbox"
               id={`${tag.id}`}
-              checked={selectedTags.includes(tag.name.toLowerCase())}
-              onChange={() => handleTagChange(tag.name.toLowerCase())}
+              checked={selectedTags.includes(tag.name)}
+              onChange={() => handleTagChange(tag.name)}
             />
-            <label htmlFor={`${tag.id}`}>{tag.name}</label>
+            <label htmlFor={`${tag.id}`}> {tag.name}</label>
           </div>
         ))}
       </div>

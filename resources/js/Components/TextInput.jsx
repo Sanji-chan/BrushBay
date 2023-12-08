@@ -14,10 +14,10 @@ export default forwardRef(function TextInput({ type = 'text', className = '', is
             {...props}
             type={type}
             className={
-                ' focus:border-indigo-500 focus:ring-indigo-500 rounded-md ' +
+                'border-gray-300 focus:border-pink-500 focus:ring-pink-500 rounded-md ' +
                 className
             }
-            style={{ border: 'none' }}
+           
             ref={input}
         />
     );

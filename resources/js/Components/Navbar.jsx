@@ -3,19 +3,22 @@ import logo from '../../images/logo.png';
 import { Link, Head } from '@inertiajs/react';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
+import ApplicationLogo from '@/Components/ApplicationLogo';
+
 
 function Navbar({auth=""}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <div className="bg-white shadow-lg">
-      <div className="container mx-auto px-6 py-2 flex items-center justify-between">
+      <div className="container mx-auto px-6 flex items-center justify-between">
         {/* Mobile & Desktop: Logo */}
         <Link
             href="/"
-            className="text-gray-600 hover:text-pink-300"
+            className="text-gray-600 hover:text-pink-300 shrink-0 flex items-center"
           >
-              <img src={logo} alt="Logo" className="h-8 w-auto" />
+              {/* <img src={logo} alt="Logo" className="h-8 w-auto" /> */}
+              <ApplicationLogo className="block h-8 w-auto fill-current text-gray-800" />
         </Link>        
         
 
@@ -31,18 +34,19 @@ function Navbar({auth=""}) {
                         >
                             Dashboard
                         </Link>
-                        {/* <Link
-                            href={route('dashboard')}
-                            className="text-gray-600 hover:text-pink-300"
-                        >
-                            Notifications
+                        <Link
+                              href={route('marketplace.showMarket')}
+                              className="text-gray-600 hover:text-pink-300"                            >
+                              Marketplace
                         </Link>
                         <Link
-                            href={route('dashboard')}
+                            href={route('paintings.show')}
                             className="text-gray-600 hover:text-pink-300"
                         >
-                            Profile
-                        </Link> */}
+                            Paintings
+                        </Link>
+
+                       
                         <Link href={route('logout')} 
                               method="post" 
                               
@@ -90,7 +94,10 @@ function Navbar({auth=""}) {
 
       {/* Mobile View: Sidebar */}
       {isMenuOpen && (
-        <div className="bg-pink-300 md:hidden h-screen w-64 fixed top-0 left-0 overflow-y-auto transition-transform transform translate-x-0 transition-duration-500">
+        <div className="bg-pink-300 md:hidden h-screen w-64 fixed 
+                  top-0 right-0 overflow-y-auto transition-transform 
+                  transform translate-x-0 transition-duration-500"
+                  >
           <div className="px-6 py-2 flex items-center">
             <img src={logo} alt="Logo" className="h-8 w-auto" />
           </div>

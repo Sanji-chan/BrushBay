@@ -1,6 +1,5 @@
 // import InputError from '@/Components/InputError';
 // import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { usePage } from '@inertiajs/react';
 // import { Transition } from '@headlessui/react';
@@ -14,7 +13,7 @@ import Axios from 'axios';
 import profilepic from '../img/profile-placeholder.jpg';
 
 
-export default function UpdateProfilePic({  className = '' }) {
+export default function UpdateProfilePic({ }) {
      //update image
     const user = usePage().props.auth.user;
     const [imagedata, setImagedata] = useState('');
@@ -92,11 +91,11 @@ export default function UpdateProfilePic({  className = '' }) {
                         )}
                     </div>
 
-                    <TextInput
+                    <input
                         id="userimg_link"
                         type="file"
                         name="userimg_link"  
-                        className="mt-10 block w-full focus:border-none"
+                        className="mt-10 block w-full focus:border-none focus:outline-none"
                         onChange={e => handleChange(e.target.files)}
                         required
                         isFocused
@@ -107,7 +106,7 @@ export default function UpdateProfilePic({  className = '' }) {
 
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton className="mt-2" type="submit" onClick={submitdata}>Upload</PrimaryButton>
+                    <button className="mt-2 bg-pink-500 hover:bg-pink-300 text-white font-bold py-2 px-4 rounded" type="submit" onClick={submitdata}>Upload</button>
 
                     {/* <PrimaryButton disabled={processing}  className="mt-2" type="submit" onClick={submitdata}>Upload</PrimaryButton>
                     

@@ -3,6 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PaintingController;
 use App\Http\Controllers\MarketplaceController;
+use App\Http\Controllers\BidsController;
+use App\Http\Controllers\TradesController;
+use App\Http\Controllers\NotificationsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,10 +31,6 @@ Route::get('/', function () {
     ]);
 });
 
-// Dashboard route
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/dashboard', [MarketplaceController::class, 'getPaintingsByTags'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -51,6 +50,16 @@ Route::middleware('auth')->group(function () {
 
     // Marketplace routes
     Route::get('/marketplace', [MarketplaceController::class, 'showMarket'])->name('marketplace.showMarket');
+
+    // Bids
+    Route::get('/bids', [BidsController::class, 'showBids'])->name('bids.showBids');
+
+
+    // Trade
+    Route::get('/tradehistory', [TradesController::class, 'showTrades'])->name('trades.showTrades');
+
+    // Notif
+    Route::get('/notifications', [NotificationsController::class, 'showNotifications'])->name('notifications.showNotifications');
 
 
 });
