@@ -69,13 +69,19 @@ const View = ({auth, userid, owned, created} ) => {
     user={auth.user}   
     header={record.name+"'s Profile"}   
   >
-         <div className="flex justify-center font-sans bg-slate-50">
-      <div className="flex flex-col items-center">
+
+    <div className=" mim-w-7xl mx-auto sm:px-6 lg:px-8 flex justify-center font-sans bg-slate-50 pb-16">
+      <div className="flex flex-col items-center w-[100%] ">
         {/* PROFILE SECTION */}
-        <div className="relative w-[80%] h-64 rounded-b-lg bg-cover bg-center bg-[url('../public/img/nahin-background.jpg')]"
+        <div className="relative w-[80%] h-64 rounded-b-lg"
         style={{ 
           backgroundImage: `url(${bg})`, 
-        }}>
+          backgroundSize: 'cover', 
+          backgroundPosition: 'center',
+          
+        }}
+        
+        >
           <div className="absolute -bottom-10 left-10 flex">
             {/* Profile picture */}
             { (imageSrc && (
@@ -139,7 +145,7 @@ const View = ({auth, userid, owned, created} ) => {
               options={["Dummy Text", "Dummy Text", "Dummy Text"]}
             />
             <ColumnSection
-              title="Dummy Title"
+              title="User Style"
               options={["Dummy Text", "Dummy Text", "Dummy Text", "Dummy Text"]}
             />
           </div>
@@ -165,6 +171,8 @@ const View = ({auth, userid, owned, created} ) => {
         </div>
       </div>
     </div>
+
+        
 
     </AuthenticatedLayout>
  
