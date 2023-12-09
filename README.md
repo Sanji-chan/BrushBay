@@ -36,3 +36,6 @@ php artisan serve
 1. [Nahin Hossain](https://github.com/nahin23)
 
 
+#Netlify
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d3c09b9f-9632-465a-b718-8597ccdd7288/deploy-status)](https://app.netlify.com/sites/inspiring-tanuki-8d40a3/deploys) 
+
