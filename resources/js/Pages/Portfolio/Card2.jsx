@@ -1,5 +1,5 @@
 import React, { useState, useRef  } from "react";
-import { Link } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import Axios from 'axios';
 import Modal from 'react-modal';
 import PostForm from './PostForm'; 
@@ -19,7 +19,9 @@ const Card2 = ({ id, img, title, description, highestBid, currentBid, price, tag
       
       const deletePainting = (e) => {
         e.preventDefault();
-        Axios.delete(`http://127.0.0.1:8000/api/paintings/${id}`);
+        Axios.delete(`http://127.0.0.1:8000/api/paintings/${id}`).then(res => {
+          router.visit(route('paintings.show'))
+        });
       }
 
 
@@ -275,9 +277,7 @@ const Card2 = ({ id, img, title, description, highestBid, currentBid, price, tag
             onClick={deletePainting}
             className="bg-red-500 hover:bg-red-300 text-white font-bold py-2 px-4 rounded mb-2"
             >
-              <Link href={route('dashboard')}>
                 Delete
-              </Link>  
           </button> 
             <Modal
             isOpen={modalIsOpen}

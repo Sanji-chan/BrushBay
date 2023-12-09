@@ -50,7 +50,7 @@ class PaintingController extends Controller
     public function deletePainting($id) {
         $result =  Painting::where('id', $id)->delete();
         // The line below doesn't work
-        return Redirect::route('paintings.show');
+        return $result;
     }
 
     public function updatePainting(Request $request, $id) {
